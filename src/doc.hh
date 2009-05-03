@@ -21,7 +21,14 @@
 
    \section intro Introduction
 
-   FIXME
+   This package provides allows CFSQP to be used with RobOptim Core.
+   As CFSQP is closed-source, this package can <b>not</b> be freely distributed.
+   Please contact the RobOptim team if you are interested in that package with
+   a proof that you own a CFSQP license.
+
+   Due to limitation license, this software is not available on the project's
+   homepage.
+
 
    \section reporting Reporting bugs
 

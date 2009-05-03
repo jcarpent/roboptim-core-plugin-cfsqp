@@ -1,5 +1,10 @@
 2009-05-03  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Add a disclaimer in the documentation about CFSQP license.
+	* src/doc.hh: Here.
+
+2009-05-03  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	* .gitignore,
 	* AUTHORS,
 	* COPYING,

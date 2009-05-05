@@ -40,6 +40,12 @@ namespace roboptim
 
   namespace detail
   {
+    void obj (int, int, double*, double*, void*);
+    double evaluate_inequality (double, bool, double, double);
+    void constr (int, int, double*, double*, void*);
+    void gradob (int, int, double*, double*, fct_t, void*);
+    void gradcn (int, int, double*, double*, fct_t, void*);
+
     /// \internal
     /// CFSQP objective function.
     void obj (int nparam, int j , double* x, double* fj, void* cd)
@@ -522,6 +528,9 @@ extern "C"
 {
   using namespace roboptim;
   typedef CFSQPSolver::parent_t solver_t;
+
+  solver_t* create (const CFSQPSolver::problem_t&);
+  void destroy (solver_t*);
 
   solver_t* create (const CFSQPSolver::problem_t& pb)
   {

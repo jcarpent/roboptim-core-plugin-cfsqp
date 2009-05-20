@@ -1,3 +1,11 @@
+2009-05-20  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Add new test.
+	* tests/Makefile.am: Compile new test.
+	* tests/optimization-problem-1.cc: New.
+	* tests/optimization-problem-1.stdout: New.
+	* tests/testsuite.at: Run new test.
+
 2009-05-05  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Predeclare functions to remove some warnings.

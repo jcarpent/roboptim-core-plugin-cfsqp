@@ -33,4 +33,7 @@ CHECK_STDOUT([simple], [Check basic features.])
 AT_BANNER([Plugin])
 CHECK_STDOUT([plugin], [Instantiate the solver as a plug-in.])
 
+AT_BANNER([Optimization problems])
+CHECK_STDOUT([optimization-problem-1], [Optimization problem one.])
+
 # End of testsuite.at

@@ -1,0 +1,29 @@
+Problem:
+  Twice derivable function
+  Argument's bounds: (-inf, inf), (-inf, inf)
+  Argument's scales: 1, 1
+  Number of constraints: 1
+  Constraint 0
+      Bounds: (0, 0)
+      Scales: 1
+      
+  No starting point.
+  Infinity value (for all functions): inf
+CFSQP specific variables: 
+  Nineq: 0
+  Nineqn: 0
+  Neq: 1
+  Neqn: 1
+  Mode: 100
+  Iprint: 0
+  Miter: 500
+  Bigbnd: 1e+10
+  Eps: 1e-08
+  Epseqn: 1e-08
+  Udelta: 1e-08
+  CFSQP constraints: (0, 1)
+Result: 
+    Dimension: 2
+    X: [2](0.5,0.5)
+    Value: [1](0.5)
+    Lambda: [1](0)

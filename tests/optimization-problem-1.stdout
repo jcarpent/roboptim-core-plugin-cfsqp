@@ -23,7 +23,7 @@ CFSQP specific variables:
   Udelta: 1e-08
   CFSQP constraints: (0, 1)
 Result: 
-    Dimension: 2
+    Size (input, output): 2, 1
     X: [2](0.5,0.5)
     Value: [1](0.5)
-    Lambda: [1](0)
+    Lambda: [1](1)

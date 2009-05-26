@@ -19,6 +19,7 @@
 /**
  * \brief Implementation of the CFSQP module.
  */
+#include <cstring>
 #include <limits>
 
 #include <boost/static_assert.hpp>
@@ -27,9 +28,12 @@
 
 #include "cfsqpusr.h"
 
-#include "roboptim/core/function.hh"
-#include "roboptim/core/indent.hh"
-#include "roboptim/core/util.hh"
+#include <roboptim/core/function.hh>
+#include <roboptim/core/indent.hh>
+#include <roboptim/core/result.hh>
+#include <roboptim/core/result-with-warnings.hh>
+#include <roboptim/core/util.hh>
+
 
 #include "roboptim/core/plugin/cfsqp.hh"
 
@@ -89,12 +93,17 @@ namespace roboptim
       // Constraint index in the generic representation.
       int j_ = solver->cfsqpConstraints ()[j].first;
 
+      assert (j >= 0 && solver->cfsqpConstraints ().size () - j > 0);
+      assert (j_ >= 0 && solver->problem ().bounds ().size () - j_ > 0);
+      assert (j_ >= 0 && solver->problem ().constraints ().size () - j_ > 0);
+
       if (0 <= j && j < solver->nineqn ())
         {
-          const DerivableFunction& f =
-            *boost::get<const DerivableFunction*>
+          const DerivableFunction* f =
+            boost::get<const DerivableFunction*>
             (solver->problem ().constraints ()[j_]);
-          Function::vector_t res = f (x_);
+	  assert (f);
+          Function::vector_t res = (*f) (x_);
           *gj = evaluate_inequality
             (res (0),
              solver->cfsqpConstraints ()[j].second,
@@ -105,10 +114,11 @@ namespace roboptim
 
       if (solver->nineqn () <= j && j < solver->nineq () - solver->nineqn ())
         {
-          const LinearFunction& f =
-            *boost::get<const LinearFunction*>
+          const LinearFunction* f =
+            boost::get<const LinearFunction*>
             (solver->problem ().constraints ()[j_]);
-          Function::vector_t res = f (x_);
+	  assert (f);
+          Function::vector_t res = (*f) (x_);
           *gj = evaluate_inequality
             (res (0),
              solver->cfsqpConstraints ()[j].second,
@@ -121,20 +131,22 @@ namespace roboptim
       assert (j >= 0);
       if (0 <= j && j < solver->neqn ())
         {
-          const DerivableFunction& f =
-            *boost::get<const DerivableFunction*>
+          const DerivableFunction* f =
+            boost::get<const DerivableFunction*>
             (solver->problem ().constraints ()[j_]);
-          Function::vector_t res = f (x_);
+	  assert (f);
+          Function::vector_t res = (*f) (x_);
           *gj = res (0) - solver->problem ().bounds ()[j_].first;
           return;
         }
 
       if (solver->neqn () <= j && j < solver->neq () - solver->neqn ())
         {
-          const LinearFunction& f =
-            *boost::get<const LinearFunction*>
+          const LinearFunction* f =
+            boost::get<const LinearFunction*>
             (solver->problem ().constraints ()[j_]);
-          Function::vector_t res = f (x_);
+	  assert (f);
+          Function::vector_t res = (*f) (x_);
           *gj = res (0) - solver->problem ().bounds ()[j_].first;
           return;
         }
@@ -270,10 +282,50 @@ namespace roboptim
       }
   }
 
+
+  // Recopy lambda values for constraints only as expected by roboptim-core.
+#define FILL_RESULT()					\
+  res.value (0) = f[0];					\
+  array_to_vector (res.x, x);				\
+  res.lambda.resize (neq_ + nineq_);			\
+  array_to_vector (res.lambda, lambda+nparam+1);	\
+  result_ = res
+
+#define SWITCH_ERROR(NAME, ERROR)		\
+  case NAME:					\
+  result_ = SolverError (ERROR);		\
+  break
+
+#define SWITCH_WARNING(NAME, ERROR)			\
+  case NAME:						\
+  {							\
+    ResultWithWarnings res (nparam, 1);			\
+    res.warnings.push_back (SolverWarning (ERROR));	\
+    FILL_RESULT ();					\
+  }							\
+  break
+
+#define MAP_CFSQP_ERRORS(MACRO)						\
+  MACRO (1, "Infeasible guess for linear constraints.");		\
+  MACRO (2, "Infeasible guess for linear and non-linear constraints.");	\
+  MACRO (5, "Failed to construct d0.");					\
+  MACRO (6, "Failed to construct d1.");					\
+  MACRO (7, "Input data are not consistent.");				\
+  MACRO (9, "One penalty parameter has exceeded bigbng.");
+
+#define MAP_CFSQP_WARNINGS(MACRO)			\
+  MACRO (3, "Max iteration has been reached.");		\
+  MACRO (4, "Failed to find a new iterate.");		\
+  MACRO (8, "New iterate equivalent to previous one.");
+
+
+
   void
   CFSQPSolver::solve () throw ()
   {
-    const int nparam = problem ().function ().n;
+    using namespace detail;
+
+    const int nparam = problem ().function ().inputSize ();
     const int nf = 1; //FIXME: only one objective function.
     const int nfsr = 0;
 
@@ -292,6 +344,15 @@ namespace roboptim
     grad_t gradob = detail::gradob;
     grad_t gradcn = detail::gradcn;
 
+    // Clear memory.
+    bzero (mesh_pts, sizeof (int));
+    bzero (bl, nparam * sizeof (double));
+    bzero (bu, nparam * sizeof (double));
+    bzero (x, nparam * sizeof (double));
+    bzero (f, sizeof (double));
+    bzero (g, (nineq_ + neq_) * sizeof (double));
+    bzero (lambda, (nparam + 1 + nineq_ + neq_) * sizeof (double));
+
     // Initialize bounds.
     initialize_bounds (bl, bu);
 
@@ -304,84 +365,27 @@ namespace roboptim
            udelta_, bl, bu, x, f, g, lambda,
            obj, constr, gradob, gradcn, this);
 
-    Result res (nparam, 1);
-    detail::array_to_vector (res.x, x);
-    res.value (0) = f[0];
-    res.lambda.resize (problem ().constraints ().size ());
-    //FIXME: lambda?
-
-    ResultWithWarnings resw (nparam, 1);
-    detail::array_to_vector (resw.x, x);
-    resw.value (0) = f[0];
-    res.lambda.resize (problem ().constraints ().size ());
-    //FIXME: lambda?
-
     switch (inform)
       {
         // Normal termination.
       case 0:
-        result_ = res;
+	{
+	  Result res (nparam, 1);
+	  FILL_RESULT ();
+	}
         break;
 
-        // Warnings.
-      case 3:
-        resw.warnings.push_back (SolverWarning
-                                 ("Max iteration has been reached."));
-        result_ = resw;
-        break;
-
-      case 4:
-        resw.warnings.push_back (SolverWarning
-                                 ("Failed to find a new iterate."));
-        result_ = resw;
-        break;
-
-      case 8:
-        resw.warnings.push_back (SolverWarning
-                                 ("New iterate equivalent to previous one."));
-        result_ = resw;
-        break;
-
-
-        // Errors.
-      case 1:
-        result_ = SolverError ("Infeasible guess for linear constraints.");
-        break;
-
-      case 2:
-        result_ =
-          SolverError
-          ("Infeasible guess for linear and non-linear constraints.");
-        break;
-
-      case 5:
-        result_ =
-          SolverError
-          ("Failed to construct d0.");
-        break;
-
-      case 6:
-        result_ =
-          SolverError
-          ("Failed to construct d1.");
-        break;
-
-      case 7:
-        result_ =
-          SolverError
-          ("Input data are not consistent.");
-        break;
-
-      case 9:
-        result_ =
-          SolverError
-          ("One penalty parameter has exceeded bigbng.");
-        break;
-
-      default:
-        result_ = SolverError ("CFSQP has failed.");
+	MAP_CFSQP_WARNINGS(SWITCH_WARNING);
+	MAP_CFSQP_ERRORS(SWITCH_ERROR);
       }
   }
+
+#undef SWITCH_ERROR
+#undef SWITCH_FATAL
+#undef MAP_CFSQP_ERRORS
+#undef MAP_CFSQP_WARNINGS
+#undef FILL_RESULT
+
 
 
   const std::vector<std::pair<int, bool> >&

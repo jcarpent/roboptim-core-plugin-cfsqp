@@ -39,27 +39,27 @@ public:
   {}
   ~F () throw () {}
 
-  vector_t operator () (const vector_t& x) const throw ()
+  void
+  impl_compute (result_t& res, const argument_t& x) const throw ()
   {
-    vector_t res (n);
+    res.clear ();
     res (0) = x[0] * x[0] + x[1] * x[1];
-    return res;
   }
 
-  gradient_t gradient (const vector_t& x, int) const throw ()
+  void
+  impl_gradient (gradient_t& grad, const argument_t& x, int) const throw ()
   {
-    vector_t res (n);
-    res (0) = 2 * x[0];
-    res (1) = 2 * x[1];
-    return res;
+    grad.clear ();
+    grad (0) = 2 * x[0];
+    grad (1) = 2 * x[1];
   }
 
-  hessian_t hessian (const vector_t& x, int) const throw ()
+  void
+  impl_hessian (hessian_t& hessian, const argument_t& res, int) const throw ()
   {
-    hessian_t res (n, n);
-    res (0, 0) = res (1, 1) = 2;
-    res (0, 1) = res (1, 0) = 0;
-    return res;
+    hessian.clear ();
+    hessian (0, 0) = hessian (1, 1) = 2;
+    hessian (0, 1) = hessian (1, 0) = 0;
   }
 };
 
@@ -71,19 +71,19 @@ public:
   {}
   ~G ()  throw () {}
 
-  vector_t operator () (const vector_t& x) const throw ()
+  void
+  impl_compute (result_t& res, const argument_t& x) const throw ()
   {
-    vector_t res (n);
+    res.clear ();
     res (0) = x[0] + x[1] - 1;
-    return res;
   }
 
-  gradient_t gradient (const vector_t& x, int) const throw ()
+  void
+  impl_gradient (gradient_t& grad, const argument_t& x, int) const throw ()
   {
-    vector_t res (n);
-    res (0) = 1.;
-    res (1) = 1.;
-    return res;
+    grad.clear ();
+    grad (0) = 1.;
+    grad (1) = 1.;
   }
 };
 

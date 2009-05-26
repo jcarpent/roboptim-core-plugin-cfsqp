@@ -45,8 +45,6 @@ int run_test ()
   // Compute the minimum and retrieve the result.
   solver_t::result_t res = solver.minimum ();
 
-  return 0;
-
   // Display solver information.
   std::cout << solver << std::endl;
 

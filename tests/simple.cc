@@ -36,11 +36,11 @@ int run_test ()
   // Initialize solver
   CFSQPSolver solver (pb);
 
-  // Compute the minimum and retrieve the result.
-  CFSQPSolver::result_t res = solver.minimum ();
-
   // Display solver information.
   std::cout << solver << std::endl;
+
+  // Compute the minimum and retrieve the result.
+  CFSQPSolver::result_t res = solver.minimum ();
 
   // Check if the minimization has succeed.
   if (res.which () != CFSQPSolver::SOLVER_VALUE_WARNINGS)

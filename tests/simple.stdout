@@ -28,8 +28,8 @@ CFSQP specific variables:
   CFSQP constraints: (0, 1), (1, 1)
 A solution has been found: 
 Result: 
-    Dimension: 4
+    Size (input, output): 4, 1
     X: [4](1,5,5,1)
     Value: [1](12)
-    Lambda: [0]()
-    Warnings: Failed to find a new iterate.
+    Lambda: [2](0,0)
+    Warnings: New iterate equivalent to previous one.

@@ -1,5 +1,10 @@
 2009-06-02  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Remove pkg.m4.
+	* build-aux/pkg.m4: Remove.
+
+2009-06-02  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Make Libtool support more robust, link against roboptim-core.
 	* .gitignore: Remove committed file from ignore list.
 	* Makefile.am: Add libtool related rules.

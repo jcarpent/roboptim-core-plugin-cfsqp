@@ -14,4 +14,5 @@ roboptim_core_cfsqp_plugin_la_SOURCES +=	\
 	cfsqpusr.h				\
 	qld.c
 
+roboptim_core_cfsqp_plugin_la_LIBADD = $(ROBOPTIMCORE_LIBS)
 roboptim_core_cfsqp_plugin_la_LDFLAGS = -module -version-info 1:1:0

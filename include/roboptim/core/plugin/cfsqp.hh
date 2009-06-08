@@ -15,11 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with roboptim.  If not, see <http://www.gnu.org/licenses/>.
 
-
-/**
- * \brief Implementation of the CFSQP module.
- */
-
 #ifndef ROBOPTIM_CORE_CFSQP_HH
 # define ROBOPTIM_CORE_CFSQP_HH
 # include <iostream>
@@ -35,95 +30,159 @@
 
 namespace roboptim
 {
-  /**
-     \addtogroup roboptim_solver
-     @{
-  */
+  /// \addtogroup roboptim_solver
+  /// @{
 
-  /// CFSQP solver.
+  /// \brief CFSQP based solver.
+  ///
+  /// Instantiate this class to solve an optimization
+  /// problem using CFSQP.
+  ///
+  /// This solver works with DerivableFunction for the cost function;
+  /// constraints can be linear or derivable functions.
   class CFSQPSolver : public Solver<DerivableFunction,
                                     boost::variant<const DerivableFunction*,
                                                    const LinearFunction*> >
   {
   public:
-    /// Variant of both Linear and NonLinear functions.
+    /// \brief Variant of both Linear and NonLinear functions.
     typedef boost::variant<const DerivableFunction*,
                            const LinearFunction*> constraint_t;
 
+    /// \brief Parent type.
     typedef Solver<DerivableFunction, constraint_t> parent_t;
 
-    /// Constructor.
-    explicit CFSQPSolver (const problem_t&, int = 0) throw ();
-    /// Destructor.
+    /// \brief Instantiate the solver from a problem.
+    ///
+    /// \param problem problem that will be solved
+    /// \param print verbosity level
+    explicit CFSQPSolver (const problem_t& problem, int print = 0) throw ();
+
     virtual ~CFSQPSolver () throw ();
-    /// Solve the problem.
+
+    /// \brief Solve the problem.
     virtual void solve () throw ();
 
-
+    /// \brief Retrieve interval constraint representation.
+    ///
+    /// \note This method provides is  an advance feature, most users
+    /// can safely ignore it.
+    ///
+    /// This additional vector is built to transform the provided
+    /// constraint vector into a vector that CFSQP can accept:
+    /// - only g <= X constraints
+    /// - the order has to be:
+    ///  - non-linear inequalities,
+    ///  - linear inequalities,
+    ///  - non-linear equalities,
+    ///  - linear equalities
+    /// .
+    ///
+    /// This vector is filled by the constructor. It duplicates
+    /// the constraints that have both a lower and an upper bound
+    /// into two constraints that CFSQP can handle.
+    /// It also detects the constraints where the lower
+    /// and upper bounds are similar and handle them correctly
+    /// by considering them as an equality. Linear and non-linear
+    /// constraints are also separated to preserve the order CFSQP
+    /// expects.
+    ///
+    /// The representation used in the vector is:
+    /// - integer: constraint index in the original vector
+    /// - bool: is it the first constraint of a duplicated constraint?
+    ///  If the constraint is an equality or has only one bound, the
+    ///  boolean has no meaning.
     const std::vector<std::pair<int, bool> >& cfsqpConstraints ()
       const throw ();
 
+    /// \brief Number of linear inequalities constraints.
     const int& nineq () const throw ();
+    /// \brief Number of non-linear inequalities constraints.
     const int& nineqn () const throw ();
+    /// \brief Number of linear equalities constraints.
     const int& neq () const throw ();
+    /// \brief Number of non-linear equalities constraints.
     const int& neqn () const throw ();
 
+    /// \brief CFSQP mode
     int& mode () throw ();
+    /// \brief CFSQP mode
     const int& mode () const throw ();
 
+    /// \brief Verbosity leve.
     int& iprint () throw ();
+    /// \brief Verbosity leve.
     const int& iprint () const throw ();
 
+    /// \brief Maximum iteration number.
     int& miter () throw ();
+    /// \brief Maximum iteration number.
     const int& miter () const throw ();
 
+    /// \brief Big bound value (see CFSQP documentation).
     double& bigbnd () throw ();
+    /// \brief Big bound value (see CFSQP documentation).
     const double& bigbnd () const throw ();
 
+    /// \brief Final norm requirement for the Newton direction.
     double& eps () throw ();
+    /// \brief Final norm requirement for the Newton direction.
     const double& eps () const throw ();
 
+    /// \brief Maximum violation of nonlinear equality constraint.
     double& epseqn () throw ();
+    /// \brief Maximum violation of nonlinear equality constraint.
     const double& epseqn () const throw ();
 
+    /// \brief Perturbation size used in finite differences.
     double& udelta () throw ();
+    /// \brief Perturbation size used in finite differences.
     const double& udelta () const throw ();
 
-    virtual std::ostream& print (std::ostream&) const throw ();
+    /// \brief Display the solver on the specified output stream.
+    ///
+    /// \param o output stream used for display
+    /// \return output stream
+    virtual std::ostream& print (std::ostream& o) const throw ();
   private:
-    /// Initialize bounds.
+    /// \brief Initialize bounds.
+    ///
+    /// Fill the two bounds array as required by CFSQP.
+    /// \param bl lower bounds array
+    /// \param bu upper bounds array
     void initialize_bounds (double* bl, double* bu) const throw ();
 
-    /// Number of non linear inegality constraints (including linear ones).
+    /// \brief Number of non linear inegality constraints (including linear's).
     int nineq_;
-    /// Number of linear inegality constraints.
+    /// \brief Number of linear inegality constraints.
     int nineqn_;
-    /// Number of non linear equality constraints (including linear ones).
+    /// \brief Number of non linear equality constraints (including linear ones).
     int neq_;
-    /// Number of linear equality constraints.
+    /// \brief Number of linear equality constraints.
     int neqn_;
-    /// CFSQP mode.
+    /// \brief CFSQP mode.
     int mode_;
-    /// Logging level.
+    /// \brief Logging level.
     int iprint_;
-    /// Number of iterations.
+    /// \brief Number of iterations.
     int miter_;
-    /// Symbolizes infinity.
+    /// \brief Symbolizes infinity.
     double bigbnd_;
-    /// Final norm requirement for the Newton direction.
+    /// \brief Final norm requirement for the Newton direction.
     double eps_;
-    /// Maximum violation of nonlinear equality constraint.
+    /// \brief Maximum violation of nonlinear equality constraint.
     double epseqn_;
-    /// Perturbation size used in finite difference.
+    /// \brief Perturbation size used in finite differences.
     double udelta_;
 
+    /// \brief Internal representation of constraints.
     std::vector<std::pair<int, bool> > cfsqpConstraints_;
   };
 
-/**
-   @}
-*/
+  /// @}
 
 } // end of namespace roboptim
 
 #endif //! ROBOPTIM_CORE_CFSQP_HH
+
+//  LocalWords:  CFSQP

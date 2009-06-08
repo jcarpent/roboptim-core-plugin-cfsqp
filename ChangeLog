@@ -1,5 +1,11 @@
 2009-06-08  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Document.
+	* include/roboptim/core/plugin/cfsqp.hh: Document.
+	* src/doc.hh: Add module definition.
+
+2009-06-08  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Update to new interface.
 	* src/roboptim-core-cfsqp-plugin.cc,
 	* tests/hs071.hh,

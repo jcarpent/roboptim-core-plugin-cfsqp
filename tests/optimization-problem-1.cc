@@ -47,7 +47,7 @@ public:
   }
 
   void
-  impl_gradient (gradient_t& grad, const argument_t& x, int) const throw ()
+  impl_gradient (gradient_t& grad, const argument_t& x, size_type) const throw ()
   {
     grad.clear ();
     grad (0) = 2 * x[0];
@@ -55,7 +55,7 @@ public:
   }
 
   void
-  impl_hessian (hessian_t& hessian, const argument_t& res, int) const throw ()
+  impl_hessian (hessian_t& hessian, const argument_t& res, size_type) const throw ()
   {
     hessian.clear ();
     hessian (0, 0) = hessian (1, 1) = 2;
@@ -79,7 +79,7 @@ public:
   }
 
   void
-  impl_gradient (gradient_t& grad, const argument_t& x, int) const throw ()
+  impl_gradient (gradient_t& grad, const argument_t& x, size_type) const throw ()
   {
     grad.clear ();
     grad (0) = 1.;
@@ -93,7 +93,7 @@ int run_test ()
   G g;
 
   solver_t::problem_t pb (f);
-  pb.addConstraint (&g, Function::makeBound (0., 0.));
+  pb.addConstraint (&g, Function::makeInterval (0., 0.));
 
   // Initialize solver
   SolverFactory<solver_t> factory ("cfsqp", pb);

@@ -271,11 +271,11 @@ namespace roboptim
   void
   CFSQPSolver::initialize_bounds (double* bl, double* bu) const throw ()
   {
-    typedef problem_t::bounds_t::const_iterator citer_t;
+    typedef problem_t::intervals_t::const_iterator citer_t;
 
     Function::size_type i = 0;
-    for (citer_t it = problem ().argBounds ().begin ();
-         it != problem ().argBounds ().end (); ++it)
+    for (citer_t it = problem ().argumentBounds ().begin ();
+         it != problem ().argumentBounds ().end (); ++it)
       {
         bl[i] = (*it).first, bu[i] = (*it).second;
         ++i;

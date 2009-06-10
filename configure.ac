@@ -52,8 +52,7 @@ AC_PROG_MKDIR_P
 AC_PROG_SED
 
 # Search for Doxygen.
-AC_ARG_VAR([DOXYGEN], [the Doxygen documentation generation program])
-AC_CHECK_PROGS([DOXYGEN], [doxygen])
+JRL_PROG_DOXYGEN
 
 # Search for Libtool.
 LT_INIT([dlopen])
@@ -87,10 +86,6 @@ AC_CONFIG_FILES([
     tests/atlocal
     tests/package.m4
 ])
-
-AC_CONFIG_FILES([doc/Doxyfile])
-
-AC_CONFIG_FILES([doc/sf-upload.sh], [chmod +x doc/sf-upload.sh])
 
 # Write files.
 AC_OUTPUT

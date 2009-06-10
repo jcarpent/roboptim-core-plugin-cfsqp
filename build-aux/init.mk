@@ -19,5 +19,5 @@ AM_CPPFLAGS += -I$(top_builddir)/src -I$(top_srcdir)/src
 # ...then search in distributed headers.
 AM_CPPFLAGS += -I$(top_srcdir)/include
 
-# Include roboptim-core headers.
-AM_CPPFLAGS += $(ROBOPTIMCORE_CFLAGS)
+# Add boost include dir
+AM_CPPFLAGS += $(BOOST_CPPFLAGS)

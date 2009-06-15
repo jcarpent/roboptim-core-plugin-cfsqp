@@ -15,10 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with roboptim.  If not, see <http://www.gnu.org/licenses/>.
 
-
-/**
- * \brief Implementation of the CFSQP module.
- */
 #include <cstring>
 #include <limits>
 
@@ -81,6 +77,8 @@ namespace roboptim
     void constr (int nparam, int j,
                  double* x, double* gj, void* cd)
     {
+      using namespace boost;
+
       assert (cd && !!gj && !!x && nparam >= 0 && j > 0 && j <= nparam);
       CFSQPSolver* solver = static_cast<CFSQPSolver*> (cd);
 
@@ -99,8 +97,8 @@ namespace roboptim
 
       if (0 <= j && j < solver->nineqn ())
         {
-          const DerivableFunction* f =
-            boost::get<const DerivableFunction*>
+	  shared_ptr<DerivableFunction> f =
+	    get<shared_ptr<DerivableFunction> >
             (solver->problem ().constraints ()[j_]);
 	  assert (f);
           Function::vector_t res = (*f) (x_);
@@ -114,8 +112,8 @@ namespace roboptim
 
       if (solver->nineqn () <= j && j < solver->nineq () - solver->nineqn ())
         {
-          const LinearFunction* f =
-            boost::get<const LinearFunction*>
+	  shared_ptr<LinearFunction> f =
+            get<shared_ptr<LinearFunction> >
             (solver->problem ().constraints ()[j_]);
 	  assert (f);
           Function::vector_t res = (*f) (x_);
@@ -131,8 +129,8 @@ namespace roboptim
       assert (j >= 0);
       if (0 <= j && j < solver->neqn ())
         {
-          const DerivableFunction* f =
-            boost::get<const DerivableFunction*>
+          shared_ptr<DerivableFunction> f =
+	    get<shared_ptr<DerivableFunction> >
             (solver->problem ().constraints ()[j_]);
 	  assert (f);
           Function::vector_t res = (*f) (x_);
@@ -142,8 +140,8 @@ namespace roboptim
 
       if (solver->neqn () <= j && j < solver->neq () - solver->neqn ())
         {
-          const LinearFunction* f =
-            boost::get<const LinearFunction*>
+          shared_ptr<LinearFunction> f =
+            get<shared_ptr<LinearFunction> >
             (solver->problem ().constraints ()[j_]);
 	  assert (f);
           Function::vector_t res = (*f) (x_);
@@ -174,6 +172,7 @@ namespace roboptim
     void gradcn (int nparam, int j,
                  double* x, double* gradgj, fct_t dummy, void* cd)
     {
+      using namespace boost;
       assert (nparam >= 0 && j > 0 && j <= nparam && !!x && !!gradgj && !!cd);
 
       CFSQPSolver* solver = static_cast<CFSQPSolver*> (cd);
@@ -188,19 +187,19 @@ namespace roboptim
       // Constraint index in the generic representation.
       int j_ = solver->cfsqpConstraints ()[j].first;
 
-      if (solver->problem ().constraints ()[j_].which () == 0)
+      if (solver->problem ().constraints ()[j_].which () == CFSQPSolver::NONLINEAR)
         {
-          const DerivableFunction& f =
-            *boost::get<const DerivableFunction*>
+	  shared_ptr<DerivableFunction> f =
+            get<shared_ptr<DerivableFunction> >
             (solver->problem ().constraints ()[j_]);
-          grad = f.gradient (x_, 0);
+          grad = f->gradient (x_, 0);
         }
       else
         {
-          const LinearFunction& f =
-            *boost::get<const LinearFunction*>
+          shared_ptr<LinearFunction> f =
+            get<shared_ptr<LinearFunction> >
             (solver->problem ().constraints ()[j_]);
-          grad = f.gradient (x_, 0);
+          grad = f->gradient (x_, 0);
         }
       vector_to_array (gradgj, grad);
     }
@@ -224,7 +223,7 @@ namespace roboptim
   {
     // Add non-linear inequalities.
     for (unsigned i = 0; i < problem ().constraints ().size (); ++i)
-      if (problem ().constraints ()[i].which () == 0)
+      if (problem ().constraints ()[i].which () == NONLINEAR)
         if (problem ().bounds ()[i].first != problem ().bounds ()[i].second)
           {
             if (problem ().bounds ()[i].first != Function::infinity ())
@@ -236,7 +235,7 @@ namespace roboptim
 
     // Add linear inequalities.
     for (unsigned i = 0; i < problem ().constraints ().size (); ++i)
-      if (problem ().constraints ()[i].which () == 1)
+      if (problem ().constraints ()[i].which () == LINEAR)
         if (problem ().bounds ()[i].first != problem ().bounds ()[i].second)
           {
             if (problem ().bounds ()[i].first != Function::infinity ())
@@ -248,14 +247,14 @@ namespace roboptim
 
     // Add non-linear equalities.
     for (unsigned i = 0; i < problem ().constraints ().size (); ++i)
-      if (problem ().constraints ()[i].which () == 0)
+      if (problem ().constraints ()[i].which () == NONLINEAR)
         if (problem ().bounds ()[i].first == problem ().bounds ()[i].second)
           cfsqpConstraints_.push_back (std::make_pair (i, true));
     neqn_ = cfsqpConstraints_.size () - nineq_;
 
     // Add linear equalities.
     for (unsigned i = 0; i < problem ().constraints ().size (); ++i)
-      if (problem ().constraints ()[i].which () == 1)
+      if (problem ().constraints ()[i].which () == LINEAR)
         if (problem ().bounds ()[i].first == problem ().bounds ()[i].second)
           cfsqpConstraints_.push_back (std::make_pair (i, true));
     neq_ = cfsqpConstraints_.size () - nineq_;

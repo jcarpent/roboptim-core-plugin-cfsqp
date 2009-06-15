@@ -16,6 +16,7 @@
 // along with roboptim.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <iostream>
+#include <boost/mpl/vector.hpp>
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/variant/get.hpp>
 
@@ -25,18 +26,15 @@
 #include "hs071.hh"
 
 using namespace roboptim;
-typedef boost::variant<const DerivableFunction*,
-		       const LinearFunction*> constraint_t;
-typedef Solver<DerivableFunction, constraint_t> solver_t;
+typedef boost::mpl::vector<LinearFunction, DerivableFunction> clist_t;
+typedef Solver<DerivableFunction, clist_t> solver_t;
 
 int run_test ()
 {
   F f;
-  G0 g0;
-  G1 g1;
 
   solver_t::problem_t pb (f);
-  initialize_problem (pb, g0, g1);
+  initialize_problem (pb);
 
   // Initialize solver
   SolverFactory<solver_t> factory ("cfsqp", pb);

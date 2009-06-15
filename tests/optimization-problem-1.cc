@@ -16,6 +16,8 @@
 // along with roboptim.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <iostream>
+#include <boost/make_shared.hpp>
+#include <boost/mpl/vector.hpp>
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/variant/get.hpp>
 
@@ -27,9 +29,8 @@
 
 using namespace roboptim;
 
-typedef boost::variant<const DerivableFunction*,
-		       const LinearFunction*> constraint_t;
-typedef Solver<DerivableFunction, constraint_t> solver_t;
+typedef boost::mpl::vector<LinearFunction, DerivableFunction> clist_t;
+typedef Solver<DerivableFunction, clist_t> solver_t;
 
 struct F : public TwiceDerivableFunction
 {
@@ -93,7 +94,7 @@ int run_test ()
   G g;
 
   solver_t::problem_t pb (f);
-  pb.addConstraint (&g, Function::makeInterval (0., 0.));
+  pb.addConstraint (boost::make_shared<G> (), Function::makeInterval (0., 0.));
 
   // Initialize solver
   SolverFactory<solver_t> factory ("cfsqp", pb);

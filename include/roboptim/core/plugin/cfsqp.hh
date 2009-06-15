@@ -22,6 +22,8 @@
 # include <utility>
 # include <vector>
 
+# include <boost/mpl/vector.hpp>
+
 # include <boost/variant.hpp>
 # include <roboptim/core/derivable-function.hh>
 # include <roboptim/core/linear-function.hh>
@@ -40,17 +42,31 @@ namespace roboptim
   ///
   /// This solver works with DerivableFunction for the cost function;
   /// constraints can be linear or derivable functions.
-  class CFSQPSolver : public Solver<DerivableFunction,
-                                    boost::variant<const DerivableFunction*,
-                                                   const LinearFunction*> >
+  class CFSQPSolver
+    : public Solver<DerivableFunction,
+		    boost::mpl::vector<LinearFunction, DerivableFunction> >
   {
+    /// \brief CLIST parameter passed to parent.
+    typedef boost::mpl::vector<LinearFunction, DerivableFunction> clist_t;
+
   public:
-    /// \brief Variant of both Linear and NonLinear functions.
-    typedef boost::variant<const DerivableFunction*,
-                           const LinearFunction*> constraint_t;
+    /// \brief Categorize constraints.
+    ///
+    /// Used with the which method of the Boost.Variant, it
+    /// allows to check for a constraint's real type.
+    ///
+    /// \warning Make sure to keep enum values in the
+    /// same order than the MPL vector used to specify CLIST.
+    enum ConstraintType
+      {
+	/// \brief Constraint is a derivable function.
+	LINEAR = 0,
+	/// \brief Constraint is a linear function.
+	NONLINEAR = 1
+      };
 
     /// \brief Parent type.
-    typedef Solver<DerivableFunction, constraint_t> parent_t;
+    typedef Solver<DerivableFunction, clist_t> parent_t;
 
     /// \brief Instantiate the solver from a problem.
     ///

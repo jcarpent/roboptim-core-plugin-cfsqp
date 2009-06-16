@@ -1,5 +1,11 @@
 2009-06-16  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Regenerate output on 32 bits machine.
+	* tests/plugin.stdout,
+	* tests/simple.stdout: Here.
+
+2009-06-16  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Fix test suite.
 	* tests/hs071.hh,
 	* tests/optimization-problem-1.cc,

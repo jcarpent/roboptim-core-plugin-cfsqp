@@ -1,5 +1,13 @@
 2009-06-16  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Fix test suite.
+	* tests/hs071.hh,
+	* tests/optimization-problem-1.cc,
+	* tests/plugin.cc,
+	* tests/simple.cc: Fix test suite.
+
+2009-06-16  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Do not use boost::make_shared.
 	* tests/hs071.hh,
 	* tests/optimization-problem-1.cc: Here.

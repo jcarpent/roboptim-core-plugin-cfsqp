@@ -94,7 +94,8 @@ int run_test ()
   solver_t::problem_t pb (f);
 
   boost::shared_ptr<G> g (new G ());
-  pb.addConstraint (g, Function::makeInterval (0., 0.));
+  pb.addConstraint (boost::static_pointer_cast<DerivableFunction> (g),
+		    Function::makeInterval (0., 0.));
 
   // Initialize solver
   SolverFactory<solver_t> factory ("cfsqp", pb);

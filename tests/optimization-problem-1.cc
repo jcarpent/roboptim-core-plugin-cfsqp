@@ -16,7 +16,6 @@
 // along with roboptim.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <iostream>
-#include <boost/make_shared.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/variant/get.hpp>
@@ -91,10 +90,11 @@ public:
 int run_test ()
 {
   F f;
-  G g;
 
   solver_t::problem_t pb (f);
-  pb.addConstraint (boost::make_shared<G> (), Function::makeInterval (0., 0.));
+
+  boost::shared_ptr<G> g (new G ());
+  pb.addConstraint (g, Function::makeInterval (0., 0.));
 
   // Initialize solver
   SolverFactory<solver_t> factory ("cfsqp", pb);

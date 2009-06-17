@@ -1,3 +1,8 @@
+2009-06-17  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Remove Libtool warning.
+	* tests/Makefile.am: Here.
+
 2009-06-16  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Regenerate output on 32 bits machine.

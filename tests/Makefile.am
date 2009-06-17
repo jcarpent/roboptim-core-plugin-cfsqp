@@ -20,9 +20,12 @@ COMMON_SOURCES = common.hh hs071.hh
 
 # Simple
 check_PROGRAMS = simple
-simple_SOURCES = simple.cc $(COMMON_SOURCES)
-simple_LDADD = $(ROBOPTIMCORE_LIBS) \
-	$(top_builddir)/src/roboptim-core-cfsqp-plugin.la
+simple_SOURCES = simple.cc $(COMMON_SOURCES)			\
+	$(top_srcdir)/src/roboptim-core-cfsqp-plugin.cc		\
+	$(top_srcdir)/src/cfsqp.c				\
+	$(top_srcdir)/src/qld.c
+
+simple_LDADD = $(ROBOPTIMCORE_LIBS)
 
 # Plug-in
 check_PROGRAMS += plugin

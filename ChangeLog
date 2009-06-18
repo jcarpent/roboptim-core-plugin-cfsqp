@@ -1,3 +1,13 @@
+2009-06-18  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Make test suite more flexible.
+	* tests/optimization-problem-1.cc,
+	* tests/plugin.cc,
+	* tests/simple.cc: Do not display solver warnings
+	on cout to avoid failure if the warning is different.
+	* tests/plugin.stdout,
+	* tests/simple.stdout: Regenerate.
+
 2009-06-17  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Remove Libtool warning.

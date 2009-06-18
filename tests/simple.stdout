@@ -30,9 +30,4 @@ CFSQP specific variables:
   Udelta: 1e-08
   CFSQP constraints: (0, 1), (1, 1)
 A solution has been found: 
-Result: 
-    Size (input, output): 4, 1
-    X: [4](1,5,5,1)
-    Value: [1](12)
-    Lambda: [2](0,0)
-    Warnings: Failed to find a new iterate.
+[4](1,5,5,1)

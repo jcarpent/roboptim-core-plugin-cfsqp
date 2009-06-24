@@ -79,8 +79,10 @@ namespace roboptim
     {
       using namespace boost;
 
-      assert (cd && !!gj && !!x && nparam >= 0 && j > 0 && j <= nparam);
+      assert (cd && !!gj && !!x && nparam >= 0 && j > 0);
+
       CFSQPSolver* solver = static_cast<CFSQPSolver*> (cd);
+      assert (j > 0 && solver->cfsqpConstraints ().size () - j >= 0);
 
       Function::vector_t x_ (nparam);
       array_to_vector (x_, x);
@@ -173,9 +175,12 @@ namespace roboptim
                  double* x, double* gradgj, fct_t dummy, void* cd)
     {
       using namespace boost;
-      assert (nparam >= 0 && j > 0 && j <= nparam && !!x && !!gradgj && !!cd);
+
+      assert (nparam >= 0 && !!x && !!gradgj && !!cd);
 
       CFSQPSolver* solver = static_cast<CFSQPSolver*> (cd);
+      assert (j > 0 && solver->cfsqpConstraints ().size () - j >= 0);
+
 
       Function::vector_t x_ (nparam);
       array_to_vector (x_, x);

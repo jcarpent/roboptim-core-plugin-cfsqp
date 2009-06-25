@@ -61,8 +61,9 @@ int run_test ()
   Result& result = boost::get<ResultWithWarnings> (res);
 
   // Display the result.
-  std::cout << "A solution has been found: " << std::endl;
-  std::cout << result << std::endl;
+  std::cout << "A solution has been found: " << std::endl
+	    << result.x << std::endl;
+  std::cerr << result << std::endl;
   return 0;
 }
 

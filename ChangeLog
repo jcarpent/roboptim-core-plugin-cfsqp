@@ -1,8 +1,27 @@
-2009-06-24  Thomas Moulard  <thomas.moulard@gmail.com>
+2009-06-25  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Merging with origin.
+	* ChangeLog,
+	* tests/optimization-problem-1.cc,
+	* tests/plugin.cc,
+	* tests/plugin.stdout,
+	* tests/simple.cc,
+	* tests/simple.stdout:
+	Merge origin into local modifications.
+
+2009-06-24  Thomas Moulard  <thomas.moulard@gmail.com>
 	Fix wrong assertions.
 	* src/roboptim-core-cfsqp-plugin.cc: Fix broken assertions
 	in constraint evaluation (value and gradient).
+
+2009-06-18  Thomas Moulard  <thomas.moulard@gmail.com>
+	Make test suite more flexible.
+	* tests/optimization-problem-1.cc,
+	* tests/plugin.cc,
+	* tests/simple.cc: Do not display solver warnings
+	on cout to avoid failure if the warning is different.
+	* tests/plugin.stdout,
+	* tests/simple.stdout: Regenerate.
 
 2009-06-17  Thomas Moulard  <thomas.moulard@gmail.com>
 

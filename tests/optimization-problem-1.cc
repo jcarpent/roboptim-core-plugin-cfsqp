@@ -125,7 +125,8 @@ int run_test ()
     case GenericSolver::SOLVER_VALUE_WARNINGS:
       {
 	ResultWithWarnings& result = boost::get<ResultWithWarnings> (res);
-	std::cout << result << std::endl;
+	std::cout << result.x << std::endl;
+	std::cerr << result << std::endl;
 	break;
       }
 

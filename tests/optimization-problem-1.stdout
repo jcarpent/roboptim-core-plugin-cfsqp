@@ -26,4 +26,5 @@ Result:
     Size (input, output): 2, 1
     X: [2](0.5,0.5)
     Value: [1](0.5)
+    Constraints values: [1](-1.11022e-16)
     Lambda: [1](1)

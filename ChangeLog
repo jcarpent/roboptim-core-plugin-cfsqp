@@ -1,3 +1,12 @@
+2009-06-25  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Fill constraints vector in result class.
+	* include/roboptim/core/plugin/cfsqp.hh: Add fillConstraints
+	prototype.
+	* src/roboptim-core-cfsqp-plugin.cc: Fill constraints
+	vector in result.
+	* tests/optimization-problem-1.stdout: Regenerate.
+
 2009-06-18  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Make test suite more flexible.

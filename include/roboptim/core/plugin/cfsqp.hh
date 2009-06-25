@@ -168,6 +168,17 @@ namespace roboptim
     /// \param bu upper bounds array
     void initialize_bounds (double* bl, double* bu) const throw ();
 
+    /// \brief Copy CFSQP final constraints values into a vector.
+    ///
+    /// Copy constraints final values from CFSQP internal representation
+    /// to the generic representation.
+    ///
+    /// Used to fill the result that will be returned to the user.
+    ///
+    /// \param constraints generic representation
+    /// \param g CFSQP representation
+    void fillConstraints (vector_t& constraints, double* g) const throw ();
+
     /// \brief Number of non linear inegality constraints (including linear's).
     int nineq_;
     /// \brief Number of linear inegality constraints.

@@ -282,10 +282,27 @@ namespace roboptim
   }
 
 
+  void
+  CFSQPSolver::fillConstraints (vector_t& constraints, double* g) const throw ()
+  {
+    constraints.resize (problem ().constraints ().size ());
+    constraints.clear ();
+
+    // Copy constraints final values from the CFSQP representation
+    // to the generic representation.
+    for (Function::size_type i = 0; i < cfsqpConstraints ().size (); ++i)
+      {
+	int j = cfsqpConstraints ()[i].first;
+	assert (j >= 0 && problem ().constraints ().size () - j > 0);
+	constraints[j] = g[i];
+      }
+  }
+
   // Recopy lambda values for constraints only as expected by roboptim-core.
 #define FILL_RESULT()					\
   res.value (0) = f[0];					\
   array_to_vector (res.x, x);				\
+  fillConstraints (res.constraints, g);			\
   res.lambda.resize (neq_ + nineq_);			\
   array_to_vector (res.lambda, lambda+nparam+1);	\
   result_ = res

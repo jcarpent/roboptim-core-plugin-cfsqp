@@ -294,7 +294,16 @@ namespace roboptim
       {
 	int j = cfsqpConstraints ()[i].first;
 	assert (j >= 0 && problem ().constraints ().size () - j > 0);
-	constraints[j] = g[i];
+
+	if (cfsqpConstraints ()[i].second)
+	  // g(x) >= b, -g(x) + b <= 0
+	  constraints[j] =
+	    Function::getLowerBound (problem ().bounds ()[j]) - g[i];
+	else
+	  // g(x) <= b, g(x) - b <= 0
+	  constraints[j] =
+	    g[i] + Function::getUpperBound (problem ().bounds ()[j]);
+
       }
   }
 

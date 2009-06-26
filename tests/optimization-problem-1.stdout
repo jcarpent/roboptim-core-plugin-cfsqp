@@ -1,9 +1,10 @@
 Problem:
-  Twice derivable function
+  a * a + b * b (twice derivable function)
   Argument's bounds: (-inf, inf), (-inf, inf)
   Argument's scales: 1, 1
   Number of constraints: 1
   Constraint 0
+      a + b - 1 (derivable function)
       Bounds: (0, 0)
       Scales: 1
       

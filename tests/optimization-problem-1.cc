@@ -35,7 +35,7 @@ struct F : public TwiceDerivableFunction
 {
 public:
   F ()
-    : TwiceDerivableFunction (2, 1)
+    : TwiceDerivableFunction (2, 1, "a * a + b * b")
   {}
   ~F () throw () {}
 
@@ -67,7 +67,7 @@ struct G : public DerivableFunction
 {
 public:
   G ()
-    : DerivableFunction (2, 1)
+    : DerivableFunction (2, 1, "a + b - 1")
   {}
   ~G ()  throw () {}
 

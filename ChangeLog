@@ -1,3 +1,12 @@
+2009-06-26  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Add title to functions.
+	* tests/hs071.hh,
+	* tests/optimization-problem-1.cc: Add title to functions.
+	* tests/optimization-problem-1.stdout,
+	* tests/plugin.stdout,
+	* tests/simple.stdout: Regenerate.
+
 2009-06-25  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Merg origin.

@@ -1,3 +1,8 @@
+2009-07-02  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Update bootstrap to handle submodules.
+	* bootstrap: Handle submodules and check git version.
+
 2009-07-01  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Use to factorize build-aux, tests and documentation generation.

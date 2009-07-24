@@ -1,5 +1,11 @@
 2009-07-24  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Fix a bug in CFSQP constraint handling.
+	* src/roboptim-core-cfsqp-plugin.cc: Fix bug in CFSQP
+	constraint handling.
+
+2009-07-24  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Fix gradient check threshold.
 	* src/roboptim-core-cfsqp-plugin.cc: Here.
 

@@ -147,7 +147,7 @@ namespace roboptim
           return;
         }
 
-      if (solver->nineqn () <= j && j < solver->nineq () - solver->nineqn ())
+      if (solver->nineqn () <= j && j < solver->nineq ())
         {
 	  shared_ptr<LinearFunction> f =
             get<shared_ptr<LinearFunction> >
@@ -175,7 +175,7 @@ namespace roboptim
           return;
         }
 
-      if (solver->neqn () <= j && j < solver->neq () - solver->neqn ())
+      if (solver->neqn () <= j && j < solver->neq ())
         {
           shared_ptr<LinearFunction> f =
             get<shared_ptr<LinearFunction> >

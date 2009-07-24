@@ -304,6 +304,23 @@ namespace roboptim
   {
   }
 
+  CFSQPSolver::CFSQPSolver (const CFSQPSolver& solver) throw ()
+    : parent_t (solver.problem_),
+      nineq_ (solver.nineq_),
+      nineqn_ (solver.nineqn_),
+      neq_ (solver.neq_),
+      neqn_ (solver.neqn_),
+      mode_ (solver.mode_),
+      iprint_ (solver.iprint_),
+      miter_ (solver.miter_),
+      bigbnd_ (solver.bigbnd_),
+      eps_ (solver.eps_),
+      epseqn_ (solver.epseqn_),
+      udelta_ (solver.udelta_),
+      cfsqpConstraints_ (solver.cfsqpConstraints_)
+  {
+  }
+
   void
   CFSQPSolver::initialize_bounds (double* bl, double* bu) const throw ()
   {
@@ -362,7 +379,8 @@ namespace roboptim
   case NAME:						\
   {							\
     ResultWithWarnings res (nparam, 1);			\
-    res.warnings.push_back (SolverWarning (ERROR));	\
+    SolverWarning warning (ERROR);			\
+    res.warnings.push_back (warning);			\
     FILL_RESULT ();					\
   }							\
   break

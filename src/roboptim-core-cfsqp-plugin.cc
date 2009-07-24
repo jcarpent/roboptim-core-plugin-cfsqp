@@ -30,8 +30,12 @@
 #include <roboptim/core/result-with-warnings.hh>
 #include <roboptim/core/util.hh>
 
-
 #include "roboptim/core/plugin/cfsqp.hh"
+
+#ifdef ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
+# include <roboptim/core/finite-difference-gradient.hh>
+#endif //!ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
+
 
 namespace roboptim
 {
@@ -45,6 +49,29 @@ namespace roboptim
     void constr (int, int, double*, double*, void*);
     void gradob (int, int, double*, double*, fct_t, void*);
     void gradcn (int, int, double*, double*, fct_t, void*);
+
+
+    void CFSQPCheckGradient (const DerivableFunction& function,
+			     unsigned functionId,
+			     Function::vector_t& x) throw ();
+
+    /// \internal
+    void CFSQPCheckGradient (const DerivableFunction& function,
+			     unsigned functionId,
+			     Function::vector_t& x) throw ()
+    {
+#ifdef ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
+      try
+	{
+	  checkGradientAndThrow (function, functionId, x);
+	}
+      catch (BadGradient& bg)
+	{
+	  std::cerr << bg << std::endl;
+	  exit (1);
+	}
+#endif //!ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
+    }
 
     /// \internal
     /// CFSQP objective function.
@@ -166,7 +193,10 @@ namespace roboptim
       array_to_vector (x_, x);
       DerivableFunction::gradient_t grad =
         solver->problem ().function ().gradient (x_, 0);
+
       vector_to_array (gradf, grad);
+
+      CFSQPCheckGradient (solver->problem ().function (), 0, x_);
     }
 
     /// \internal
@@ -198,6 +228,7 @@ namespace roboptim
             get<shared_ptr<DerivableFunction> >
             (solver->problem ().constraints ()[j_]);
           grad = f->gradient (x_, 0);
+	  CFSQPCheckGradient (*f, 0, x_);
         }
       else
         {
@@ -205,6 +236,7 @@ namespace roboptim
             get<shared_ptr<LinearFunction> >
             (solver->problem ().constraints ()[j_]);
           grad = f->gradient (x_, 0);
+	  CFSQPCheckGradient (*f, 0, x_);
         }
       vector_to_array (gradgj, grad);
     }

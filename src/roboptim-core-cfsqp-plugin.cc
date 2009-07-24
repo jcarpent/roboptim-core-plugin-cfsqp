@@ -53,21 +53,29 @@ namespace roboptim
 
     void CFSQPCheckGradient (const DerivableFunction& function,
 			     unsigned functionId,
-			     Function::vector_t& x) throw ();
+			     Function::vector_t& x,
+			     bool checkCostGradient) throw ();
 
     /// \internal
     void CFSQPCheckGradient (const DerivableFunction& function,
 			     unsigned functionId,
-			     Function::vector_t& x) throw ()
+			     Function::vector_t& x,
+			     bool checkCostGradient) throw ()
     {
 #ifdef ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
       try
 	{
-	  checkGradientAndThrow (function, functionId, x);
+	  checkGradientAndThrow (function, functionId, x, 2e-3);
 	}
       catch (BadGradient& bg)
 	{
-	  std::cerr << bg << std::endl;
+	  std::cerr
+	    << (checkCostGradient
+		? "Invalid cost function gradient."
+		: "Invalid constraint function gradient.")
+	    << std::endl
+	    << bg
+	    << std::endl;
 	  exit (1);
 	}
 #endif //!ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
@@ -196,7 +204,7 @@ namespace roboptim
 
       vector_to_array (gradf, grad);
 
-      CFSQPCheckGradient (solver->problem ().function (), 0, x_);
+      CFSQPCheckGradient (solver->problem ().function (), 0, x_, true);
     }
 
     /// \internal
@@ -228,7 +236,7 @@ namespace roboptim
             get<shared_ptr<DerivableFunction> >
             (solver->problem ().constraints ()[j_]);
           grad = f->gradient (x_, 0);
-	  CFSQPCheckGradient (*f, 0, x_);
+	  CFSQPCheckGradient (*f, 0, x_, false);
         }
       else
         {
@@ -236,7 +244,7 @@ namespace roboptim
             get<shared_ptr<LinearFunction> >
             (solver->problem ().constraints ()[j_]);
           grad = f->gradient (x_, 0);
-	  CFSQPCheckGradient (*f, 0, x_);
+	  CFSQPCheckGradient (*f, 0, x_, false);
         }
       vector_to_array (gradgj, grad);
     }

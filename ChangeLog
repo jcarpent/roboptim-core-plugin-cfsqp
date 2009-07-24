@@ -1,5 +1,10 @@
 2009-07-24  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Make gradient check a little less strict.
+	* src/roboptim-core-cfsqp-plugin.cc: Here.
+
+2009-07-24  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Implement copy constructor.
 	* include/roboptim/core/plugin/cfsqp.hh,
 	* src/roboptim-core-cfsqp-plugin.cc: Add copy constructor.

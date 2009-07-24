@@ -65,7 +65,7 @@ namespace roboptim
 #ifdef ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
       try
 	{
-	  checkGradientAndThrow (function, functionId, x, 2e-3);
+	  checkGradientAndThrow (function, functionId, x, 2e-4);
 	}
       catch (BadGradient& bg)
 	{

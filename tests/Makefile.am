@@ -69,6 +69,6 @@ generate-reference:
 # Distribute reference files.
 EXTRA_DIST +=					\
 	simple.stdout				\
-	simple-.stdout				\
+	simple-1.stdout				\
 	plugin.stdout				\
 	optimization-problem-1.stdout

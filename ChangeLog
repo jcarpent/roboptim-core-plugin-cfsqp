@@ -1,5 +1,10 @@
 2009-07-28  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Fix typo.
+	* tests/Makefile.am: Here.
+
+2009-07-28  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Distribute missing stdout file.
 	* tests/Makefile.am: Here.
 

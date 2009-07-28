@@ -65,7 +65,7 @@ namespace roboptim
 #ifdef ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
       try
 	{
-	  checkGradientAndThrow (function, functionId, x, 2e-4);
+	  checkGradientAndThrow (function, functionId, x, 2e-3);
 	}
       catch (BadGradient& bg)
 	{
@@ -229,6 +229,7 @@ namespace roboptim
       j--;
       // Constraint index in the generic representation.
       int j_ = solver->cfsqpConstraints ()[j].first;
+      bool is_lower = solver->cfsqpConstraints ()[j].second;
 
       if (solver->problem ().constraints ()[j_].which () == CFSQPSolver::NONLINEAR)
         {
@@ -246,6 +247,10 @@ namespace roboptim
           grad = f->gradient (x_, 0);
 	  CFSQPCheckGradient (*f, 0, x_, false);
         }
+
+      if (j < solver->nineq () && is_lower)
+	grad = -grad;
+
       vector_to_array (gradgj, grad);
     }
 

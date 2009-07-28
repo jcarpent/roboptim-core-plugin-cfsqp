@@ -1,3 +1,8 @@
+2009-07-28  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Fix bug in gradient transformation.
+	* src/roboptim-core-cfsqp-plugin.cc: Here.
+
 2009-07-27  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Disable gcov support in plug-in.

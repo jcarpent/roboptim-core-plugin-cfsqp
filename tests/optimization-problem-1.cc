@@ -108,35 +108,7 @@ int run_test ()
   std::cout << solver << std::endl;
 
   // Check if the minimization has succeed.
-  switch (res.which ())
-    {
-    case GenericSolver::SOLVER_VALUE:
-      {
-	Result& result = boost::get<Result> (res);
-	std::cout << result << std::endl;
-	break;
-      }
-
-    case GenericSolver::SOLVER_NO_SOLUTION:
-      {
-	std::cerr << "No solution" << std::endl;
-	return 1;
-      }
-    case GenericSolver::SOLVER_VALUE_WARNINGS:
-      {
-	ResultWithWarnings& result = boost::get<ResultWithWarnings> (res);
-	std::cout << result.x << std::endl;
-	std::cerr << result << std::endl;
-	break;
-      }
-
-    case GenericSolver::SOLVER_ERROR:
-      {
-	SolverError& result = boost::get<SolverError> (res);
-	std::cout << result << std::endl;
-      return 1;
-      }
-    }
+  std::cout << res << std::endl;
 
   return 0;
 }

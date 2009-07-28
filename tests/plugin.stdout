@@ -31,5 +31,9 @@ CFSQP specific variables:
   Epseqn: 1e-08
   Udelta: 1e-08
   CFSQP constraints: (0, 1), (1, 1)
-A solution has been found: 
-[4](1,5,5,1)
+Result: 
+    Size (input, output): 4, 1
+    X: [4](1.07588,4.31794,4.31794,1.2463)
+    Value: [1](14.2685)
+    Constraints values: [2](25,40)
+    Lambda: [2](0.248041,1)

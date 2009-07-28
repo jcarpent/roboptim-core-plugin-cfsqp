@@ -35,6 +35,11 @@ check_PROGRAMS += plugin
 plugin_SOURCES = plugin.cc $(COMMON_SOURCES)
 plugin_LDADD = $(ROBOPTIMCORE_LIBS)
 
+# Simple 1
+check_PROGRAMS += simple-1
+simple_1_SOURCES = simple-1.cc $(COMMON_SOURCES)
+simple_1_LDADD = $(ROBOPTIMCORE_LIBS)
+
 # Optimization problem 1
 check_PROGRAMS += optimization-problem-1
 optimization_problem_1_SOURCES = optimization-problem-1.cc $(COMMON_SOURCES)

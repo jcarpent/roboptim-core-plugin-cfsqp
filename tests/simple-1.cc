@@ -16,38 +16,56 @@
 // along with roboptim.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <iostream>
+#include <boost/mpl/vector.hpp>
 #include <boost/numeric/ublas/io.hpp>
-#include <boost/variant/detail/variant_io.hpp>
 
-#include <roboptim/core/fwd.hh>
-#include <roboptim/core/solver-error.hh>
-#include <roboptim/core/result.hh>
-#include <roboptim/core/result-with-warnings.hh>
-
-#include <roboptim/core/plugin/cfsqp.hh>
+#include <roboptim/core/numeric-linear-function.hh>
+#include <roboptim/core/solver-factory.hh>
 
 #include "common.hh"
-#include "hs071.hh"
+
+using namespace roboptim;
+
+typedef boost::mpl::vector<LinearFunction, DerivableFunction> clist_t;
+typedef Solver<DerivableFunction, clist_t> solver_t;
 
 int run_test ()
 {
-  F f;
+  using namespace boost;
 
-  CFSQPSolver::problem_t pb (f);
-  initialize_problem<CFSQPSolver::problem_t,
-    roboptim::DerivableFunction> (pb);
+  Function::matrix_t a (1, 1);
+  a.clear ();
+  a (0, 0) = 1.;
+  Function::vector_t b (1);
+  b.clear ();
+  NumericLinearFunction cost (a, b);
+
+
+  solver_t::problem_t pb (cost);
+
+  shared_ptr<NumericLinearFunction> constraint
+    (new NumericLinearFunction (a, b));
+
+  pb.addConstraint (static_pointer_cast<LinearFunction> (constraint),
+		    Function::makeLowerInterval (-42.));
+  pb.addConstraint (static_pointer_cast<LinearFunction> (constraint),
+		    Function::makeUpperInterval (42.));
+  pb.addConstraint (static_pointer_cast<LinearFunction> (constraint),
+		    Function::makeInterval (-42., 42.));
 
   // Initialize solver
-  CFSQPSolver solver (pb);
+  SolverFactory<solver_t> factory ("cfsqp", pb);
+  solver_t& solver = factory ();
 
   // Display solver information.
   std::cout << solver << std::endl;
 
   // Compute the minimum and retrieve the result.
-  CFSQPSolver::result_t res = solver.minimum ();
+  solver_t::result_t res = solver.minimum ();
 
   // Check if the minimization has succeed.
   std::cout << res << std::endl;
+
   return 0;
 }
 

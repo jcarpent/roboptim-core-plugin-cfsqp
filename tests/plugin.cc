@@ -47,23 +47,8 @@ int run_test ()
   // Display solver information.
   std::cout << solver << std::endl;
 
-  // Check if the minimization has succeed.
-  if (res.which () != solver_t::SOLVER_VALUE_WARNINGS)
-    {
-      std::cout << "A solution should have been found. Failing..."
-                << std::endl
-                << boost::get<SolverError> (res).what ()
-                << std::endl;
-      return 1;
-    }
-
-  // Get the result.
-  Result& result = boost::get<ResultWithWarnings> (res);
-
   // Display the result.
-  std::cout << "A solution has been found: " << std::endl
-	    << result.x << std::endl;
-  std::cerr << result << std::endl;
+  std::cout << res << std::endl;
   return 0;
 }
 

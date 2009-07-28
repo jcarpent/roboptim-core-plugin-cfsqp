@@ -43,7 +43,7 @@ int run_test ();
       {                                                 \
         status = run_test ();                           \
       }                                                 \
-    catch (std::runtime_error& e)                       \
+    catch (std::exception& e)                           \
       {                                                 \
         std::cerr << e.what () << std::endl;            \
         return 1;                                       \

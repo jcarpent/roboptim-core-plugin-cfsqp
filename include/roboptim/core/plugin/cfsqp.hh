@@ -59,9 +59,9 @@ namespace roboptim
     /// same order than the MPL vector used to specify CLIST.
     enum ConstraintType
       {
-	/// \brief Constraint is a derivable function.
-	LINEAR = 0,
 	/// \brief Constraint is a linear function.
+	LINEAR = 0,
+	/// \brief Constraint is a derivable function.
 	NONLINEAR = 1
       };
 

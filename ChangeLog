@@ -1,5 +1,10 @@
 2009-07-30  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Fix documentation.
+	* include/roboptim/core/plugin/cfsqp.hh: Here.
+
+2009-07-30  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Add new test.
 	* tests/Makefile.am: Compile new test.
 	* tests/simple-2.cc: New.

@@ -1,5 +1,13 @@
 2009-07-30  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Add new test.
+	* tests/Makefile.am: Compile new test.
+	* tests/simple-2.cc: New.
+	* tests/simple-2.stdout: New.
+	* tests/testsuite.at: Run new test.
+
+2009-07-30  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Re-enable gcov support in plug-in.
 	* src/Makefile.am: Here.
 

@@ -29,7 +29,7 @@ Problem:
   No starting point.
   Infinity value (for all functions): inf
 CFSQP specific variables: 
-  Nineq: 5
+  Nineq: 4
   Nineqn: 0
   Neq: 0
   Neqn: 0
@@ -40,10 +40,10 @@ CFSQP specific variables:
   Eps: 1e-08
   Epseqn: 1e-08
   Udelta: 1e-08
-  CFSQP constraints: (0, 1), (1, 1), (1, 0), (2, 1), (2, 0)
+  CFSQP constraints: (0, 1), (1, 0), (2, 1), (2, 0)
 Result: 
     Size (input, output): 1, 1
     X: [1](-42)
     Value: [1](-42)
     Constraints values: [3](-42,-42,-42)
-    Lambda: [5](0,0,1,0,1)
+    Lambda: [4](0,1,0,1)

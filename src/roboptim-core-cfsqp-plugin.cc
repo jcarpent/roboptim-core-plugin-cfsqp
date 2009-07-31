@@ -274,25 +274,25 @@ namespace roboptim
     // Add non-linear inequalities.
     for (unsigned i = 0; i < problem ().constraints ().size (); ++i)
       if (problem ().constraints ()[i].which () == NONLINEAR)
-        if (problem ().bounds ()[i].first != problem ().bounds ()[i].second)
-          {
-            if (problem ().bounds ()[i].first != Function::infinity ())
-              cfsqpConstraints_.push_back (std::make_pair (i, true));
-            if (problem ().bounds ()[i].second != Function::infinity ())
-              cfsqpConstraints_.push_back (std::make_pair (i, false));
-          }
+	if (problem ().bounds ()[i].first != problem ().bounds ()[i].second)
+	  {
+	    if (problem ().bounds ()[i].first != -Function::infinity ())
+	      cfsqpConstraints_.push_back (std::make_pair (i, true));
+	    if (problem ().bounds ()[i].second != Function::infinity ())
+	      cfsqpConstraints_.push_back (std::make_pair (i, false));
+	  }
     nineqn_ = cfsqpConstraints_.size ();
 
     // Add linear inequalities.
     for (unsigned i = 0; i < problem ().constraints ().size (); ++i)
       if (problem ().constraints ()[i].which () == LINEAR)
-        if (problem ().bounds ()[i].first != problem ().bounds ()[i].second)
-          {
-            if (problem ().bounds ()[i].first != Function::infinity ())
-              cfsqpConstraints_.push_back (std::make_pair (i, true));
-            if (problem ().bounds ()[i].second != Function::infinity ())
-              cfsqpConstraints_.push_back (std::make_pair (i, false));
-          }
+	if (problem ().bounds ()[i].first != problem ().bounds ()[i].second)
+	  {
+	    if (problem ().bounds ()[i].first != -Function::infinity ())
+	      cfsqpConstraints_.push_back (std::make_pair (i, true));
+	    if (problem ().bounds ()[i].second != Function::infinity ())
+	      cfsqpConstraints_.push_back (std::make_pair (i, false));
+	  }
     nineq_ = cfsqpConstraints_.size ();
 
     // Add non-linear equalities.

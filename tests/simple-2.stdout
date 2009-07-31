@@ -54,8 +54,8 @@ Problem:
   No starting point.
   Infinity value (for all functions): inf
 CFSQP specific variables: 
-  Nineq: 10
-  Nineqn: 5
+  Nineq: 8
+  Nineqn: 4
   Neq: 2
   Neqn: 1
   Mode: 100
@@ -65,10 +65,10 @@ CFSQP specific variables:
   Eps: 1e-08
   Epseqn: 1e-08
   Udelta: 1e-08
-  CFSQP constraints: (4, 1), (5, 1), (5, 0), (7, 1), (7, 0), (0, 1), (1, 1), (1, 0), (3, 1), (3, 0), (6, 1), (2, 1)
+  CFSQP constraints: (4, 1), (5, 0), (7, 1), (7, 0), (0, 1), (1, 0), (3, 1), (3, 0), (6, 1), (2, 1)
 Result: 
     Size (input, output): 8, 1
     X: [8](0.666667,-1.33333,2,-4,-4.89898,-5.2915,-5.65685,-6)
     Value: [1](-24.514)
     Constraints values: [8](4,6,8,-10,-12,14,16,18)
-    Lambda: [12](0,0.188982,0,0.166667,0.333333,0,0.333333,0.333333,0,0.176777,-0.333333,1)
+    Lambda: [10](0.188982,0,0.166667,0.333333,0.333333,0.333333,0,0.176777,-0.333333,1)

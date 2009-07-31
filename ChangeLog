@@ -1,3 +1,11 @@
+2009-07-31  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Avoid creating superfluous constraints.
+	* src/roboptim-core-cfsqp-plugin.cc: Fix CFSQP constraint
+	array building algorithm.
+	* tests/simple-1.stdout,
+	* tests/simple-2.stdout: Regenerate.
+
 2009-07-30  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Fix documentation.

@@ -33,6 +33,7 @@
 #include "roboptim/core/plugin/cfsqp.hh"
 
 #ifdef ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
+# include <boost/format.hpp>
 # include <roboptim/core/finite-difference-gradient.hh>
 #endif //!ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
 
@@ -54,25 +55,27 @@ namespace roboptim
     void CFSQPCheckGradient (const DerivableFunction& function,
 			     unsigned functionId,
 			     Function::vector_t& x,
-			     bool checkCostGradient) throw ();
+			     int constraintId) throw ();
 
     /// \internal
     void CFSQPCheckGradient (const DerivableFunction& function,
 			     unsigned functionId,
 			     Function::vector_t& x,
-			     bool checkCostGradient) throw ()
+			     int constraintId) throw ()
     {
 #ifdef ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
+      using boost::format;
       try
 	{
-	  checkGradientAndThrow (function, functionId, x, 2e-3);
+	  checkGradientAndThrow (function, functionId, x, 1.);
 	}
       catch (BadGradient& bg)
 	{
 	  std::cerr
-	    << (checkCostGradient
+	    << ((functionId < 0)
 		? "Invalid cost function gradient."
-		: "Invalid constraint function gradient.")
+		: (format ("Invalid constraint function gradient (id = %1%).")
+		   % constraintId).str ())
 	    << std::endl
 	    << bg
 	    << std::endl;
@@ -204,7 +207,7 @@ namespace roboptim
 
       vector_to_array (gradf, grad);
 
-      CFSQPCheckGradient (solver->problem ().function (), 0, x_, true);
+      CFSQPCheckGradient (solver->problem ().function (), 0, x_, -1);
     }
 
     /// \internal
@@ -237,7 +240,7 @@ namespace roboptim
             get<shared_ptr<DerivableFunction> >
             (solver->problem ().constraints ()[j_]);
           grad = f->gradient (x_, 0);
-	  CFSQPCheckGradient (*f, 0, x_, false);
+	  CFSQPCheckGradient (*f, 0, x_, j_);
         }
       else
         {
@@ -245,7 +248,7 @@ namespace roboptim
             get<shared_ptr<LinearFunction> >
             (solver->problem ().constraints ()[j_]);
           grad = f->gradient (x_, 0);
-	  CFSQPCheckGradient (*f, 0, x_, false);
+	  CFSQPCheckGradient (*f, 0, x_, j_);
         }
 
       if (j < solver->nineq () && is_lower)

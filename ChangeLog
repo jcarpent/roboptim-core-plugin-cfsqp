@@ -1,5 +1,11 @@
 2009-08-17  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Dispay more information in gradient checking mode.
+	* src/roboptim-core-cfsqp-plugin.cc: Display constraint id
+	or cost function if gradient checking fail.
+
+2009-08-17  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Add Visual Studio project and solution.
 	* msvc/roboptim-core-plugin-cfsqp/config.h: New.
 	* msvc/roboptim-core-plugin-cfsqp/roboptim-core-cfsqp-plugin.sln: New.

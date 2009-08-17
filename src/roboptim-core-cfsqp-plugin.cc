@@ -632,15 +632,15 @@ extern "C"
   using namespace roboptim;
   typedef CFSQPSolver::parent_t solver_t;
 
-  solver_t* create (const CFSQPSolver::problem_t&);
-  void destroy (solver_t*);
+  ROBOPTIM_DLLEXPORT solver_t* create (const CFSQPSolver::problem_t&);
+  ROBOPTIM_DLLEXPORT void destroy (solver_t*);
 
-  solver_t* create (const CFSQPSolver::problem_t& pb)
+  ROBOPTIM_DLLEXPORT solver_t* create (const CFSQPSolver::problem_t& pb)
   {
     return new CFSQPSolver (pb);
   }
 
-  void destroy (solver_t* p)
+  ROBOPTIM_DLLEXPORT void destroy (solver_t* p)
   {
     delete p;
   }

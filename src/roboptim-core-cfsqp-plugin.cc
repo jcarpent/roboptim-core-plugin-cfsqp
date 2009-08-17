@@ -264,7 +264,7 @@ namespace roboptim
       neqn_ (0),
       mode_ (100),
       iprint_ (iprint),
-      miter_ (500),
+      miter_ (50),
       bigbnd_ (1e10),
       eps_ (1e-8),
       epseqn_ (1e-8),

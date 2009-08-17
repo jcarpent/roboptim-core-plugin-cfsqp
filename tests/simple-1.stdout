@@ -35,7 +35,7 @@ CFSQP specific variables:
   Neqn: 0
   Mode: 100
   Iprint: 0
-  Miter: 500
+  Miter: 50
   Bigbnd: 1e+10
   Eps: 1e-08
   Epseqn: 1e-08

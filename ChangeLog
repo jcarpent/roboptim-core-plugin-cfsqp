@@ -1,5 +1,15 @@
 2009-08-17  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Change default iteration number.
+	* src/roboptim-core-cfsqp-plugin.cc: Here.
+	* tests/optimization-problem-1.stdout,
+	* tests/plugin.stdout,
+	* tests/simple-1.stdout,
+	* tests/simple-2.stdout,
+	* tests/simple.stdout: Regenerate.
+
+2009-08-17  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Fix Windows compatbility problems.
 	* src/roboptim-core-cfsqp-plugin.cc:
 	Allocate dynamically the arrays CFSQP has to use as

@@ -426,25 +426,25 @@ namespace roboptim
     const int ncsrn = 0;
     int mesh_pts[1];
     int inform = 0;
-    double bl[nparam];
-    double bu[nparam];
-    double x[nparam];
+    double* bl = (double*) malloc (nparam * sizeof (double));
+    double* bu = (double*) malloc (nparam * sizeof (double));
+    double* x = (double*) malloc (nparam * sizeof (double));
     double f[1];
-    double g[nineq_ + neq_];
-    double lambda[nparam + 1 + nineq_ + neq_];
+    double* g = (double*) malloc ((nineq_ + neq_) * sizeof (double));
+    double* lambda = (double*) malloc ((nparam + 1 + nineq_ + neq_) * sizeof (double));
     fct_t obj = detail::obj;
     fct_t constr = detail::constr;
     grad_t gradob = detail::gradob;
     grad_t gradcn = detail::gradcn;
 
     // Clear memory.
-    bzero (mesh_pts, sizeof (int));
-    bzero (bl, nparam * sizeof (double));
-    bzero (bu, nparam * sizeof (double));
-    bzero (x, nparam * sizeof (double));
-    bzero (f, sizeof (double));
-    bzero (g, (nineq_ + neq_) * sizeof (double));
-    bzero (lambda, (nparam + 1 + nineq_ + neq_) * sizeof (double));
+    memset (mesh_pts, 0, sizeof (int));
+    memset (bl, 0, nparam * sizeof (double));
+    memset (bu, 0, nparam * sizeof (double));
+    memset (x, 0, nparam * sizeof (double));
+    memset (f, 0, sizeof (double));
+    memset (g, 0, (nineq_ + neq_) * sizeof (double));
+    memset (lambda, 0, (nparam + 1 + nineq_ + neq_) * sizeof (double));
 
     // Initialize bounds.
     initialize_bounds (bl, bu);
@@ -471,6 +471,12 @@ namespace roboptim
 	MAP_CFSQP_WARNINGS(SWITCH_WARNING);
 	MAP_CFSQP_ERRORS(SWITCH_ERROR);
       }
+
+	free (lambda);
+	free (g);
+	free (x);
+	free (bu);
+	free (bl);
   }
 
 #undef SWITCH_ERROR

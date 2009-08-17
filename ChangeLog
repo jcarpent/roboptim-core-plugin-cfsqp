@@ -1,5 +1,14 @@
 2009-08-17  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Fix Windows compatbility problems.
+	* src/roboptim-core-cfsqp-plugin.cc:
+	Allocate dynamically the arrays CFSQP has to use as
+	Visual Studio fail to compile if their size is not
+	known at compile-time, add desallocation code and
+	replace bzero usage by memset which is more portable.
+
+2009-08-17  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Mark class as exportable for Windows compatibility.
 	* include/roboptim/core/plugin/cfsqp.hh: Here.
 

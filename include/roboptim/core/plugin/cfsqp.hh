@@ -17,6 +17,7 @@
 
 #ifndef ROBOPTIM_CORE_CFSQP_HH
 # define ROBOPTIM_CORE_CFSQP_HH
+# include <roboptim/core/portability.hh>
 # include <iostream>
 # include <string>
 # include <utility>
@@ -42,7 +43,7 @@ namespace roboptim
   ///
   /// This solver works with DerivableFunction for the cost function;
   /// constraints can be linear or derivable functions.
-  class CFSQPSolver
+  class ROBOPTIM_DLLEXPORT CFSQPSolver
     : public Solver<DerivableFunction,
 		    boost::mpl::vector<LinearFunction, DerivableFunction> >
   {

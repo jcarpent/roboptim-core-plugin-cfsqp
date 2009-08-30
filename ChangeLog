@@ -1,3 +1,23 @@
+2009-08-31  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Add OFSQP.
+	This patch integrat Adrien Escande modifications to CFSQP.
+	It includes a C++ wrapper and some bug fix.
+	Original patch by Francois Keith <francois.keith@gmail.com>.
+	* msvc/roboptim-core-plugin-cfsqp/roboptim-core-cfsqp-plugin.sln,
+	* msvc/roboptim-core-plugin-cfsqp/roboptim-core-plugin-cfsqp.vcproj,
+	* msvc/simple/simple.vcproj,
+	* msvc/simplewithdll/simplewithdll.vcproj: Copy from msvc/simple/simple.vcproj,
+	Compile new files and headers.
+	* src/Makefile.am: Update files/sources list.
+	* src/cfsqp.c: Remove.
+	* src/ofsqp.cc: New.
+	* src/ofsqp.hh: New.
+	* src/qld.c: Remove.
+	* src/roboptim-core-cfsqp-plugin.cc: Use OFSQP instead of CFSQP.
+	* tests/Makefile.am: Update files/sources list.
+	* tests/simple.cc: Fix include path.
+
 2009-08-30  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Fix MSVC compilation issue.

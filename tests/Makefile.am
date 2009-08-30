@@ -24,9 +24,8 @@ COMMON_SOURCES = common.hh shared-tests/hs071.hh
 # Simple
 check_PROGRAMS = simple
 simple_SOURCES = simple.cc $(COMMON_SOURCES)			\
-	$(top_srcdir)/src/roboptim-core-cfsqp-plugin.cc		\
-	$(top_srcdir)/src/cfsqp.c				\
-	$(top_srcdir)/src/qld.c
+	$(top_srcdir)/src/ofsqp.cc				\
+	$(top_srcdir)/src/roboptim-core-cfsqp-plugin.cc
 
 simple_LDADD = $(ROBOPTIMCORE_LIBS)
 

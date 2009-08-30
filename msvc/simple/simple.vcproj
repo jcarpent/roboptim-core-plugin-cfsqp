@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="shift_jis"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="8.00"
 	Name="simple"
 	ProjectGUID="{3369E2C9-0EAB-4907-B058-C189B0C8D02A}"
 	RootNamespace="simple"
-	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
 		<Platform
@@ -81,6 +80,9 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -151,6 +153,9 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -164,16 +169,26 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\src\cfsqp.c"
+				RelativePath="..\..\src\ofsqp.cc"
 				>
-			</File>
-			<File
-				RelativePath="..\..\src\cfsqpusr.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\qld.c"
-				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\roboptim-core-cfsqp-plugin.cc"
@@ -198,6 +213,10 @@
 				>
 				<File
 					RelativePath="..\..\tests\shared-tests\hs071.hh"
+					>
+				</File>
+				<File
+					RelativePath="..\..\include\roboptim\core\plugin\ofsqp.hh"
 					>
 				</File>
 			</Filter>

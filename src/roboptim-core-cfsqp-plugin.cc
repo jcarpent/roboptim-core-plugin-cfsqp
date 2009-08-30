@@ -22,8 +22,6 @@
 #include <boost/type_traits/is_base_of.hpp>
 #include <boost/variant/apply_visitor.hpp>
 
-#include "cfsqpusr.h"
-
 #include <roboptim/core/function.hh>
 #include <roboptim/core/indent.hh>
 #include <roboptim/core/result.hh>
@@ -31,6 +29,7 @@
 #include <roboptim/core/util.hh>
 
 #include "roboptim/core/plugin/cfsqp.hh"
+#include "ofsqp.hh"
 
 #ifdef ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
 # include <boost/format.hpp>
@@ -456,7 +455,13 @@ namespace roboptim
     if (!!problem ().startingPoint ())
       detail::vector_to_array (x, *problem ().startingPoint ());
 
-    cfsqp (nparam, nf, nfsr, nineqn_, nineq_, neqn_, neq_, ncsrl,  ncsrn,
+	// For Thomas: we used the class OFSQP and created an instance
+	// to use the CSFQP solver
+
+	OFSQP myfsqp;
+
+	// If you do not use OFSQP simply keep cfsqp(...)
+    myfsqp.cfsqp (nparam, nf, nfsr, nineqn_, nineq_, neqn_, neq_, ncsrl,  ncsrn,
            mesh_pts, mode_,  iprint_, miter_, &inform, bigbnd_, eps_, epseqn_,
            udelta_, bl, bu, x, f, g, lambda,
            obj, constr, gradob, gradcn, this);

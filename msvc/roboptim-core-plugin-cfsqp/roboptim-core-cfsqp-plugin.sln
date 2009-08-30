@@ -1,12 +1,11 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C++ Express 2008
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "roboptim-core-cfsqp-plugin", "roboptim-core-plugin-cfsqp.vcproj", "{4F69E95F-A113-4402-AEDB-51BE2CE860AB}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simple", "..\simple\simple.vcproj", "{3369E2C9-0EAB-4907-B058-C189B0C8D02A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4F69E95F-A113-4402-AEDB-51BE2CE860AB} = {4F69E95F-A113-4402-AEDB-51BE2CE860AB}
-	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simplewithdll", "..\simplewithdll\simplewithdll.vcproj", "{BDC2881A-ACF0-493E-9C3A-9AA4C2BB68C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,6 +21,10 @@ Global
 		{3369E2C9-0EAB-4907-B058-C189B0C8D02A}.Debug|Win32.Build.0 = Debug|Win32
 		{3369E2C9-0EAB-4907-B058-C189B0C8D02A}.Release|Win32.ActiveCfg = Release|Win32
 		{3369E2C9-0EAB-4907-B058-C189B0C8D02A}.Release|Win32.Build.0 = Release|Win32
+		{BDC2881A-ACF0-493E-9C3A-9AA4C2BB68C5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BDC2881A-ACF0-493E-9C3A-9AA4C2BB68C5}.Debug|Win32.Build.0 = Debug|Win32
+		{BDC2881A-ACF0-493E-9C3A-9AA4C2BB68C5}.Release|Win32.ActiveCfg = Release|Win32
+		{BDC2881A-ACF0-493E-9C3A-9AA4C2BB68C5}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="shift_jis"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="roboptim-core-cfsqp-plugin"
-	ProjectGUID="{4F69E95F-A113-4402-AEDB-51BE2CE860AB}"
-	RootNamespace="roboptimcoreplugincfsqp"
+	Name="simplewithdll"
+	ProjectGUID="{BDC2881A-ACF0-493E-9C3A-9AA4C2BB68C5}"
 	>
 	<Platforms>
 		<Platform
@@ -18,8 +17,7 @@
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
-			CharacterSet="2"
+			ConfigurationType="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -39,7 +37,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\src&quot;;&quot;$(ProjectDir)\..\..\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\..\tests\shared-tests&quot;;&quot;$(ProjectDir)\..\..\..\tests&quot;;&quot;$(ProjectDir)\..\roboptim-core-plugin-cfsqp&quot;;&quot;$(ProjectDir)\..\..\src&quot;;&quot;$(ProjectDir)\..\..\include&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -57,7 +55,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="roboptim-core.lib"
+				AdditionalDependencies="roboptim-core.lib roboptim-core-cfsqp-plugin.lib"
+				AdditionalLibraryDirectories="C:\libraries\roboptim\lib"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -88,11 +87,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			CharacterSet="2"
-			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -111,12 +107,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				EnableIntrinsicFunctions="true"
-				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
-				WarningLevel="3"
-				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -129,10 +119,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				GenerateDebugInformation="true"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -164,55 +150,27 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Fichiers sources"
+			Name="Source Files"
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\config.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\doc.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ofsqp.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\roboptim-core-cfsqp-plugin.cc"
+				RelativePath="..\..\tests\simple.cc"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="Fichiers d&apos;en-t&#234;te"
+			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<Filter
-				Name="roboptim"
+			<File
+				RelativePath="..\..\tests\shared-tests\hs071.hh"
 				>
-				<Filter
-					Name="core"
-					>
-					<Filter
-						Name="plugin"
-						>
-						<File
-							RelativePath="..\..\include\roboptim\core\plugin\cfsqp.hh"
-							>
-						</File>
-						<File
-							RelativePath="..\..\include\roboptim\core\plugin\ofsqp.hh"
-							>
-						</File>
-					</Filter>
-				</Filter>
-			</Filter>
+			</File>
 		</Filter>
 		<Filter
-			Name="Fichiers de ressources"
+			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>

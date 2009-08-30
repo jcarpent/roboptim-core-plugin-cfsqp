@@ -27,7 +27,7 @@
 #include <roboptim/core/plugin/cfsqp.hh>
 
 #include "common.hh"
-#include "hs071.hh"
+#include "shared-tests/hs071.hh"
 
 int run_test ()
 {
@@ -48,6 +48,7 @@ int run_test ()
 
   // Check if the minimization has succeed.
   std::cout << res << std::endl;
+  system("PAUSE");
   return 0;
 }
 

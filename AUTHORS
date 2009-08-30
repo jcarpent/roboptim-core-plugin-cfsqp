@@ -1,10 +1,19 @@
 This package was written by and with the assistance of
 
+* Adrien Escande		adrien_escande@yahoo.fr
+- OFSQP development (CFSQP C++ wrapper).
+
 * Florent Lamiraux              florent@laas.fr
 - Interface design.
 
+* François Keith		francois.keith@gmail.com
+- OFSQP integration (CFSQP C++ wrapper).
+
+* Abderrahmane Kheddar		kheddar@gmail.com
+- OFSQP integration (CFSQP C++ wrapper).
+
 * Thomas Moulard                thomas.moulard@gmail.com
-- Implementation.
+- Plug-in implementation and packaging.
 
 * Olivier Stasse                olivier.stasse@aist.go.jp
 - Interface design.

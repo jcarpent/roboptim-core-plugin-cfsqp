@@ -1,5 +1,11 @@
 2009-08-31  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Update AUTHORS and add THANKS file.
+	* AUTHORS: Update.
+	* THANKS: New.
+
+2009-08-31  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Add CFSQP original documentation.
 	* LICENSE.CFSQP: New.
 	* README.CFSQP: New.

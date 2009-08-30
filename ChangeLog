@@ -1,5 +1,11 @@
 2009-08-31  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Add CFSQP original documentation.
+	* LICENSE.CFSQP: New.
+	* README.CFSQP: New.
+
+2009-08-31  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Add OFSQP.
 	This patch integrat Adrien Escande modifications to CFSQP.
 	It includes a C++ wrapper and some bug fix.

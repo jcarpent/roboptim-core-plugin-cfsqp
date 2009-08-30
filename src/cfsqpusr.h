@@ -22,6 +22,14 @@ extern char *calloc();
 #define TRUE 1
 #define FALSE 0
 
+/* As MSVC does not declare properly __STDC__, let's define
+   it manually. */
+#ifndef __STDC__
+# ifdef _WIN32
+#  define __STDC__
+# endif //! WIN32
+#endif //! __STDC__
+
 /* Declare and initialize user-accessible flag indicating    */
 /* whether x sent to user functions has been changed within  */
 /* CFSQP.				 		     */

@@ -1,5 +1,11 @@
 2009-08-30  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Fix MSVC compilation issue.
+	* src/cfsqpusr.h: Work-around as MSVC does not define
+	the __STDC__ precompilation symbol properly.
+
+2009-08-30  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Initialize variable properly.
 	* src/cfsqp.c: Here.
 

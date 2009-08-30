@@ -2187,6 +2187,7 @@ L310:
       sbout1(glob_prnt.io,nparam,"dg                  ",dummy,di,2,2);
       sbout1(glob_prnt.io,0,"dgnorm              ",dnm,adummy,1,2);
    }
+   theta = 0.;
    if (rho !=0.e0) *grdftd=slope(nob,nobL,neqn,nparam,feasb,ob,
 				grdpsf,di,d,*fmax,theta,0,bl,1);
    if (glob_info.mode!=1 || rho!=rhog)

@@ -1,5 +1,10 @@
 2009-08-30  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Initialize variable properly.
+	* src/cfsqp.c: Here.
+
+2009-08-30  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Generate tests output.
 	Regenerate tests output as roboptim-core has been modified
 	to display whether constraints are satisfied at starting point.

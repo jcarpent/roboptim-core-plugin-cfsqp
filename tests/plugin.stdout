@@ -13,7 +13,7 @@ Problem:
       a * a + b * b + c * c + d * d (twice derivable function)
       Bounds: (40, 40)
       Scales: 1
-      Initial value: [1](52)
+      Initial value: [1](52) (constraint not satisfied)
       
   Starting point: [4](1,5,5,1)
   Starting value: [1](12)
@@ -33,7 +33,8 @@ CFSQP specific variables:
   CFSQP constraints: (0, 1), (1, 1)
 Result: 
     Size (input, output): 4, 1
-    X: [4](1.07588,4.31794,4.31794,1.2463)
-    Value: [1](14.2685)
+    X: [4](1,4.743,3.82115,1.37941)
+    Value: [1](14.5723)
     Constraints values: [2](25,40)
-    Lambda: [2](0.248041,1)
+    Lambda: [2](0,0)
+    Warnings: New iterate equivalent to previous one.

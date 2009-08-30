@@ -1,3 +1,11 @@
+2009-08-30  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Generate tests output.
+	Regenerate tests output as roboptim-core has been modified
+	to display whether constraints are satisfied at starting point.
+	* tests/plugin.stdout,
+	* tests/simple.stdout: Regenerate.
+
 2009-08-24  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Update to new SourceForge URLs.

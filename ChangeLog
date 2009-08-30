@@ -1,5 +1,16 @@
 2009-08-31  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Add libcwd support.
+	* tests/common.hh,
+	* tests/optimization-problem-1.cc,
+	* tests/plugin.cc,
+	* tests/simple-1.cc,
+	* tests/simple-2.cc,
+	* tests/simple.cc: Make sure sys.hh is included first
+	as roboptim-core debug mode require it.
+
+2009-08-31  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Update AUTHORS and add THANKS file.
 	* AUTHORS: Update.
 	* THANKS: New.

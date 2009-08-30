@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with roboptim.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "common.hh"
+
 #include <iostream>
 #include <boost/mpl/vector.hpp>
 #include <boost/numeric/ublas/io.hpp>
@@ -23,8 +25,6 @@
 #include <roboptim/core/twice-derivable-function.hh>
 
 #include <roboptim/core/solver-factory.hh>
-
-#include "common.hh"
 
 using namespace roboptim;
 

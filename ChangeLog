@@ -1,3 +1,10 @@
+2009-09-25  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Initialize variables properly.
+	Patch submitted by Florent Lamiraux.
+	http://sourceforge.net/mailarchive/message.php?msg_name=4ABC7464.8050305%40laas.fr
+	* src/ofsqp.cc: Initialize variables properly.
+
 2009-08-31  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Update submodule.

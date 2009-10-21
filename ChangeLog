@@ -1,5 +1,10 @@
 2009-10-21  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Revert some MS Windows sabotage.
+	* tests/simple.cc: Remove pause command from test case.
+
+2009-10-21  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Provide getSizeOfProblem.
 	* src/roboptim-core-cfsqp-plugin.cc: Here.
 

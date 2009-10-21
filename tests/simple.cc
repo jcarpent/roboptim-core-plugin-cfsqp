@@ -42,6 +42,8 @@ int run_test ()
   // Initialize solver
   CFSQPSolver solver (pb);
 
+  std::cerr << sizeof (CFSQPSolver) << std::endl;
+
   // Display solver information.
   std::cout << solver << std::endl;
 
@@ -50,7 +52,6 @@ int run_test ()
 
   // Check if the minimization has succeed.
   std::cout << res << std::endl;
-  system("PAUSE");
   return 0;
 }
 

@@ -640,8 +640,15 @@ extern "C"
   using namespace roboptim;
   typedef CFSQPSolver::parent_t solver_t;
 
+  ROBOPTIM_DLLEXPORT unsigned getSizeOfProblem ();
   ROBOPTIM_DLLEXPORT solver_t* create (const CFSQPSolver::problem_t&);
   ROBOPTIM_DLLEXPORT void destroy (solver_t*);
+
+
+  ROBOPTIM_DLLEXPORT unsigned getSizeOfProblem ()
+  {
+    return sizeof (CFSQPSolver::problem_t);
+  }
 
   ROBOPTIM_DLLEXPORT solver_t* create (const CFSQPSolver::problem_t& pb)
   {

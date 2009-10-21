@@ -4493,7 +4493,7 @@ integer *lw;
     diagr = two;
     xmagr = .01;
     ifinc = 3;
-    kfinc = max(10,*n);
+    kfinc = std::max(10,*n);
 
 /*     FIND THE RECIPROCALS OF THE LENGTHS OF THE CONSTRAINT NORMALS. */
 /*     RETURN IF A CONSTRAINT IS INFEASIBLE DUE TO A ZERO NORMAL. */
@@ -4554,7 +4554,7 @@ L45:
 	w[id] = g[i + i * g_dim1];
 /* Computing MAX */
 	d__1 = *diag, d__2 = *vsmall - w[id];
-	*diag = max(d__1,d__2);
+	*diag = std::max(d__1,d__2);
 	if (i == *n) {
 	    goto L60;
 	}
@@ -4563,7 +4563,7 @@ L45:
 	for (j = ii; j <= i__2; ++j) {
 /* Computing MIN */
 	    d__1 = w[id], d__2 = g[j + j * g_dim1];
-	    ga = -min(d__1,d__2);
+	    ga = -std::min(d__1,d__2);
 	    gb = (d__1 = w[id] - g[j + j * g_dim1], abs(d__1)) + (d__2 = g[i
 		    + j * g_dim1], abs(d__2));
 	    if (gb > zero) {
@@ -4572,7 +4572,7 @@ L45:
 		ga += d__1 * d__1 / gb;
 	    }
 /* L55: */
-	    *diag = max(*diag,ga);
+	    *diag = std::max(*diag,ga);
 	}
 L60:
 	;
@@ -5416,7 +5416,7 @@ L590:
 	if (iact[k] > *meq) {
 /* Computing MAX */
 	    d__1 = zero, d__2 = w[k];
-	    w[k] = max(d__1,d__2);
+	    w[k] = std::max(d__1,d__2);
 	}
 /* L600: */
     }
@@ -5434,7 +5434,7 @@ L601:
     goto L800;
 L610:
     iws = iws - *nact - 1;
-    nu = min(*n,nu);
+    nu = std::min(*n,nu);
     i__2 = nu;
     for (i = 1; i <= i__2; ++i) {
 	is = iws + i;
@@ -5655,7 +5655,7 @@ L810:
     ir = ir + kdrop + 1;
 /* Computing MAX */
     d__3 = (d__1 = w[ir - 1], abs(d__1)), d__4 = (d__2 = w[ir], abs(d__2));
-    temp = max(d__3,d__4);
+    temp = std::max(d__3,d__4);
 /* Computing 2nd power */
     d__1 = w[ir - 1] / temp;
 /* Computing 2nd power */
@@ -5739,7 +5739,7 @@ L880:
     }
 /* Computing MAX */
     d__3 = (d__1 = w[is - 1], abs(d__1)), d__4 = (d__2 = w[is], abs(d__2));
-    temp = max(d__3,d__4);
+    temp = std::max(d__3,d__4);
 /* Computing 2nd power */
     d__1 = w[is - 1] / temp;
 /* Computing 2nd power */
@@ -5790,7 +5790,7 @@ L920:
 	;
     }
 /* L925: */
-    xmag = max(xmag,sum);
+    xmag = std::max(xmag,sum);
     switch ((int)jflag) {
 	case 1:  goto L420;
 	case 2:  goto L690;

@@ -1,3 +1,9 @@
+2009-10-21  Florent Lamiraux  <florent@laas.fr>
+
+	Remove min and max macros in ocfsqp.hh.
+	* src/ofsqp.cc,
+	* src/ofsqp.hh: here.
+
 2009-10-21  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Revert some MS Windows sabotage.

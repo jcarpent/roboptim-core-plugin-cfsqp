@@ -1,15 +1,21 @@
 # Don't expend macros beginning by JRL_.
 m4_pattern_forbid([^JRL_])
-AC_PREREQ([2.59])
+AC_PREREQ([2.63])
 
 ## --------------------- ##
 ## Package configuration ##
 ## --------------------- ##
-AC_INIT([RobOptim core CFSQP plug-in], [0.2],
-	[roboptim-user@lists.sourceforge.net], [roboptim-core-cfsqp-plugin])
+AC_INIT([RobOptim core CFSQP plug-in],
+        [m4_esyscmd(build-aux/git-version-gen .tarball-version)],
+        [roboptim-user@lists.sourceforge.net],
+        [roboptim-core],
+        [http://roboptim.sourceforge.net/])
 
 # Auxiliary files.
 AC_CONFIG_AUX_DIR([build-aux])
+
+# Macros are stored in build-aux.
+AC_CONFIG_MACRO_DIR([build-aux])
 
 # Automake.
 AM_INIT_AUTOMAKE([1.9.6 dist-bzip2 -Wall nostdinc])
@@ -39,9 +45,6 @@ JRL_CXX_WARNINGS([[-Wall],
                    [-Wbad-function-cast],
                    [-Wmissing-declarations],
                    [-Wnested-externs]])
-
-# Macros are stored in build-aux.
-AC_CONFIG_MACRO_DIR([build-aux])
 
 ## ------------------- ##
 ## Additionnal tools.  ##

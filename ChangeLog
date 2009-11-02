@@ -1,5 +1,24 @@
 2009-11-02  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Update build-chain.
+	* .gitignore: Ignore more files.
+	* .gitmodules: Remove doc from submodule.
+	* Makefile.am: Use factorized rules.
+	* build-aux: Synchronize.
+	* configure.ac: Use git-version-gen.
+	* doc/Doxyfile.extra.in: New.
+	* doc/Makefile.am: New.
+	* doc: Remove.
+	* include/roboptim/core/plugin/cfsqp.hh:
+	Fix documentation.
+	* src/Makefile.am: Clean distributed files.
+	* src/debug.hh: New.
+	* tests/Makefile.am: Fix paths.
+	* tests/common.hh: Remove.
+	* tests/shared-tests: Synchronize.
+
+2009-11-02  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Improve Visual Studio project.
 	Add  vsprops to locate Boost and RobOptim.
 	* msvc/INSTALL/INSTALL.vcproj: New.

@@ -13,3 +13,6 @@ tests/testsuite
 +committed/
 ,*
 testsuite.log
+libltdl/*
+.version
+.tarball-version

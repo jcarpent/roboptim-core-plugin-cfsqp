@@ -89,7 +89,7 @@ namespace roboptim
     ///
     /// This additional vector is built to transform the provided
     /// constraint vector into a vector that CFSQP can accept:
-    /// - only g <= X constraints
+    /// - only \f$g \leq X\f$ constraints
     /// - the order has to be:
     ///  - non-linear inequalities,
     ///  - linear inequalities,

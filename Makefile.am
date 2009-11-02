@@ -1,3 +1,5 @@
+include $(top_srcdir)/build-aux/init.mk
+
 # Search for autoconf macros in build-aux.
 ACLOCAL_AMFLAGS = -I build-aux
 
@@ -9,21 +11,17 @@ SUBDIRS = 		\
 
 
 # Provide bootstrap with the generated package.
-EXTRA_DIST = bootstrap build-aux/bootstrap
+EXTRA_DIST +=	bootstrap			\
+		build-aux/bootstrap
 
-# Distribute Windows file.
+# Distribute Windows specific files.
 EXTRA_DIST += msvc
 
 
 # Nothing to do in this directory.
 all:
 
-# Libtool rules
-LIBTOOL_DEPS = @LIBTOOL_DEPS@
-libtool: $(LIBTOOL_DEPS)
-	$(SHELL) ./config.status --recheck
-
-# -- Generate documentation
-.PHONY: doc html
-doc html:
-	cd doc && $(MAKE) $(AM_MAKEFLAGS) $@
+# Include various rules...
+include $(top_srcdir)/build-aux/doc-recursive.mk
+include $(top_srcdir)/build-aux/libtool.mk
+include $(top_srcdir)/build-aux/git-version-gen.mk

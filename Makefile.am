@@ -11,6 +11,9 @@ SUBDIRS = 		\
 # Provide bootstrap with the generated package.
 EXTRA_DIST = bootstrap build-aux/bootstrap
 
+# Distribute Windows file.
+EXTRA_DIST += msvc
+
 
 # Nothing to do in this directory.
 all:

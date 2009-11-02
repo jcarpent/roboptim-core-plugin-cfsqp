@@ -1,3 +1,9 @@
+2009-11-02  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Distribute Windows related files.
+	Reported by François Keith.
+	* Makefile.am: Here.
+
 2009-10-21  Florent Lamiraux  <florent@laas.fr>
 
 	Remove min and max macros in ocfsqp.hh.

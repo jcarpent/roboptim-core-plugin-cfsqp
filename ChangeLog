@@ -1,5 +1,19 @@
 2009-11-02  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Improve Visual Studio project.
+	Add  vsprops to locate Boost and RobOptim.
+	* msvc/INSTALL/INSTALL.vcproj: New.
+	* msvc/INSTALL/excludedFiles.txt: New.
+	* msvc/roboptim-core-plugin-cfsqp/boost.vsprops: New.
+	* msvc/roboptim-core-plugin-cfsqp/rob_opt.vsprops: New.
+	* msvc/roboptim-core-plugin-cfsqp/roboptim-core-cfsqp-plugin.sln:
+	Add installation project to solution.
+	* msvc/roboptim-core-plugin-cfsqp/roboptim-core-plugin-cfsqp.vcproj,
+	* msvc/simple/simple.vcproj,
+	* msvc/simplewithdll/simplewithdll.vcproj: Add Release and Debug modes.
+
+2009-11-02  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Distribute Windows related files.
 	Reported by François Keith.
 	* Makefile.am: Here.

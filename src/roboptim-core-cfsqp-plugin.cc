@@ -54,13 +54,15 @@ namespace roboptim
     void CFSQPCheckGradient (const DerivableFunction& function,
 			     unsigned functionId,
 			     Function::vector_t& x,
-			     int constraintId) throw ();
+			     int constraintId,
+			     CFSQPSolver& solver) throw ();
 
     /// \internal
     void CFSQPCheckGradient (const DerivableFunction& function,
 			     unsigned functionId,
 			     Function::vector_t& x,
-			     int constraintId) throw ()
+			     int constraintId,
+			     CFSQPSolver& solver) throw ()
     {
 #ifdef ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
       using boost::format;
@@ -70,15 +72,17 @@ namespace roboptim
 	}
       catch (BadGradient& bg)
 	{
+	  solver.invalidateGradient ();
 	  std::cerr
 	    << ((functionId < 0)
-		? "Invalid cost function gradient."
-		: (format ("Invalid constraint function gradient (id = %1%).")
+		? "Invalid cost function gradient:"
+		: (format ("Invalid constraint function gradient (id = %1%):")
 		   % constraintId).str ())
+	    << std::endl
+	    << function.getName ()
 	    << std::endl
 	    << bg
 	    << std::endl;
-	  exit (1);
 	}
 #endif //!ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
     }
@@ -206,7 +210,7 @@ namespace roboptim
 
       vector_to_array (gradf, grad);
 
-      CFSQPCheckGradient (solver->problem ().function (), 0, x_, -1);
+      CFSQPCheckGradient (solver->problem ().function (), 0, x_, -1, *solver);
     }
 
     /// \internal
@@ -239,7 +243,7 @@ namespace roboptim
             get<shared_ptr<DerivableFunction> >
             (solver->problem ().constraints ()[j_]);
           grad = f->gradient (x_, 0);
-	  CFSQPCheckGradient (*f, 0, x_, j_);
+	  CFSQPCheckGradient (*f, 0, x_, j_, *solver);
         }
       else
         {
@@ -247,7 +251,7 @@ namespace roboptim
             get<shared_ptr<LinearFunction> >
             (solver->problem ().constraints ()[j_]);
           grad = f->gradient (x_, 0);
-	  CFSQPCheckGradient (*f, 0, x_, j_);
+	  CFSQPCheckGradient (*f, 0, x_, j_, *solver);
         }
 
       if (j < solver->nineq () && is_lower)
@@ -271,7 +275,8 @@ namespace roboptim
       eps_ (1e-8),
       epseqn_ (1e-8),
       udelta_ (1e-8),
-      cfsqpConstraints_ ()
+      cfsqpConstraints_ (),
+      invalidGradient_ (false)
   {
     // Add non-linear inequalities.
     for (unsigned i = 0; i < problem ().constraints ().size (); ++i)
@@ -332,7 +337,8 @@ namespace roboptim
       eps_ (solver.eps_),
       epseqn_ (solver.epseqn_),
       udelta_ (solver.udelta_),
-      cfsqpConstraints_ (solver.cfsqpConstraints_)
+      cfsqpConstraints_ (solver.cfsqpConstraints_),
+      invalidGradient_ (solver.invalidGradient_)
   {
   }
 
@@ -455,36 +461,35 @@ namespace roboptim
     if (!!problem ().startingPoint ())
       detail::vector_to_array (x, *problem ().startingPoint ());
 
-	// For Thomas: we used the class OFSQP and created an instance
-	// to use the CSFQP solver
+    OFSQP myfsqp;
 
-	OFSQP myfsqp;
-
-	// If you do not use OFSQP simply keep cfsqp(...)
     myfsqp.cfsqp (nparam, nf, nfsr, nineqn_, nineq_, neqn_, neq_, ncsrl,  ncsrn,
-           mesh_pts, mode_,  iprint_, miter_, &inform, bigbnd_, eps_, epseqn_,
-           udelta_, bl, bu, x, f, g, lambda,
-           obj, constr, gradob, gradcn, this);
+		  mesh_pts, mode_,  iprint_, miter_, &inform, bigbnd_, eps_, epseqn_,
+		  udelta_, bl, bu, x, f, g, lambda,
+		  obj, constr, gradob, gradcn, this);
 
-    switch (inform)
-      {
-        // Normal termination.
-      case 0:
+    if (invalidGradient_)
+      result_ = SolverError ("gradient checks have failed.");
+    else
+      switch (inform)
 	{
-	  Result res (nparam, 1);
-	  FILL_RESULT ();
+	  // Normal termination.
+	case 0:
+	  {
+	    Result res (nparam, 1);
+	    FILL_RESULT ();
+	  }
+	  break;
+
+	  MAP_CFSQP_WARNINGS(SWITCH_WARNING);
+	  MAP_CFSQP_ERRORS(SWITCH_ERROR);
 	}
-        break;
 
-	MAP_CFSQP_WARNINGS(SWITCH_WARNING);
-	MAP_CFSQP_ERRORS(SWITCH_ERROR);
-      }
-
-	free (lambda);
-	free (g);
-	free (x);
-	free (bu);
-	free (bl);
+    free (lambda);
+    free (g);
+    free (x);
+    free (bu);
+    free (bl);
   }
 
 #undef SWITCH_ERROR
@@ -610,6 +615,13 @@ namespace roboptim
   {
     return udelta_;
   }
+
+  void
+  CFSQPSolver::invalidateGradient () throw ()
+  {
+    invalidGradient_ = true;
+  }
+
 
   std::ostream&
   CFSQPSolver::print (std::ostream& o) const throw ()

@@ -158,6 +158,12 @@ namespace roboptim
     /// \brief Perturbation size used in finite differences.
     const double& udelta () const throw ();
 
+    /// \brief Tag gradient computation as invalid.
+    ///
+    /// If gradients are tagged as invalid, the #solve () method
+    /// will fail (i.e. result will be a SolverError object).
+    void invalidateGradient () throw ();
+
     /// \brief Display the solver on the specified output stream.
     ///
     /// \param o output stream used for display
@@ -207,6 +213,10 @@ namespace roboptim
 
     /// \brief Internal representation of constraints.
     std::vector<std::pair<int, bool> > cfsqpConstraints_;
+
+    /// \brief Set to true if a gradient check has failed.
+    /// Always false if gradient checks are not enabled.
+    bool invalidGradient_;
   };
 
   /// @}

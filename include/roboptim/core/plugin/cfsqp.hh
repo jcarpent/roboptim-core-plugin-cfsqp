@@ -17,6 +17,7 @@
 
 #ifndef ROBOPTIM_CORE_CFSQP_HH
 # define ROBOPTIM_CORE_CFSQP_HH
+# include <roboptim/core/sys.hh>
 # include <roboptim/core/portability.hh>
 # include <iostream>
 # include <string>

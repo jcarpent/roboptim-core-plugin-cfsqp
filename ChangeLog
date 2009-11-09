@@ -1,5 +1,10 @@
 2009-11-09  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Make sure ``sys.hh'' is included first.
+	* include/roboptim/core/plugin/cfsqp.hh: Here.
+
+2009-11-09  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Synchronize.
 	* tests/shared-tests: Here.
 

@@ -1,0 +1,78 @@
+Name: @PACKAGE_TARNAME@
+Version: @PACKAGE_VERSION@
+Release: 1%{?dist}
+Summary: CFSQP plug-in for RobOptim
+
+Group: Development/Libraries
+License: LGPLv3+
+URL: http://roboptim.sourceforge.net/
+Source0: http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.gz
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+BuildRequires: roboptim-core-devel
+
+
+%description
+Provide a plug-in to enable the use of CFSQP as a RobOptim back-end
+
+%package devel
+Summary: Static libraries and headers
+Group: Development/Libraries
+Requires: @PACKAGE_TARNAME@ = %{version}-%{release}
+%description devel
+Provide a plug-in to enable the use of CFSQP as a RobOptim back-end
+
+
+%package doc
+Summary: API documentation
+Group: Documentation
+Requires: @PACKAGE_TARNAME@ = %{version}-%{release}
+%description doc
+Provide a plug-in to enable the use of CFSQP as a RobOptim back-end
+
+
+
+
+
+%prep
+%setup -q
+
+%build
+%configure --docdir=%{_datadir}/doc/%{name}-%{version} --disable-static
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+
+#FIXME: should libraries have version numbers or not?
+# LDFLAGS="-avoid-version"
+make %{?_smp_mflags}
+
+%install
+rm -rf $RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT
+
+# Get rid of Libtool files as they should not be installed.
+rm $RPM_BUILD_ROOT/%{_libdir}/*.la
+
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr(-,root,root,-)
+%{_libdir}/*.so*
+
+%files devel
+%defattr(-,root,root,-)
+%{_includedir}/*
+
+%files doc
+%defattr(-,root,root,-)
+%doc AUTHORS COPYING LICENSE.CFSQP README README.CFSQP NEWS THANKS
+%{_datadir}/doc/%{name}-%{version}/*
+
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
+
+%changelog
+* Thu Nov 12 2009 Thomas Moulard <thomas.moulard@gmail.com> - 0.2a.66
+- initial work

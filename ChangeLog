@@ -1,3 +1,11 @@
+2009-11-12  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Add RPM support.
+	* Makefile.am: Distribute CFSQP related files.
+	* build-aux: Synchronize.
+	* configure.ac: Fix package short name.
+	* roboptim-core-cfsqp-plugin.spec.in: New.
+
 2009-11-09  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Make sure ``sys.hh'' is included first.

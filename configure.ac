@@ -8,7 +8,7 @@ AC_PREREQ([2.63])
 AC_INIT([RobOptim core CFSQP plug-in],
         [m4_esyscmd(build-aux/git-version-gen .tarball-version)],
         [roboptim-user@lists.sourceforge.net],
-        [roboptim-core],
+        [roboptim-core-cfsqp-plugin],
         [http://roboptim.sourceforge.net/])
 
 # Auxiliary files.

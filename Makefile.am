@@ -12,7 +12,9 @@ SUBDIRS = 		\
 
 # Provide bootstrap with the generated package.
 EXTRA_DIST +=	bootstrap			\
-		build-aux/bootstrap
+		build-aux/bootstrap		\
+		LICENSE.CFSQP			\
+		README.CFSQP
 
 # Distribute Windows specific files.
 EXTRA_DIST += msvc
@@ -25,3 +27,5 @@ all:
 include $(top_srcdir)/build-aux/doc-recursive.mk
 include $(top_srcdir)/build-aux/libtool.mk
 include $(top_srcdir)/build-aux/git-version-gen.mk
+
+include $(top_srcdir)/build-aux/rpm.mk

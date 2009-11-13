@@ -1,7 +1,7 @@
 Name: @PACKAGE_TARNAME@
 Version: @PACKAGE_VERSION@
 Release: 1%{?dist}
-Summary: CFSQP plug-in for RobOptim
+Summary: The CFSQP plug-in for RobOptim
 
 Group: Development/Libraries
 License: LGPLv3+
@@ -16,11 +16,11 @@ BuildRequires: roboptim-core-devel
 Provide a plug-in to enable the use of CFSQP as a RobOptim back-end
 
 %package devel
-Summary: Static libraries and headers
+Summary: The roboptim-core-cfsq-plugin headers and development-related files
 Group: Development/Libraries
 Requires: @PACKAGE_TARNAME@ = %{version}-%{release}
 %description devel
-Provide a plug-in to enable the use of CFSQP as a RobOptim back-end
+Headers and shared object symlinks for the RobOptim CFSQP plug-in
 
 
 %package doc
@@ -28,7 +28,7 @@ Summary: API documentation
 Group: Documentation
 Requires: @PACKAGE_TARNAME@ = %{version}-%{release}
 %description doc
-Provide a plug-in to enable the use of CFSQP as a RobOptim back-end
+Documentation for the RobOptim CFSQP plug-in
 
 
 
@@ -59,11 +59,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%{_libdir}/*.so*
+%{_libdir}/*.so
 
 %files devel
 %defattr(-,root,root,-)
 %{_includedir}/*
+%{_libdir}/*.so.*
 
 %files doc
 %defattr(-,root,root,-)
@@ -74,5 +75,5 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /sbin/ldconfig
 
 %changelog
-* Thu Nov 12 2009 Thomas Moulard <thomas.moulard@gmail.com> - 0.2a.66
+* Thu Nov 12 2009 Thomas Moulard <thomas.moulard@gmail.com> - 0.2a.66-1
 - initial work

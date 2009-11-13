@@ -1,3 +1,10 @@
+2009-11-13  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Fix spec file.
+	* roboptim-core-cfsqp-plugin.spec.in: Fix description, package
+	development library in devel package, fix ChangeLog section
+	version number.
+
 2009-11-12  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Add RPM support.

@@ -1,3 +1,10 @@
+2009-11-16  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Synchronize/.
+	* Makefile.am: Include release related rules.
+	* build-aux: Synchronize.
+	* doc/Makefile.am: Fix include path.
+
 2009-11-13  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Fix spec file.

@@ -1,4 +1,10 @@
                                                                 -*- outline -*-
 
+New in 0.4, 2009-11-16:
+* Integrate OFSQP, an object-oriented version of CFSQP written by A. Escande.
+* Document.
+* Make plug-in loading safer (add sanity checks at load-time).
+* Fix various bugs.
+
 New in 0.2, 2009-05-03:
 * Implementation of the CFSQP bridge.

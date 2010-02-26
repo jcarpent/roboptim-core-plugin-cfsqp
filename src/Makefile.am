@@ -6,7 +6,10 @@ AM_CPPFLAGS += $(ROBOPTIMCORE_CFLAGS)
 # Add available warnings flags.
 AM_CXXFLAGS += $(WARNING_CXXFLAGS)
 
-lib_LTLIBRARIES = roboptim-core-cfsqp-plugin.la
+# Define plug-in directory.
+plugindir = $(libdir)/roboptim-core
+
+plugin_LTLIBRARIES = roboptim-core-cfsqp-plugin.la
 
 roboptim_core_cfsqp_plugin_la_SOURCES = 	\
 	debug.hh				\

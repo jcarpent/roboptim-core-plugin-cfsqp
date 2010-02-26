@@ -1,5 +1,15 @@
 2010-02-26  Thomas Moulard  <thomas.moulard@gmail.com>
 
+	Install plug-in in roboptim-core subdirectory of libdir.
+
+	CAUTION: starting from now, $(libdir)/roboptim-core /MUST/
+	be in your LT_LIBRARY_PATH! It is also recommended to remove
+	manually your old $(libdir)/roboptim-core-cfsqp* files.
+
+	* src/Makefile.am: Here.
+
+2010-02-26  Thomas Moulard  <thomas.moulard@gmail.com>
+
 	Update test suite output.
 	* tests/optimization-problem-1.stdout,
 	* tests/plugin.stdout,

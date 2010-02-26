@@ -1,27 +1,30 @@
-Problem:
-  a * a + b * b (twice derivable function)
-  Argument's bounds: (-inf, inf), (-inf, inf)
-  Argument's scales: 1, 1
-  Number of constraints: 1
-  Constraint 0
-      a + b - 1 (derivable function)
-      Bounds: (0, 0)
-      Scales: 1
-      
-  No starting point.
-  Infinity value (for all functions): inf
+Solver:
+  Problem:
+    a * a + b * b (twice derivable function)
+    Argument's bounds: (-inf, inf), (-inf, inf)
+    Argument's scales: 1, 1
+    Number of constraints: 1
+    Constraint 0
+        a + b - 1 (derivable function)
+        Bounds: (0, 0)
+        Scales: 1
+        
+    No starting point.
+    Infinity value (for all functions): inf
+  Parameters:
+    cfsqp.bigbnd (symbolizes infinity): 1e+10
+    cfsqp.eps (final norm requirement for the Newton direction): 1e-08
+    cfsqp.epseqn (maximum violation of nonlinear equality constraint): 1e-08
+    cfsqp.iprint (logging level): 0
+    cfsqp.mode (CFSQP mode): 100
+    cfsqp.udelta (perturbation size used in CFSQP finite differences algorithm): 1e-08
+    max-iterations (number of iterations): 50
+    
 CFSQP specific variables: 
   Nineq: 0
   Nineqn: 0
   Neq: 1
   Neqn: 1
-  Mode: 100
-  Iprint: 0
-  Miter: 50
-  Bigbnd: 1e+10
-  Eps: 1e-08
-  Epseqn: 1e-08
-  Udelta: 1e-08
   CFSQP constraints: (0, 1)
 Result: 
     Size (input, output): 2, 1

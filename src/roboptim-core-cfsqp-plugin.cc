@@ -268,16 +268,12 @@ namespace roboptim
       nineqn_ (0),
       neq_ (0),
       neqn_ (0),
-      mode_ (100),
-      iprint_ (iprint),
-      miter_ (50),
-      bigbnd_ (1e10),
-      eps_ (1e-8),
-      epseqn_ (1e-8),
-      udelta_ (1e-8),
       cfsqpConstraints_ (),
       invalidGradient_ (false)
   {
+    // Initialize parameters.
+    initializeParameters ();
+
     // Add non-linear inequalities.
     for (unsigned i = 0; i < problem ().constraints ().size (); ++i)
       if (problem ().constraints ()[i].which () == NONLINEAR)
@@ -330,20 +326,45 @@ namespace roboptim
       nineqn_ (solver.nineqn_),
       neq_ (solver.neq_),
       neqn_ (solver.neqn_),
-      mode_ (solver.mode_),
-      iprint_ (solver.iprint_),
-      miter_ (solver.miter_),
-      bigbnd_ (solver.bigbnd_),
-      eps_ (solver.eps_),
-      epseqn_ (solver.epseqn_),
-      udelta_ (solver.udelta_),
       cfsqpConstraints_ (solver.cfsqpConstraints_),
       invalidGradient_ (solver.invalidGradient_)
-  {
-  }
+  {}
+
+
+
+#define DEFINE_PARAMETER(KEY, DESCRIPTION, VALUE)	\
+  do {							\
+    parameters_[KEY].description = DESCRIPTION;		\
+    parameters_[KEY].value = VALUE;			\
+  } while (0)
 
   void
-  CFSQPSolver::initialize_bounds (double* bl, double* bu) const throw ()
+  CFSQPSolver::initializeParameters () throw ()
+  {
+    parameters_.clear ();
+
+    // Shared parameters.
+    DEFINE_PARAMETER ("max-iterations", "number of iterations", 50);
+
+    // CFSQP specific.
+    DEFINE_PARAMETER ("cfsqp.mode", "CFSQP mode", 100);
+    DEFINE_PARAMETER ("cfsqp.iprint", "logging level", 0);
+    DEFINE_PARAMETER ("cfsqp.bigbnd", "symbolizes infinity", 1e10);
+    DEFINE_PARAMETER ("cfsqp.eps",
+		      "final norm requirement for the Newton direction", 1e-8);
+
+    DEFINE_PARAMETER ("cfsqp.epseqn",
+		      "maximum violation of nonlinear equality constraint", 1e-8);
+
+    DEFINE_PARAMETER ("cfsqp.udelta",
+		      "perturbation size used in CFSQP finite differences algorithm", 1e-8);
+  }
+
+#undef DEFINE_PARAMETER
+
+
+  void
+  CFSQPSolver::initializeBounds (double* bl, double* bu) const throw ()
   {
     typedef problem_t::intervals_t::const_iterator citer_t;
 
@@ -455,7 +476,7 @@ namespace roboptim
     memset (lambda, 0, (nparam + 1 + nineq_ + neq_) * sizeof (double));
 
     // Initialize bounds.
-    initialize_bounds (bl, bu);
+    initializeBounds (bl, bu);
 
     // Copy starting point.
     if (!!problem ().startingPoint ())
@@ -463,9 +484,20 @@ namespace roboptim
 
     OFSQP myfsqp;
 
+    // Retrieve parameters.
+    const int& miter = getParameter<int> ("max-iterations");
+
+    const int& mode = getParameter<int> ("cfsqp.mode");
+    const int& iprint = getParameter<int> ("cfsqp.iprint");
+    const double& bigbnd = getParameter<double> ("cfsqp.bigbnd");
+    const double& eps = getParameter<double> ("cfsqp.eps");
+    const double& epseqn = getParameter<double> ("cfsqp.epseqn");
+    const double& udelta = getParameter<double> ("cfsqp.udelta");
+
+    // Run optimization process.
     myfsqp.cfsqp (nparam, nf, nfsr, nineqn_, nineq_, neqn_, neq_, ncsrl,  ncsrn,
-		  mesh_pts, mode_,  iprint_, miter_, &inform, bigbnd_, eps_, epseqn_,
-		  udelta_, bl, bu, x, f, g, lambda,
+		  mesh_pts, mode,  iprint, miter, &inform, bigbnd, eps, epseqn,
+		  udelta, bl, bu, x, f, g, lambda,
 		  obj, constr, gradob, gradcn, this);
 
     if (invalidGradient_)
@@ -530,92 +562,6 @@ namespace roboptim
     return neq_;
   }
 
-
-  const int&
-  CFSQPSolver::mode () const throw ()
-  {
-    return mode_;
-  }
-
-  int&
-  CFSQPSolver::iprint () throw ()
-  {
-    reset ();
-    return iprint_;
-  }
-
-  const int&
-  CFSQPSolver::iprint () const throw ()
-  {
-    return iprint_;
-  }
-
-
-  int&
-  CFSQPSolver::miter () throw ()
-  {
-    reset ();
-    return miter_;
-  }
-
-  const int&
-  CFSQPSolver::miter () const throw ()
-  {
-    return miter_;
-  }
-
-  double&
-  CFSQPSolver::bigbnd () throw ()
-  {
-    reset ();
-    return bigbnd_;
-  }
-
-  const double&
-  CFSQPSolver::bigbnd () const throw ()
-  {
-    return bigbnd_;
-  }
-
-  double&
-  CFSQPSolver::eps () throw ()
-  {
-    reset ();
-    return eps_;
-  }
-
-  const double&
-  CFSQPSolver::eps () const throw ()
-  {
-    return eps_;
-  }
-
-  double&
-  CFSQPSolver::epseqn () throw ()
-  {
-    reset ();
-    return epseqn_;
-  }
-
-  const double&
-  CFSQPSolver::epseqn () const throw ()
-  {
-    return epseqn_;
-  }
-
-  double&
-  CFSQPSolver::udelta () throw ()
-  {
-    reset ();
-    return udelta_;
-  }
-
-  const double&
-  CFSQPSolver::udelta () const throw ()
-  {
-    return udelta_;
-  }
-
   void
   CFSQPSolver::invalidateGradient () throw ()
   {
@@ -633,13 +579,6 @@ namespace roboptim
       << "Nineqn: " << nineqn () << iendl
       << "Neq: " << neq () << iendl
       << "Neqn: " << neqn () << iendl
-      << "Mode: " << mode () << iendl
-      << "Iprint: " << iprint () << iendl
-      << "Miter: " << miter () << iendl
-      << "Bigbnd: " << bigbnd () << iendl
-      << "Eps: " << eps () << iendl
-      << "Epseqn: " << epseqn () << iendl
-      << "Udelta: " << udelta () << iendl
       << "CFSQP constraints: " << cfsqpConstraints ();
 
     return o;

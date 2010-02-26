@@ -61,7 +61,7 @@ JRL_PROG_DOXYGEN
 LT_INIT([dlopen])
 
 # Search for roboptim-core.
-ROBOPTIM_CORE_PKG_CONFIG([roboptim-core >= 0.2])
+ROBOPTIM_CORE_PKG_CONFIG([roboptim-core >= 0.5.6])
 
 
 ## ------------ ##

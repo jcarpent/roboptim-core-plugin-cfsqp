@@ -124,41 +124,6 @@ namespace roboptim
     /// \brief Number of non-linear equalities constraints.
     const int& neqn () const throw ();
 
-    /// \brief CFSQP mode
-    int& mode () throw ();
-    /// \brief CFSQP mode
-    const int& mode () const throw ();
-
-    /// \brief Verbosity leve.
-    int& iprint () throw ();
-    /// \brief Verbosity leve.
-    const int& iprint () const throw ();
-
-    /// \brief Maximum iteration number.
-    int& miter () throw ();
-    /// \brief Maximum iteration number.
-    const int& miter () const throw ();
-
-    /// \brief Big bound value (see CFSQP documentation).
-    double& bigbnd () throw ();
-    /// \brief Big bound value (see CFSQP documentation).
-    const double& bigbnd () const throw ();
-
-    /// \brief Final norm requirement for the Newton direction.
-    double& eps () throw ();
-    /// \brief Final norm requirement for the Newton direction.
-    const double& eps () const throw ();
-
-    /// \brief Maximum violation of nonlinear equality constraint.
-    double& epseqn () throw ();
-    /// \brief Maximum violation of nonlinear equality constraint.
-    const double& epseqn () const throw ();
-
-    /// \brief Perturbation size used in finite differences.
-    double& udelta () throw ();
-    /// \brief Perturbation size used in finite differences.
-    const double& udelta () const throw ();
-
     /// \brief Tag gradient computation as invalid.
     ///
     /// If gradients are tagged as invalid, the #solve () method
@@ -171,12 +136,17 @@ namespace roboptim
     /// \return output stream
     virtual std::ostream& print (std::ostream& o) const throw ();
   private:
+    /// \brief Initialize parameters.
+    ///
+    /// Add solver parameters. Called during construction.
+    void initializeParameters () throw ();
+
     /// \brief Initialize bounds.
     ///
     /// Fill the two bounds array as required by CFSQP.
     /// \param bl lower bounds array
     /// \param bu upper bounds array
-    void initialize_bounds (double* bl, double* bu) const throw ();
+    void initializeBounds (double* bl, double* bu) const throw ();
 
     /// \brief Copy CFSQP final constraints values into a vector.
     ///
@@ -197,20 +167,6 @@ namespace roboptim
     int neq_;
     /// \brief Number of linear equality constraints.
     int neqn_;
-    /// \brief CFSQP mode.
-    int mode_;
-    /// \brief Logging level.
-    int iprint_;
-    /// \brief Number of iterations.
-    int miter_;
-    /// \brief Symbolizes infinity.
-    double bigbnd_;
-    /// \brief Final norm requirement for the Newton direction.
-    double eps_;
-    /// \brief Maximum violation of nonlinear equality constraint.
-    double epseqn_;
-    /// \brief Perturbation size used in finite differences.
-    double udelta_;
 
     /// \brief Internal representation of constraints.
     std::vector<std::pair<int, bool> > cfsqpConstraints_;

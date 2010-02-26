@@ -1,3 +1,12 @@
+2010-02-26  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Integrate new parameters management system.
+	* configure.ac: Require a newer version.
+	* include/roboptim/core/plugin/cfsqp.hh: Remove old attributes and
+	replace them by parameters.
+	* src/roboptim-core-cfsqp-plugin.cc: Implement parameter retrieval and
+	initialize properly parameters vector when instantiating the solver.
+
 2009-11-19  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Synchronize.

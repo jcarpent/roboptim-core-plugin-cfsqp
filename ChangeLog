@@ -1,3 +1,13 @@
+2010-03-01  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Change default parameters.
+	* src/roboptim-core-cfsqp-plugin.cc: Increase default max iterations.
+	* tests/optimization-problem-1.stdout,
+	* tests/plugin.stdout
+	* tests/simple-1.stdout,
+	* tests/simple-2.stdout,
+	* tests/simple.stdout: Regenerate.
+
 2010-02-26  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Install plug-in in roboptim-core subdirectory of libdir.

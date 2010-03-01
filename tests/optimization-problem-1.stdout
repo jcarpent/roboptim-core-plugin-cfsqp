@@ -18,7 +18,7 @@ Solver:
     cfsqp.iprint (logging level): 0
     cfsqp.mode (CFSQP mode): 100
     cfsqp.udelta (perturbation size used in CFSQP finite differences algorithm): 1e-08
-    max-iterations (number of iterations): 50
+    max-iterations (number of iterations): 3000
     
 CFSQP specific variables: 
   Nineq: 0

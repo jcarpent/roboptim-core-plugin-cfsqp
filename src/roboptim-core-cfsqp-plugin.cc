@@ -344,7 +344,7 @@ namespace roboptim
     parameters_.clear ();
 
     // Shared parameters.
-    DEFINE_PARAMETER ("max-iterations", "number of iterations", 50);
+    DEFINE_PARAMETER ("max-iterations", "number of iterations", 3000);
 
     // CFSQP specific.
     DEFINE_PARAMETER ("cfsqp.mode", "CFSQP mode", 100);

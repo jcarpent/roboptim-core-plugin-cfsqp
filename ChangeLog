@@ -1,3 +1,8 @@
+2010-03-05  Thomas Moulard  <thomas.moulard@gmail.com>
+
+	Tag internal function as ROBOPTIM_DLLLOCAL.
+	* src/roboptim-core-cfsqp-plugin.cc: Tag internal functions.
+
 2010-03-01  Thomas Moulard  <thomas.moulard@gmail.com>
 
 	Change default parameters.

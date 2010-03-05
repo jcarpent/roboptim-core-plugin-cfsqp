@@ -44,18 +44,19 @@ namespace roboptim
 
   namespace detail
   {
-    void obj (int, int, double*, double*, void*);
-    double evaluate_inequality (double, bool, double, double);
-    void constr (int, int, double*, double*, void*);
-    void gradob (int, int, double*, double*, fct_t, void*);
-    void gradcn (int, int, double*, double*, fct_t, void*);
+    ROBOPTIM_DLLLOCAL void obj (int, int, double*, double*, void*);
+    ROBOPTIM_DLLLOCAL double evaluate_inequality (double, bool, double, double);
+    ROBOPTIM_DLLLOCAL void constr (int, int, double*, double*, void*);
+    ROBOPTIM_DLLLOCAL void gradob (int, int, double*, double*, fct_t, void*);
+    ROBOPTIM_DLLLOCAL void gradcn (int, int, double*, double*, fct_t, void*);
 
 
-    void CFSQPCheckGradient (const DerivableFunction& function,
-			     unsigned functionId,
-			     Function::vector_t& x,
-			     int constraintId,
-			     CFSQPSolver& solver) throw ();
+    ROBOPTIM_DLLLOCAL void CFSQPCheckGradient
+    (const DerivableFunction& function,
+     unsigned functionId,
+     Function::vector_t& x,
+     int constraintId,
+     CFSQPSolver& solver) throw ();
 
     /// \internal
     void CFSQPCheckGradient (const DerivableFunction& function,

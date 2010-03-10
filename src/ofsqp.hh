@@ -175,11 +175,13 @@ public :
   /* CFSQP.				 		     */
   static int x_is_new;
 
+public:
   /* Declare and initialize user-accessible stopping criterion */
   double objeps;
   double objrep;
   double gLgeps;
   int nstop;
+private:
 
   /* Workspace                                                     */
   int     *iw;

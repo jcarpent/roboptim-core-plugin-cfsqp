@@ -23,8 +23,12 @@ Solver:
     cfsqp.bigbnd (symbolizes infinity): 1e+10
     cfsqp.eps (final norm requirement for the Newton direction): 1e-08
     cfsqp.epseqn (maximum violation of nonlinear equality constraint): 1e-08
+    cfsqp.gLgeps (N/A): 0
     cfsqp.iprint (logging level): 0
     cfsqp.mode (CFSQP mode): 100
+    cfsqp.nstop (N/A): 0
+    cfsqp.objeps (N/A): 0
+    cfsqp.objrep (N/A): 0
     cfsqp.udelta (perturbation size used in CFSQP finite differences algorithm): 1e-08
     max-iterations (number of iterations): 3000
     

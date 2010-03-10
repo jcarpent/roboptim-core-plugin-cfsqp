@@ -359,6 +359,11 @@ namespace roboptim
 
     DEFINE_PARAMETER ("cfsqp.udelta",
 		      "perturbation size used in CFSQP finite differences algorithm", 1e-8);
+
+    DEFINE_PARAMETER ("cfsqp.objeps", "N/A", 0.);
+    DEFINE_PARAMETER ("cfsqp.objrep", "N/A", 0.);
+    DEFINE_PARAMETER ("cfsqp.gLgeps", "N/A", 0.);
+    DEFINE_PARAMETER ("cfsqp.nstop", "N/A", 0);
   }
 
 #undef DEFINE_PARAMETER
@@ -494,6 +499,16 @@ namespace roboptim
     const double& eps = getParameter<double> ("cfsqp.eps");
     const double& epseqn = getParameter<double> ("cfsqp.epseqn");
     const double& udelta = getParameter<double> ("cfsqp.udelta");
+
+    const double& objeps = getParameter<double> ("cfsqp.objeps");
+    const double& objrep = getParameter<double> ("cfsqp.objrep");
+    const double& gLgeps = getParameter<double> ("cfsqp.gLgeps");
+    const int& nstop = getParameter<int> ("cfsqp.nstop");
+
+    myfsqp.objeps = objeps;
+    myfsqp.objrep = objrep;
+    myfsqp.gLgeps = gLgeps;
+    myfsqp.nstop = nstop;
 
     // Run optimization process.
     myfsqp.cfsqp (nparam, nf, nfsr, nineqn_, nineq_, neqn_, neq_, ncsrl,  ncsrn,

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="shift_jis"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="roboptim-core-cfsqp-plugin"
 	ProjectGUID="{4F69E95F-A113-4402-AEDB-51BE2CE860AB}"
 	RootNamespace="roboptimcoreplugincfsqp"
@@ -19,7 +19,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets=".\boost.vsprops;.\rob_opt.vsprops"
+			InheritedPropertySheets=".\roboptim-core-plugin-cfsqp.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -94,7 +94,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets=".\boost.vsprops;.\rob_opt.vsprops"
+			InheritedPropertySheets=".\roboptim-core-plugin-cfsqp.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -136,7 +136,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="roboptim-core.lib"
 				GenerateManifest="true"
-				GenerateDebugInformation="true"
+				GenerateDebugInformation="false"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"

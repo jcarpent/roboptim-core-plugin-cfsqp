@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="simplewithdll"
 	ProjectGUID="{BDC2881A-ACF0-493E-9C3A-9AA4C2BB68C5}"
 	>
@@ -18,7 +18,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="..\roboptim-core-plugin-cfsqp\boost.vsprops;..\roboptim-core-plugin-cfsqp\rob_opt.vsprops"
+			InheritedPropertySheets="..\roboptim-core-plugin-cfsqp\roboptim-core-plugin-cfsqp.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -38,7 +38,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\..\tests\shared-tests&quot;;&quot;$(ProjectDir)\..\..\..\tests&quot;;&quot;$(ProjectDir)\..\roboptim-core-plugin-cfsqp&quot;;&quot;$(ProjectDir)\..\..\src&quot;;&quot;$(ProjectDir)\..\..\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\tests\shared-tests&quot;;&quot;$(ProjectDir)\..\..\tests&quot;;&quot;$(ProjectDir)\..\roboptim-core-plugin-cfsqp&quot;;&quot;$(ProjectDir)\..\..\src&quot;;&quot;$(ProjectDir)\..\..\include&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -92,7 +92,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="..\roboptim-core-plugin-cfsqp\boost.vsprops;..\roboptim-core-plugin-cfsqp\rob_opt.vsprops"
+			InheritedPropertySheets="..\roboptim-core-plugin-cfsqp\roboptim-core-plugin-cfsqp.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -111,7 +111,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\..\tests\shared-tests&quot;;&quot;$(ProjectDir)\..\..\..\tests&quot;;&quot;$(ProjectDir)\..\roboptim-core-plugin-cfsqp&quot;;&quot;$(ProjectDir)\..\..\src&quot;;&quot;$(ProjectDir)\..\..\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\tests\shared-tests&quot;;&quot;$(ProjectDir)\..\..\tests&quot;;&quot;$(ProjectDir)\..\roboptim-core-plugin-cfsqp&quot;;&quot;$(ProjectDir)\..\..\src&quot;;&quot;$(ProjectDir)\..\..\include&quot;"
+				RuntimeLibrary="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -126,6 +127,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="roboptim-core.lib roboptim-core-cfsqp-plugin.lib"
 				AdditionalLibraryDirectories="&quot;..\roboptim-core-plugin-cfsqp\Release&quot;"
+				GenerateDebugInformation="false"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -172,9 +174,17 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\tests\shared-tests\hs071.hh"
+				RelativePath="..\..\tests\shared-tests\common.hh"
 				>
 			</File>
+			<Filter
+				Name="shared-tests"
+				>
+				<File
+					RelativePath="..\..\tests\shared-tests\hs071.hh"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"

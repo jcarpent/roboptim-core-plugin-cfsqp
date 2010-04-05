@@ -2,11 +2,11 @@
 <VisualStudioPropertySheet
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="rob_opt"
+	Name="roboptim-core-cfsqp-plugin"
 	>
 	<Tool
 		Name="VCCLCompilerTool"
-		AdditionalIncludeDirectories="&quot;$(ROB_OPTIM_INSTALL_DIR)\include&quot;"
+		AdditionalIncludeDirectories="&quot;$(ROB_OPTIM_INSTALL_DIR)\include&quot;;&quot;$(BOOST_ROOT_DIR)&quot;;&quot;$(BOOST_ROOT_DIR)\include&quot;"
 	/>
 	<Tool
 		Name="VCLinkerTool"
@@ -16,5 +16,9 @@
 		Name="ROB_OPTIM_INSTALL_DIR"
 		Value="&quot;C:/Libraries/roboptim&quot;"
 		PerformEnvironmentSet="true"
+	/>
+	<UserMacro
+		Name="BOOST_ROOT_DIR"
+		Value="C:\Libraries\Boost\boost_1_39_0"
 	/>
 </VisualStudioPropertySheet>

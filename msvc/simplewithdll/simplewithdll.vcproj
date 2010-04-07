@@ -18,7 +18,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="..\roboptim-core-plugin-cfsqp\roboptim-core-plugin-cfsqp.vsprops"
+			InheritedPropertySheets="..\roboptim-core-plugin-cfsqp\roboptim-core.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -92,7 +92,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="..\roboptim-core-plugin-cfsqp\roboptim-core-plugin-cfsqp.vsprops"
+			InheritedPropertySheets="..\roboptim-core-plugin-cfsqp\roboptim-core.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"

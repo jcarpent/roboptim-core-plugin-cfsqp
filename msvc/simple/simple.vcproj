@@ -222,7 +222,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\include\roboptim\core\plugin\ofsqp.hh"
+					RelativePath="..\..\src\ofsqp.hh"
 					>
 				</File>
 			</Filter>

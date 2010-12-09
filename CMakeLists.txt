@@ -20,7 +20,7 @@ INCLUDE(cmake/base.cmake)
 INCLUDE(cmake/boost.cmake)
 INCLUDE(cmake/cpack.cmake)
 
-SET(PROJECT_NAME roboptim-core)
+SET(PROJECT_NAME roboptim-core-plugin-cfsqp)
 SET(PROJECT_DESCRIPTION "RobOptim core CFSQP plug-in")
 SET(PROJECT_URL "http://github.com/laas/roboptim-core")
 

@@ -16,7 +16,7 @@
 # Define the directory where plug-ins will be installed.
 SET(PLUGINDIR lib/roboptim-core)
 
-# Dummy plug-in.
+# CFSQP plug-in.
 ADD_LIBRARY(roboptim-core-cfsqp-plugin MODULE
   roboptim-core-cfsqp-plugin.cc doc.hh debug.hh
   ofsqp.cc ofsqp.hh

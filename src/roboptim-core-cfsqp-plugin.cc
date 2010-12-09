@@ -59,13 +59,13 @@ namespace roboptim
      CFSQPSolver& solver) throw ();
 
     /// \internal
+#ifdef ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
     void CFSQPCheckGradient (const DerivableFunction& function,
 			     unsigned functionId,
 			     Function::vector_t& x,
 			     int constraintId,
 			     CFSQPSolver& solver) throw ()
     {
-#ifdef ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
       using boost::format;
       try
 	{
@@ -85,12 +85,20 @@ namespace roboptim
 	    << bg
 	    << std::endl;
 	}
-#endif //!ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
     }
+#else
+    void CFSQPCheckGradient (const DerivableFunction&,
+			     unsigned,
+			     Function::vector_t&,
+			     int,
+			     CFSQPSolver&) throw ()
+    {}
+#endif //!ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
+
 
     /// \internal
     /// CFSQP objective function.
-    void obj (int nparam, int j , double* x, double* fj, void* cd)
+    void obj (int nparam, int, double* x, double* fj, void* cd)
     {
       assert (cd);
       CFSQPSolver* solver = static_cast<CFSQPSolver*> (cd);
@@ -124,7 +132,10 @@ namespace roboptim
       assert (cd && !!gj && !!x && nparam >= 0 && j > 0);
 
       CFSQPSolver* solver = static_cast<CFSQPSolver*> (cd);
-      assert (j > 0 && solver->cfsqpConstraints ().size () - j >= 0);
+ 
+      assert (j > 0 &&
+	      solver->cfsqpConstraints ().size () >=
+	      static_cast<unsigned int>(j));
 
       Function::vector_t x_ (nparam);
       array_to_vector (x_, x);
@@ -198,7 +209,7 @@ namespace roboptim
     /// \internal
     /// CFSQP objective function gradient.
     void gradob (int nparam, int j,
-                 double* x, double* gradf, fct_t dummy, void* cd)
+                 double* x, double* gradf, fct_t, void* cd)
     {
       assert (nparam >= 0 && j == 1 && !!x && !!gradf && !!cd);
 
@@ -217,14 +228,16 @@ namespace roboptim
     /// \internal
     /// CFSQP constraints function gradient.
     void gradcn (int nparam, int j,
-                 double* x, double* gradgj, fct_t dummy, void* cd)
+                 double* x, double* gradgj, fct_t, void* cd)
     {
       using namespace boost;
 
       assert (nparam >= 0 && !!x && !!gradgj && !!cd);
 
       CFSQPSolver* solver = static_cast<CFSQPSolver*> (cd);
-      assert (j > 0 && solver->cfsqpConstraints ().size () - j >= 0);
+      assert (j > 0 &&
+	      solver->cfsqpConstraints ().size () >=
+	      static_cast<unsigned int>(j));
 
 
       Function::vector_t x_ (nparam);
@@ -263,7 +276,7 @@ namespace roboptim
 
   }
 
-  CFSQPSolver::CFSQPSolver (const problem_t& pb, int iprint) throw ()
+  CFSQPSolver::CFSQPSolver (const problem_t& pb, int) throw ()
     : parent_t (pb),
       nineq_ (0),
       nineqn_ (0),

@@ -13,6 +13,9 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with roboptim-core.  If not, see <http://www.gnu.org/licenses/>.
 
+# Generate local-libdir.hh.
+CONFIG_FILES(shared-tests/local-libdir.hh)
+
 # Make sure local headers are found
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/tests)
 
@@ -32,7 +35,10 @@ ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK -DBOOST_TEST_MAIN)
 # Boost and add it to the test suite.
 #
 MACRO(ROBOPTIM_CORE_CFSQP_PLUGIN_TEST NAME)
-  ADD_EXECUTABLE(${NAME} ${NAME}.cc)
+  ADD_EXECUTABLE(${NAME}
+    ${NAME}.cc
+    shared-tests/common.hh
+    shared-tests/hs071.hh)
   ADD_TEST(${NAME} ${RUNTIME_OUTPUT_DIRECTORY}/${NAME})
 
   PKG_CONFIG_USE_DEPENDENCY(${NAME} roboptim-core)
@@ -48,7 +54,7 @@ ADD_EXECUTABLE(simple
   simple.cc
   ${CMAKE_SOURCE_DIR}/src/ofsqp.cc
   ${CMAKE_SOURCE_DIR}/src/roboptim-core-cfsqp-plugin.cc)
-TARGET_LINK_LIBRARIES(simple roboptim-core ${Boost_LIBRARIES})
+TARGET_LINK_LIBRARIES(simple ${Boost_LIBRARIES})
 PKG_CONFIG_USE_DEPENDENCY(simple roboptim-core)
 
 ROBOPTIM_CORE_CFSQP_PLUGIN_TEST(simple-1)

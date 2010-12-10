@@ -25,7 +25,7 @@ SET(PROJECT_DESCRIPTION "RobOptim core CFSQP plug-in")
 SET(PROJECT_URL "http://github.com/laas/roboptim-core")
 
 SET(HEADERS
-  include/roboptim/core/plugin/cfsqp.hh
+  ${CMAKE_SOURCE_DIR}/include/roboptim/core/plugin/cfsqp.hh
   )
 
 SETUP_PROJECT()

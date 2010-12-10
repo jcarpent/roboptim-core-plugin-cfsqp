@@ -18,6 +18,7 @@ SET(PLUGINDIR lib/roboptim-core)
 
 # CFSQP plug-in.
 ADD_LIBRARY(roboptim-core-cfsqp-plugin MODULE
+  ${HEADERS}
   roboptim-core-cfsqp-plugin.cc doc.hh debug.hh
   ofsqp.cc ofsqp.hh
   )

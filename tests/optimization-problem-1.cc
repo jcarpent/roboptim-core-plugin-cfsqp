@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with roboptim.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "common.hh"
+#include "shared-tests/common.hh"
 
 #include <iostream>
 #include <boost/mpl/vector.hpp>
@@ -55,7 +55,7 @@ public:
   }
 
   void
-  impl_hessian (hessian_t& hessian, const argument_t& res, size_type) const throw ()
+  impl_hessian (hessian_t& hessian, const argument_t&, size_type) const throw ()
   {
     hessian.clear ();
     hessian (0, 0) = hessian (1, 1) = 2;
@@ -79,7 +79,7 @@ public:
   }
 
   void
-  impl_gradient (gradient_t& grad, const argument_t& x, size_type) const throw ()
+  impl_gradient (gradient_t& grad, const argument_t&, size_type) const throw ()
   {
     grad.clear ();
     grad (0) = 1.;

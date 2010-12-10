@@ -2268,7 +2268,7 @@ OFSQP::di1(int nparam,int nqpram,int nob,int nobL,int nfsip,int nineqn,
 			  int nrowa,int *infoqp,int mode,struct _parameter *param,
 			  double *d0,struct _objective *ob,double fmax,double
 			  *grdpsf,struct _constraint *cs,double *cvec,double *bl,double *bu,
-			  double *clamda,double **hess1,double *x,double steps)
+			  double *clamda,double **hess1,double *x,double)
 #else
 void
 OFSQP::di1(nparam,nqpram,nob,nobL,nfsip,nineqn,neq,neqn,ncnstr,ncsipl,
@@ -3009,7 +3009,7 @@ void    (* obj)(), (* constr)(),(* gradob)(), (* gradcn)();
 
 #ifdef __STDC__
 void
-OFSQP::out(int miter,int nparam,int nob,int nobL,int nfsip,int ncn,
+OFSQP::out(int miter,int nparam,int nob,int nobL,int nfsip,int,
 			  int nn,int nineqn,int ncnstr,int ncsipl,int ncsipn,
 			  int *mesh_pts,double *x,struct _constraint *cs,
 struct _objective *ob,double fM,double fmax,
@@ -4113,8 +4113,8 @@ int m,n;
 #ifdef __STDC__
 int OFSQP::ql0001_(int *m,int *me,int *mmax,int *n,int *nmax,int *mnn,
             double *c,double *d,double *a,double *b,double *xl,
-            double *xu,double *x,double *u,int *iout,int *ifail,
-            int *iprint,double *war,int *lwar,int *iwar,int *liwar,
+            double *xu,double *x,double *u,int *,int *ifail,
+            int *,double *war,int *lwar,int *iwar,int *liwar,
             double *eps1)
 #else
 /* Subroutine */
@@ -4355,7 +4355,7 @@ compliance.
 
 #ifdef __STDC__
 int OFSQP::ql0002_(integer *n,integer *m,integer *meq,integer *mmax,
-            integer *mn,integer *mnn,integer *nmax,
+            integer *mn,integer *,integer *nmax,
             logical *lql,
             doublereal *a,doublereal *b,doublereal *grad,
             doublereal *g,doublereal *xl,doublereal *xu,doublereal *x,
@@ -4363,7 +4363,7 @@ int OFSQP::ql0002_(integer *n,integer *m,integer *meq,integer *mmax,
             doublereal *vsmall,
             integer *info,
             doublereal *diag, doublereal *w,
-            integer *lw)
+            integer *)
 #else
 /* Subroutine */ int OFSQP::ql0002_(n, m, meq, mmax, mn, mnn, nmax, lql, a, b, grad,
 	g, xl, xu, x, nact, iact, maxit, vsmall, info, diag, w, lw)

@@ -36,6 +36,11 @@
 # include <roboptim/core/finite-difference-gradient.hh>
 #endif //!ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
 
+#ifdef NDEBUG
+# define DEBUG_ONLY(x)
+#else
+# define DEBUG_ONLY(x) x
+#endif // NDEBUG
 
 namespace roboptim
 {
@@ -208,7 +213,7 @@ namespace roboptim
 
     /// \internal
     /// CFSQP objective function gradient.
-    void gradob (int nparam, int j,
+    void gradob (int nparam, int DEBUG_ONLY(j),
                  double* x, double* gradf, fct_t, void* cd)
     {
       assert (nparam >= 0 && j == 1 && !!x && !!gradf && !!cd);

@@ -17,14 +17,14 @@
 SET(PLUGINDIR lib/roboptim-core)
 
 # CFSQP plug-in.
-ADD_LIBRARY(roboptim-core-cfsqp-plugin MODULE
+ADD_LIBRARY(roboptim-core-plugin-cfsqp MODULE
   ${HEADERS}
   roboptim-core-cfsqp-plugin.cc doc.hh debug.hh
   ofsqp.cc ofsqp.hh
   )
 
-SET_TARGET_PROPERTIES(roboptim-core-cfsqp-plugin PROPERTIES
+SET_TARGET_PROPERTIES(roboptim-core-plugin-cfsqp PROPERTIES
   PREFIX ""
   SOVERSION 1.1.0)
-INSTALL(TARGETS roboptim-core-cfsqp-plugin DESTINATION ${PLUGINDIR})
-PKG_CONFIG_USE_DEPENDENCY(roboptim-core-cfsqp-plugin roboptim-core)
+INSTALL(TARGETS roboptim-core-plugin-cfsqp DESTINATION ${PLUGINDIR})
+PKG_CONFIG_USE_DEPENDENCY(roboptim-core-plugin-cfsqp roboptim-core)

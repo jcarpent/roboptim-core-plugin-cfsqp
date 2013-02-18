@@ -41,7 +41,7 @@ public:
   void
   impl_compute (result_t& res, const argument_t& x) const throw ()
   {
-    res.clear ();
+    res.setZero ();
 
     for (unsigned i = 0; i < inputSize (); ++i)
       res (0) += x[i];
@@ -50,7 +50,7 @@ public:
   void
   impl_gradient (gradient_t& grad, const argument_t&, size_type) const throw ()
   {
-    grad.clear ();
+    grad.setZero ();
     for (unsigned i = 0; i < inputSize (); ++i)
       grad (i) = 1.;
   }
@@ -73,7 +73,7 @@ public:
   void
   impl_compute (result_t& res, const argument_t& x) const throw ()
   {
-    res.clear ();
+    res.setZero ();
     res (0) = .5 * x[i_] * x[i_];
     if (opposite_)
       res (0) *= -1.;
@@ -82,7 +82,7 @@ public:
   void
   impl_gradient (gradient_t& grad, const argument_t& x, size_type) const throw ()
   {
-    grad.clear ();
+    grad.setZero ();
     grad (i_) = x[i_];
     if (opposite_)
       grad (i_) *= -1.;
@@ -96,9 +96,9 @@ void setAB (unsigned i, Function::matrix_t& a, Function::vector_t& b);
 
 void setAB (unsigned i, Function::matrix_t& a, Function::vector_t& b)
 {
-  a.clear ();
+  a.setZero ();
   a (0, i) = 3.;
-  b.clear ();
+  b.setZero ();
   b[0] = 2.;
 }
 

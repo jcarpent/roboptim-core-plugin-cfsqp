@@ -34,10 +34,10 @@ int run_test ()
   using namespace boost;
 
   Function::matrix_t a (1, 1);
-  a.clear ();
+  a.setZero ();
   a (0, 0) = 1.;
   Function::vector_t b (1);
-  b.clear ();
+  b.setZero ();
   NumericLinearFunction cost (a, b);
 
 

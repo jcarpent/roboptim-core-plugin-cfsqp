@@ -28,6 +28,8 @@ SET(HEADERS
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/plugin/cfsqp.hh
   )
 
+SET(CXX_DISABLE_WERROR 1)
+
 SETUP_PROJECT()
 
 # Search for dependencies.
@@ -36,19 +38,17 @@ SEARCH_FOR_BOOST()
 # Libtool dynamic loading
 # This project does not use Libtool directly but still uses ltdl for
 # plug-in loading.
-SET(LIB_LTDL LIB_LTDL-NOTFOUND)
-FIND_LIBRARY(LIB_LTDL libltdl${CMAKE_SHARED_LIBRARY_SUFFIX})
-IF (NOT LIB_LTDL)
-  MESSAGE(FATAL_ERROR
-    "Failed to find Libtool ltdl library, check that Libtool ltdl is installed.")
-ENDIF()
+# Libtool dynamic loading
+# This project does not use Libtool directly but still uses ltdl for
+# plug-in loading.
 INCLUDE(CheckIncludeFileCXX)
 CHECK_INCLUDE_FILE_CXX(ltdl.h LTDL_H_FOUND)
 IF (NOT LTDL_H_FOUND)
   MESSAGE(FATAL_ERROR
     "Failed to find ltdl.h, check that Libtool ltdl is installed.")
 ENDIF()
-#FIXME: check that libltdl.so is available.
+#FIXME: check that libltdl.so is available instead of adding it blindly.
+PKG_CONFIG_APPEND_LIBS(ltdl)
 
 ADD_REQUIRED_DEPENDENCY("roboptim-core >= 0.5")
 

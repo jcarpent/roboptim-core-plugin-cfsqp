@@ -42,14 +42,14 @@ public:
   void
   impl_compute (result_t& res, const argument_t& x) const throw ()
   {
-    res.clear ();
+    res.setZero ();
     res (0) = x[0] * x[0] + x[1] * x[1];
   }
 
   void
   impl_gradient (gradient_t& grad, const argument_t& x, size_type) const throw ()
   {
-    grad.clear ();
+    grad.setZero ();
     grad (0) = 2 * x[0];
     grad (1) = 2 * x[1];
   }
@@ -57,7 +57,7 @@ public:
   void
   impl_hessian (hessian_t& hessian, const argument_t&, size_type) const throw ()
   {
-    hessian.clear ();
+    hessian.setZero ();
     hessian (0, 0) = hessian (1, 1) = 2;
     hessian (0, 1) = hessian (1, 0) = 0;
   }
@@ -74,14 +74,14 @@ public:
   void
   impl_compute (result_t& res, const argument_t& x) const throw ()
   {
-    res.clear ();
+    res.setZero ();
     res (0) = x[0] + x[1] - 1;
   }
 
   void
   impl_gradient (gradient_t& grad, const argument_t&, size_type) const throw ()
   {
-    grad.clear ();
+    grad.setZero ();
     grad (0) = 1.;
     grad (1) = 1.;
   }

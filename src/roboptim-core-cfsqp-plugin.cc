@@ -406,7 +406,7 @@ namespace roboptim
   CFSQPSolver::fillConstraints (vector_t& constraints, double* g) const throw ()
   {
     constraints.resize (problem ().constraints ().size ());
-    constraints.clear ();
+    constraints.setZero ();
 
     // Copy constraints final values from the CFSQP representation
     // to the generic representation.

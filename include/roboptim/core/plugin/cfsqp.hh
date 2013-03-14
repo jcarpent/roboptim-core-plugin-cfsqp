@@ -108,11 +108,13 @@ namespace roboptim
     /// expects.
     ///
     /// The representation used in the vector is:
-    /// - integer: constraint index in the original vector
+    /// - pair of integers: constraint index in the original vector
+    ///                     and function id in the case the constraint
+    ///                     is non-scalar (outputSize > 1)
     /// - bool: is it the first constraint of a duplicated constraint?
     ///  If the constraint is an equality or has only one bound, the
     ///  boolean has no meaning.
-    const std::vector<std::pair<int, bool> >& cfsqpConstraints ()
+    const std::vector<std::pair<std::pair<int, int>, bool> >& cfsqpConstraints ()
       const throw ();
 
     /// \brief Number of linear inequalities constraints.
@@ -169,7 +171,7 @@ namespace roboptim
     int neqn_;
 
     /// \brief Internal representation of constraints.
-    std::vector<std::pair<int, bool> > cfsqpConstraints_;
+    std::vector<std::pair<std::pair<int, int>, bool> > cfsqpConstraints_;
 
     /// \brief Set to true if a gradient check has failed.
     /// Always false if gradient checks are not enabled.

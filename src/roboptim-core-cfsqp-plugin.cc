@@ -18,6 +18,9 @@
 #include <cstring>
 #include <limits>
 
+#include <boost/mpl/assert.hpp>
+#include <boost/mpl/at.hpp>
+#include <boost/mpl/size.hpp>
 #include <boost/static_assert.hpp>
 #include <boost/type_traits/is_base_of.hpp>
 #include <boost/variant/apply_visitor.hpp>
@@ -100,6 +103,56 @@ namespace roboptim
     {}
 #endif //!ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
 
+    /// \internal
+    ////
+    /// Compute the total size of the constraints.
+    template  <typename T>
+    Function::size_type
+    computeConstraintsOutputSize (const T& pb)
+    {
+      BOOST_MPL_ASSERT_RELATION
+	( (boost::mpl::size<typename T::constraintsList_t>::value), ==, 2);
+
+      // Non-linear function type is supposed to be the second
+      // constraint type and the linear function type is the
+      // first.
+      typedef typename
+	boost::mpl::at<typename T::constraintsList_t,
+		       boost::mpl::int_<1> >::type
+	nonLinearFunction_t;
+
+      typedef typename
+	boost::mpl::at<typename T::constraintsList_t,
+		       boost::mpl::int_<0> >::type
+	linearFunction_t;
+
+      Function::size_type result = 0;
+      typedef typename T::constraints_t::const_iterator citer_t;
+      for (citer_t it = pb.constraints ().begin ();
+	   it != pb.constraints ().end (); ++it)
+	{
+	  shared_ptr<DifferentiableFunction> g;
+	  if (it->which () == CFSQPSolver::LINEAR)
+	    g = get<shared_ptr<linearFunction_t> > (*it);
+	  else
+	    g = get<shared_ptr<nonLinearFunction_t> > (*it);
+	  result += g->outputSize ();
+	}
+      return result;
+    }
+
+    /// \internal
+    ///
+    /// Count the number of constraints bounds.
+    template <typename T>
+    Function::size_type
+    computeBoundsSize (const T& problem)
+    {
+      Function::size_type res = 0;
+      for (unsigned i = 0; i < problem.boundsVector ().size (); ++i)
+	res += problem.boundsVector ()[i].size ();
+      return res;
+    }
 
     /// \internal
     /// CFSQP objective function.
@@ -137,7 +190,7 @@ namespace roboptim
       assert (cd && !!gj && !!x && nparam >= 0 && j > 0);
 
       CFSQPSolver* solver = static_cast<CFSQPSolver*> (cd);
- 
+
       assert (j > 0 &&
 	      solver->cfsqpConstraints ().size () >=
 	      static_cast<unsigned int>(j));
@@ -149,24 +202,32 @@ namespace roboptim
       j--;
 
       // Constraint index in the generic representation.
-      int j_ = solver->cfsqpConstraints ()[j].first;
+      std::pair<int, int> constraintId = solver->cfsqpConstraints ()[j].first;
 
-      assert (j >= 0 && solver->cfsqpConstraints ().size () - j > 0);
-      assert (j_ >= 0 && solver->problem ().bounds ().size () - j_ > 0);
-      assert (j_ >= 0 && solver->problem ().constraints ().size () - j_ > 0);
+      assert (constraintId.first >= 0 && constraintId.second >= 0);
+      assert (solver->cfsqpConstraints ().size () - constraintId.first > 0);
+      assert (solver->problem ().boundsVector ().size ()
+	      - constraintId.first > 0);
+      assert (solver->problem ().boundsVector ()[constraintId.first].size ()
+	      - constraintId.second > 0);
 
       if (0 <= j && j < solver->nineqn ())
         {
 	  shared_ptr<DerivableFunction> f =
 	    get<shared_ptr<DerivableFunction> >
-            (solver->problem ().constraints ()[j_]);
+            (solver->problem ().constraints ()[constraintId.first]);
 	  assert (f);
-          Function::vector_t res = (*f) (x_);
+
+	  //FIXME: this is inefficient.
+          double res = (*f) (x_)[constraintId.second];
+
           *gj = evaluate_inequality
-            (res (0),
+            (res,
              solver->cfsqpConstraints ()[j].second,
-             solver->problem ().bounds ()[j_].first,
-             solver->problem ().bounds ()[j_].second);
+             solver->problem ().boundsVector ()
+	     [constraintId.first][constraintId.second].first,
+             solver->problem ().boundsVector ()
+	     [constraintId.first][constraintId.second].second);
           return;
         }
 
@@ -174,14 +235,19 @@ namespace roboptim
         {
 	  shared_ptr<LinearFunction> f =
             get<shared_ptr<LinearFunction> >
-            (solver->problem ().constraints ()[j_]);
+            (solver->problem ().constraints ()[constraintId.first]);
 	  assert (f);
-          Function::vector_t res = (*f) (x_);
+
+	  //FIXME: this is inefficient.
+          double res = (*f) (x_)[constraintId.second];
+
           *gj = evaluate_inequality
-            (res (0),
+            (res,
              solver->cfsqpConstraints ()[j].second,
-             solver->problem ().bounds ()[j_].first,
-             solver->problem ().bounds ()[j_].second);
+             solver->problem ().boundsVector ()
+	     [constraintId.first][constraintId.second].first,
+             solver->problem ().boundsVector ()
+	     [constraintId.first][constraintId.second].second);
           return;
         }
 
@@ -191,10 +257,13 @@ namespace roboptim
         {
           shared_ptr<DerivableFunction> f =
 	    get<shared_ptr<DerivableFunction> >
-            (solver->problem ().constraints ()[j_]);
+            (solver->problem ().constraints ()[constraintId.first]);
 	  assert (f);
-          Function::vector_t res = (*f) (x_);
-          *gj = res (0) - solver->problem ().bounds ()[j_].first;
+
+	  //FIXME: this is inefficient.
+          double res = (*f) (x_)[constraintId.second];
+          *gj = res - solver->problem ().boundsVector ()
+	    [constraintId.first][constraintId.second].first;
           return;
         }
 
@@ -202,10 +271,13 @@ namespace roboptim
         {
           shared_ptr<LinearFunction> f =
             get<shared_ptr<LinearFunction> >
-            (solver->problem ().constraints ()[j_]);
+            (solver->problem ().constraints ()[constraintId.first]);
 	  assert (f);
-          Function::vector_t res = (*f) (x_);
-          *gj = res (0) - solver->problem ().bounds ()[j_].first;
+
+	  //FIXME: this is inefficient.
+          double res = (*f) (x_)[constraintId.second];
+          *gj = res - solver->problem ().boundsVector ()
+	    [constraintId.first][constraintId.second].first;
           return;
         }
       assert (0);
@@ -253,24 +325,25 @@ namespace roboptim
       // Decrement j to have C style indexation (0...size - 1).
       j--;
       // Constraint index in the generic representation.
-      int j_ = solver->cfsqpConstraints ()[j].first;
+      std::pair<int, int> constraintId = solver->cfsqpConstraints ()[j].first;
       bool is_lower = solver->cfsqpConstraints ()[j].second;
 
-      if (solver->problem ().constraints ()[j_].which () == CFSQPSolver::NONLINEAR)
+      if (solver->problem ().constraints ()[constraintId.first].which ()
+	  == CFSQPSolver::NONLINEAR)
         {
 	  shared_ptr<DerivableFunction> f =
             get<shared_ptr<DerivableFunction> >
-            (solver->problem ().constraints ()[j_]);
-          grad = f->gradient (x_, 0);
-	  CFSQPCheckGradient (*f, 0, x_, j_, *solver);
+            (solver->problem ().constraints ()[constraintId.first]);
+          grad = f->gradient (x_, constraintId.second);
+	  CFSQPCheckGradient (*f, 0, x_, constraintId.first, *solver);
         }
       else
         {
           shared_ptr<LinearFunction> f =
             get<shared_ptr<LinearFunction> >
-            (solver->problem ().constraints ()[j_]);
-          grad = f->gradient (x_, 0);
-	  CFSQPCheckGradient (*f, 0, x_, j_, *solver);
+            (solver->problem ().constraints ()[constraintId.first]);
+          grad = f->gradient (x_, constraintId.second);
+	  CFSQPCheckGradient (*f, 0, x_, constraintId.first, *solver);
         }
 
       if (j < solver->nineq () && is_lower)
@@ -296,40 +369,58 @@ namespace roboptim
     // Add non-linear inequalities.
     for (unsigned i = 0; i < problem ().constraints ().size (); ++i)
       if (problem ().constraints ()[i].which () == NONLINEAR)
-	if (problem ().bounds ()[i].first != problem ().bounds ()[i].second)
-	  {
-	    if (problem ().bounds ()[i].first != -Function::infinity ())
-	      cfsqpConstraints_.push_back (std::make_pair (i, true));
-	    if (problem ().bounds ()[i].second != Function::infinity ())
-	      cfsqpConstraints_.push_back (std::make_pair (i, false));
-	  }
-    nineqn_ = cfsqpConstraints_.size ();
+	for (unsigned j = 0; j < problem ().boundsVector ()[i].size (); ++j)
+	  if (problem ().boundsVector ()[i][j].first
+	      != problem ().boundsVector ()[i][j].second)
+	    {
+	      if (problem ().boundsVector ()[i][j].first
+		  != -Function::infinity ())
+		cfsqpConstraints_.push_back
+		  (std::make_pair (std::make_pair (i, j), true));
+	      if (problem ().boundsVector ()[i][j].second
+		  != Function::infinity ())
+		cfsqpConstraints_.push_back
+		  (std::make_pair (std::make_pair (i, j), false));
+	    }
+    nineqn_ = static_cast<int> (cfsqpConstraints_.size ());
 
     // Add linear inequalities.
     for (unsigned i = 0; i < problem ().constraints ().size (); ++i)
       if (problem ().constraints ()[i].which () == LINEAR)
-	if (problem ().bounds ()[i].first != problem ().bounds ()[i].second)
-	  {
-	    if (problem ().bounds ()[i].first != -Function::infinity ())
-	      cfsqpConstraints_.push_back (std::make_pair (i, true));
-	    if (problem ().bounds ()[i].second != Function::infinity ())
-	      cfsqpConstraints_.push_back (std::make_pair (i, false));
-	  }
-    nineq_ = cfsqpConstraints_.size ();
+	for (unsigned j = 0; j < problem ().boundsVector ()[i].size (); ++j)
+	  if (problem ().boundsVector ()[i][j].first
+	      != problem ().boundsVector ()[i][j].second)
+	    {
+	      if (problem ().boundsVector ()[i][j].first
+		  != -Function::infinity ())
+		cfsqpConstraints_.push_back
+		  (std::make_pair (std::make_pair (i, j), true));
+	      if (problem ().boundsVector ()[i][j].second
+		  != Function::infinity ())
+		cfsqpConstraints_.push_back
+		  (std::make_pair (std::make_pair (i, j), false));
+	    }
+    nineq_ = static_cast<int> (cfsqpConstraints_.size ());
 
     // Add non-linear equalities.
     for (unsigned i = 0; i < problem ().constraints ().size (); ++i)
       if (problem ().constraints ()[i].which () == NONLINEAR)
-        if (problem ().bounds ()[i].first == problem ().bounds ()[i].second)
-          cfsqpConstraints_.push_back (std::make_pair (i, true));
-    neqn_ = cfsqpConstraints_.size () - nineq_;
+	for (unsigned j = 0; j < problem ().boundsVector ()[i].size (); ++j)
+	  if (problem ().boundsVector ()[i][j].first
+	      == problem ().boundsVector ()[i][j].second)
+	    cfsqpConstraints_.push_back
+	      (std::make_pair (std::make_pair (i, j), true));
+    neqn_ = static_cast<int> (cfsqpConstraints_.size ()) - nineq_;
 
     // Add linear equalities.
     for (unsigned i = 0; i < problem ().constraints ().size (); ++i)
       if (problem ().constraints ()[i].which () == LINEAR)
-        if (problem ().bounds ()[i].first == problem ().bounds ()[i].second)
-          cfsqpConstraints_.push_back (std::make_pair (i, true));
-    neq_ = cfsqpConstraints_.size () - nineq_;
+	for (unsigned j = 0; j < problem ().boundsVector ()[i].size (); ++j)
+	  if (problem ().boundsVector ()[i][j].first
+	      == problem ().boundsVector ()[i][j].second)
+	    cfsqpConstraints_.push_back
+	      (std::make_pair (std::make_pair (i, j), true));
+    neq_ = static_cast<int> (cfsqpConstraints_.size ()) - nineq_;
 
     assert (nineq_ >= nineqn_);
     assert (neq_ >= neqn_);
@@ -405,24 +496,34 @@ namespace roboptim
   void
   CFSQPSolver::fillConstraints (vector_t& constraints, double* g) const throw ()
   {
-    constraints.resize (problem ().constraints ().size ());
+    constraints.resize (detail::computeConstraintsOutputSize (problem ()));
     constraints.setZero ();
 
     // Copy constraints final values from the CFSQP representation
     // to the generic representation.
-    for (Function::size_type i = 0; i < cfsqpConstraints ().size (); ++i)
+    std::size_t index = 0;
+    for (std::size_t i = 0; i < cfsqpConstraints ().size (); ++i)
       {
-	int j = cfsqpConstraints ()[i].first;
-	assert (j >= 0 && problem ().constraints ().size () - j > 0);
+	int constraintId = cfsqpConstraints ()[i].first.first;
+	assert (constraintId >= 0
+		&& problem ().constraints ().size () - constraintId > 0);
 
-	if (cfsqpConstraints ()[i].second)
-	  // g(x) >= b, -g(x) + b <= 0
-	  constraints[j] =
-	    Function::getLowerBound (problem ().bounds ()[j]) - g[i];
-	else
-	  // g(x) <= b, g(x) - b <= 0
-	  constraints[j] =
-	    g[i] + Function::getUpperBound (problem ().bounds ()[j]);
+	for (int functionId = 0;
+	     functionId < cfsqpConstraints ()[i].first.second; ++i)
+	  {
+	    if (cfsqpConstraints ()[i].second)
+	      // g(x) >= b, -g(x) + b <= 0
+	      constraints[index] =
+		Function::getLowerBound
+		(problem ().boundsVector ()[constraintId][functionId]) - g[i];
+	    else
+	      // g(x) <= b, g(x) - b <= 0
+	      constraints[index] =
+		g[i] + Function::getUpperBound
+		(problem ().boundsVector ()[constraintId][functionId]);
+
+	    ++index;
+	  }
 
       }
   }
@@ -471,7 +572,7 @@ namespace roboptim
   {
     using namespace detail;
 
-    const int nparam = problem ().function ().inputSize ();
+    const int nparam = static_cast<int> (problem ().function ().inputSize ());
     const int nf = 1; //FIXME: only one objective function.
     const int nfsr = 0;
 
@@ -566,7 +667,7 @@ namespace roboptim
 
 
 
-  const std::vector<std::pair<int, bool> >&
+  const std::vector<std::pair<std::pair<int, int>, bool> >&
   CFSQPSolver::cfsqpConstraints () const throw ()
   {
     return cfsqpConstraints_;

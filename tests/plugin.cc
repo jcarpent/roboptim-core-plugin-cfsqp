@@ -27,8 +27,8 @@
 #include "hs071.hh"
 
 using namespace roboptim;
-typedef boost::mpl::vector<LinearFunction, DerivableFunction> clist_t;
-typedef Solver<DerivableFunction, clist_t> solver_t;
+typedef boost::mpl::vector<LinearFunction, DifferentiableFunction> clist_t;
+typedef Solver<DifferentiableFunction, clist_t> solver_t;
 
 int run_test ()
 {
@@ -36,7 +36,7 @@ int run_test ()
 
   solver_t::problem_t pb (f);
   initialize_problem<solver_t::problem_t,
-    roboptim::DerivableFunction> (pb);
+    roboptim::DifferentiableFunction> (pb);
 
   // Initialize solver
   SolverFactory<solver_t> factory ("cfsqp", pb);

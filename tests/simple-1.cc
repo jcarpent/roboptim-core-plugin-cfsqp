@@ -26,8 +26,8 @@
 
 using namespace roboptim;
 
-typedef boost::mpl::vector<LinearFunction, DerivableFunction> clist_t;
-typedef Solver<DerivableFunction, clist_t> solver_t;
+typedef boost::mpl::vector<LinearFunction, DifferentiableFunction> clist_t;
+typedef Solver<DifferentiableFunction, clist_t> solver_t;
 
 int run_test ()
 {

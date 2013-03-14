@@ -28,8 +28,6 @@ SET(HEADERS
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/plugin/cfsqp.hh
   )
 
-SET(CXX_DISABLE_WERROR 1)
-
 SETUP_PROJECT()
 
 # Search for dependencies.

@@ -36,7 +36,7 @@ int run_test ()
 
   CFSQPSolver::problem_t pb (f);
   initialize_problem<CFSQPSolver::problem_t,
-    roboptim::DerivableFunction> (pb);
+    roboptim::DifferentiableFunction> (pb);
 
   // Initialize solver
   CFSQPSolver solver (pb);

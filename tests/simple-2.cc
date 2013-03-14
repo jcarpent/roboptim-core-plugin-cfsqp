@@ -27,14 +27,14 @@
 
 using namespace roboptim;
 
-typedef boost::mpl::vector<LinearFunction, DerivableFunction> clist_t;
-typedef Solver<DerivableFunction, clist_t> solver_t;
+typedef boost::mpl::vector<LinearFunction, DifferentiableFunction> clist_t;
+typedef Solver<DifferentiableFunction, clist_t> solver_t;
 
-struct SumArgs : public DerivableFunction
+struct SumArgs : public DifferentiableFunction
 {
 public:
   SumArgs ()
-    : DerivableFunction (8, 1, "\\sum_i x_i")
+    : DifferentiableFunction (8, 1, "\\sum_i x_i")
   {}
   ~SumArgs () throw () {}
 
@@ -58,11 +58,11 @@ public:
   unsigned i_;
 };
 
-struct F : public DerivableFunction
+struct F : public DifferentiableFunction
 {
 public:
   F (unsigned i, bool opposite)
-    : DerivableFunction (8, 1, (boost::format("%1%.5 * x_%2%^2")
+    : DifferentiableFunction (8, 1, (boost::format("%1%.5 * x_%2%^2")
 				% (opposite ? "-" : "")
 				% i).str ()),
       i_ (i),
@@ -152,25 +152,25 @@ int run_test ()
 
   {
     shared_ptr<F> constraint (new F (4, true));
-    pb.addConstraint (static_pointer_cast<DerivableFunction> (constraint),
+    pb.addConstraint (static_pointer_cast<DifferentiableFunction> (constraint),
 		      Function::makeLowerInterval (-12.));
   }
 
   {
     shared_ptr<F> constraint (new F (5, false));
-    pb.addConstraint (static_pointer_cast<DerivableFunction> (constraint),
+    pb.addConstraint (static_pointer_cast<DifferentiableFunction> (constraint),
 		      Function::makeUpperInterval (14.));
   }
 
   {
     shared_ptr<F> constraint (new F (6, false));
-    pb.addConstraint (static_pointer_cast<DerivableFunction> (constraint),
+    pb.addConstraint (static_pointer_cast<DifferentiableFunction> (constraint),
 		      Function::makeInterval (16., 16.));
   }
 
   {
     shared_ptr<F> constraint (new F (7, false));
-    pb.addConstraint (static_pointer_cast<DerivableFunction> (constraint),
+    pb.addConstraint (static_pointer_cast<DifferentiableFunction> (constraint),
 		      Function::makeInterval (-18., 18.));
   }
 

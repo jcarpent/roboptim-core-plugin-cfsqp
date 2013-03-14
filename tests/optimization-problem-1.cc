@@ -22,20 +22,20 @@
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/variant/get.hpp>
 
-#include <roboptim/core/twice-derivable-function.hh>
+#include <roboptim/core/twice-differentiable-function.hh>
 
 #include <roboptim/core/solver-factory.hh>
 
 using namespace roboptim;
 
-typedef boost::mpl::vector<LinearFunction, DerivableFunction> clist_t;
-typedef Solver<DerivableFunction, clist_t> solver_t;
+typedef boost::mpl::vector<LinearFunction, DifferentiableFunction> clist_t;
+typedef Solver<DifferentiableFunction, clist_t> solver_t;
 
-struct F : public TwiceDerivableFunction
+struct F : public TwiceDifferentiableFunction
 {
 public:
   F ()
-    : TwiceDerivableFunction (2, 1, "a * a + b * b")
+    : TwiceDifferentiableFunction (2, 1, "a * a + b * b")
   {}
   ~F () throw () {}
 
@@ -63,11 +63,11 @@ public:
   }
 };
 
-struct G : public DerivableFunction
+struct G : public DifferentiableFunction
 {
 public:
   G ()
-    : DerivableFunction (2, 1, "a + b - 1")
+    : DifferentiableFunction (2, 1, "a + b - 1")
   {}
   ~G ()  throw () {}
 
@@ -94,7 +94,7 @@ int run_test ()
   solver_t::problem_t pb (f);
 
   boost::shared_ptr<G> g (new G ());
-  pb.addConstraint (boost::static_pointer_cast<DerivableFunction> (g),
+  pb.addConstraint (boost::static_pointer_cast<DifferentiableFunction> (g),
 		    Function::makeInterval (0., 0.));
 
   // Initialize solver

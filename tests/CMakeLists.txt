@@ -13,56 +13,13 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with roboptim-core.  If not, see <http://www.gnu.org/licenses/>.
 
-# Generate local-libdir.hh.
-CONFIG_FILES(shared-tests/local-libdir.hh)
+# Include shared test suite.
+SET(PLUGIN_PATH "${CMAKE_BINARY_DIR}/src")
 
-# Make sure local headers are found
-INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/tests)
-
-# Add Boost path to include directories.
-INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
-
-# Make Boost.Test generates the main function in test cases.
-ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK -DBOOST_TEST_MAIN)
-
-SET(COMMON_HEADERS
-  ${HEADERS}
-  shared-tests/common.hh
-  shared-tests/hs071.hh
-  )
-
-
-# ROBOPTIM_CORE_CFSQP_PLUGIN_TEST(NAME)
-# ------------------------
-#
-# Define a test named `NAME'.
-#
-# This macro will create a binary from `NAME.cc', link it against
-# Boost and add it to the test suite.
-#
-MACRO(ROBOPTIM_CORE_CFSQP_PLUGIN_TEST NAME)
-  ADD_EXECUTABLE(${NAME}
-    ${NAME}.cc
-    ${COMMON_HEADERS})
-  ADD_TEST(${NAME} ${RUNTIME_OUTPUT_DIRECTORY}/${NAME})
-
-  PKG_CONFIG_USE_DEPENDENCY(${NAME} roboptim-core)
-
-  # Link against Boost.
-  TARGET_LINK_LIBRARIES(${NAME} ${Boost_LIBRARIES} ${LIB_LTDL})
-ENDMACRO(ROBOPTIM_CORE_CFSQP_PLUGIN_TEST)
-
-
-# simple
-# Link the dummy solver with this test to bypass the plug-in system.
-ADD_EXECUTABLE(simple
-  simple.cc
-  ${COMMON_HEADERS}
-  ${CMAKE_SOURCE_DIR}/src/ofsqp.cc
-  ${CMAKE_SOURCE_DIR}/src/roboptim-core-cfsqp-plugin.cc)
-TARGET_LINK_LIBRARIES(simple ${Boost_LIBRARIES} ${LIB_LTDL})
-PKG_CONFIG_USE_DEPENDENCY(simple roboptim-core)
-
-ROBOPTIM_CORE_CFSQP_PLUGIN_TEST(simple-1)
-ROBOPTIM_CORE_CFSQP_PLUGIN_TEST(simple-2)
-ROBOPTIM_CORE_CFSQP_PLUGIN_TEST(optimization-problem-1)
+SET(SOLVER_NAME "cfsqp")
+SET(FUNCTION_TYPE ::roboptim::EigenMatrixDense)
+SET(PROGRAM_SUFFIX "")
+SET(COST_FUNCTION_TYPE ::roboptim::GenericDifferentiableFunction)
+SET(CONSTRAINT_TYPE_1 ::roboptim::GenericLinearFunction)
+SET(CONSTRAINT_TYPE_2 ::roboptim::GenericDifferentiableFunction)
+INCLUDE(shared-tests/CMakeLists.txt)

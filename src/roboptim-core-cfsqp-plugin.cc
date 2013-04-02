@@ -202,7 +202,8 @@ namespace roboptim
       j--;
 
       // Constraint index in the generic representation.
-      std::pair<int, int> constraintId = solver->cfsqpConstraints ()[j].first;
+      std::size_t j_ = static_cast<std::size_t> (j);
+      std::pair<int, int> constraintId = solver->cfsqpConstraints ()[j_].first;
 
       assert (constraintId.first >= 0 && constraintId.second >= 0);
       assert (solver->cfsqpConstraints ().size () - constraintId.first > 0);

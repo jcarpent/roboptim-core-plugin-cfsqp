@@ -737,6 +737,11 @@ extern "C"
     return sizeof (CFSQPSolver::problem_t);
   }
 
+  ROBOPTIM_DLLEXPORT const char* getTypeIdOfConstraintsList ()
+  {
+    return typeid (CFSQPSolver::problem_t::constraintsList_t).name ();
+  }
+
   ROBOPTIM_DLLEXPORT solver_t* create (const CFSQPSolver::problem_t& pb)
   {
     return new CFSQPSolver (pb);

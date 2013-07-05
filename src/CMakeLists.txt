@@ -26,5 +26,6 @@ ADD_LIBRARY(roboptim-core-plugin-cfsqp MODULE
 SET_TARGET_PROPERTIES(roboptim-core-plugin-cfsqp PROPERTIES
   PREFIX ""
   SOVERSION 1.1.0)
-INSTALL(TARGETS roboptim-core-plugin-cfsqp DESTINATION ${PLUGINDIR})
+INSTALL(TARGETS roboptim-core-plugin-cfsqp
+  DESTINATION ${ROBOPTIM_CORE_PLUGINDIR})
 PKG_CONFIG_USE_DEPENDENCY(roboptim-core-plugin-cfsqp roboptim-core)

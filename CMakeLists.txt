@@ -34,6 +34,13 @@ SET(PKG_CONFIG_ADDITIONAL_VARIABLES
 
 SETUP_PROJECT()
 
+# If compiler support symbol visibility, enable it.
+INCLUDE(CheckCCompilerFlag)
+CHECK_C_COMPILER_FLAG(-fvisibility=hidden HAS_VISIBILITY)
+IF(HAS_VISIBILITY)
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
+ENDIF()
+
 # Search for dependencies.
 SEARCH_FOR_BOOST()
 

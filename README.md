@@ -7,21 +7,21 @@ cannot be released publicly.
 
 If you have a valid CFSQP licence, please contact directly thomas DOT
 moulard AT gmail DOT com with a proof that you possess a valid CFSQP
-licence. A copy of the last release will then be sent to you. Please
-note that this process is manual and may take some time depending on
-how busy I am.
+licence and your GitHub username. You will be granted access to the
+CFSQP plug-in repository.
 
 For other questions regarding RobOptim or this plug-in, please use
 directly our Google Group: roboptim@googlegroups.com
 
-If you encountered an issue with this plug-in, please post your
-problem on this project tracker while avoiding showing off
-confidential information (i.e. CFSQP sources).
+Registered Users
+----------------
 
+If you already provided me a proof that you own a CFSQP copy,
+you can access the repository at the following URL:
 
-LAAS Users
-----------
+https://github.com/jrl-umi3218/roboptim-core-plugin-cfsqp
 
-If you have a LAAS account, you can access the repository by running:
-
-$ git clone ssh://trac.laas.fr/git/jrl/roboptim/core-plugin/cfsqp.git
+You can then clone the repository using the following command:
+```sh
+$ git clone --recursive https://github.com/jrl-umi3218/roboptim-core-plugin-cfsqp.git
+```

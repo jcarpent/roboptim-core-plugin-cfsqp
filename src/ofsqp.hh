@@ -13,6 +13,8 @@
 # include <algorithm>
 # include <cstdlib>
 
+# include <boost/function.hpp>
+
 /* As MSVC does not declare properly __STDC__, let's define
    it manually. */
 # ifndef __STDC__
@@ -47,11 +49,15 @@ extern char *calloc();
 class OFSQP
 {
 public:
-  OFSQP(void);
-  ~OFSQP(void);
+  typedef boost::function<void (const double*)> callback_t;
+  OFSQP(callback_t callback);
+  ~OFSQP();
 
   static bool isXNew(void);
   static void resetNewX(void);
+
+  void callback (double* x);
+  callback_t callback_;
 
   int __numIteration;
 

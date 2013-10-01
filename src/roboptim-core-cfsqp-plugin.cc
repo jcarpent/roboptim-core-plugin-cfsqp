@@ -25,6 +25,9 @@
 #include <boost/type_traits/is_base_of.hpp>
 #include <boost/variant/apply_visitor.hpp>
 
+#include <boost/bind.hpp>
+#include <boost/ref.hpp>
+
 #include <roboptim/core/function.hh>
 #include <roboptim/core/indent.hh>
 #include <roboptim/core/result.hh>
@@ -362,7 +365,8 @@ namespace roboptim
       neq_ (0),
       neqn_ (0),
       cfsqpConstraints_ (),
-      invalidGradient_ (false)
+      invalidGradient_ (false),
+      callback_ ()
   {
     // Initialize parameters.
     initializeParameters ();
@@ -438,7 +442,8 @@ namespace roboptim
       neq_ (solver.neq_),
       neqn_ (solver.neqn_),
       cfsqpConstraints_ (solver.cfsqpConstraints_),
-      invalidGradient_ (solver.invalidGradient_)
+      invalidGradient_ (solver.invalidGradient_),
+      callback_ (solver.callback_)
   {}
 
 
@@ -608,7 +613,10 @@ namespace roboptim
     if (!!problem ().startingPoint ())
       detail::vector_to_array (x, *problem ().startingPoint ());
 
-    OFSQP myfsqp;
+    OFSQP::callback_t cb =
+      boost::bind
+      (&CFSQPSolver::perIterationCallback, this, boost::arg<1> ());
+    OFSQP myfsqp (cb);
 
     // Retrieve parameters.
     const int& miter = getParameter<int> ("max-iterations");
@@ -719,6 +727,23 @@ namespace roboptim
 
     return o;
   }
+
+  void
+  CFSQPSolver::setIterationCallback (callback_t callback) throw (std::runtime_error)
+  {
+    callback_ = callback;
+  }
+
+  void
+  CFSQPSolver::perIterationCallback (const double* x)
+  {
+    if (!callback_)
+      return;
+    vector_t x_ = Eigen::Map<const Eigen::VectorXd>
+      (x, this->problem ().function ().inputSize ());
+    this->callback_ (x_, this->problem ());
+  }
+
 
 } // end of namespace roboptim
 

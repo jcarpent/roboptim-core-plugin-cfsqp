@@ -137,6 +137,8 @@ namespace roboptim
     /// \param o output stream used for display
     /// \return output stream
     virtual std::ostream& print (std::ostream& o) const throw ();
+
+    void setIterationCallback (callback_t callback) throw (std::runtime_error);
   private:
     /// \brief Initialize parameters.
     ///
@@ -161,6 +163,8 @@ namespace roboptim
     /// \param g CFSQP representation
     void fillConstraints (vector_t& constraints, double* g) const throw ();
 
+    void perIterationCallback (const double* x);
+
     /// \brief Number of non linear inegality constraints (including linear's).
     int nineq_;
     /// \brief Number of linear inegality constraints.
@@ -176,6 +180,8 @@ namespace roboptim
     /// \brief Set to true if a gradient check has failed.
     /// Always false if gradient checks are not enabled.
     bool invalidGradient_;
+
+    callback_t callback_;
   };
 
   /// @}

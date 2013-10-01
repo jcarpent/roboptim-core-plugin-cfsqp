@@ -10,8 +10,9 @@
 
 int OFSQP::x_is_new = TRUE;
 
-OFSQP::OFSQP ()
-  : cfsqp_version ("CFSQP 2.5d"),
+OFSQP::OFSQP (callback_t callback)
+  : callback_ (callback),
+    cfsqp_version ("CFSQP 2.5d"),
     objeps (0),
     objrep (0),
     gLgeps (0),
@@ -35,6 +36,10 @@ void OFSQP::resetNewX ()
   x_is_new = FALSE;
 }
 
+void OFSQP::callback (double* x)
+{
+  callback_ (x);
+}
 
 
 #ifdef __STDC__
@@ -892,6 +897,7 @@ void   (* obj)(),(* constr)(),(* gradob)(),(* gradcn)();
 
 	nstop=1;
 	for (;;) {
+	        callback(param->x);
 		out(miter,nparam,nob,nobL,nfsip,nineqn,nn,nineqn,ncnst1,
 			ncsipl,ncsipn,mesh_pts,param->x,cs,ob,fM,fmax,steps,
 			sktnom,d0nm,feasb);

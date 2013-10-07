@@ -515,7 +515,7 @@ namespace roboptim
 		&& problem ().constraints ().size () - constraintId > 0);
 
 	for (int functionId = 0;
-	     functionId < cfsqpConstraints ()[i].first.second; ++i)
+	     functionId < cfsqpConstraints ()[i].first.second; ++functionId)
 	  {
 	    if (cfsqpConstraints ()[i].second)
 	      // g(x) >= b, -g(x) + b <= 0

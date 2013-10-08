@@ -507,30 +507,31 @@ namespace roboptim
 
     // Copy constraints final values from the CFSQP representation
     // to the generic representation.
-    std::size_t index = 0;
     for (std::size_t i = 0; i < cfsqpConstraints ().size (); ++i)
       {
-	int constraintId = cfsqpConstraints ()[i].first.first;
+	std::size_t constraintId = cfsqpConstraints ()[i].first.first;
+	std::size_t functionId = cfsqpConstraints ()[i].first.second;
 	assert (constraintId >= 0
 		&& problem ().constraints ().size () - constraintId > 0);
+	bool is_lower = cfsqpConstraints ()[i].second;
 
-	for (int functionId = 0;
-	     functionId < cfsqpConstraints ()[i].first.second; ++functionId)
-	  {
-	    if (cfsqpConstraints ()[i].second)
-	      // g(x) >= b, -g(x) + b <= 0
-	      constraints[index] =
-		Function::getLowerBound
-		(problem ().boundsVector ()[constraintId][functionId]) - g[i];
-	    else
-	      // g(x) <= b, g(x) - b <= 0
-	      constraints[index] =
-		g[i] + Function::getUpperBound
-		(problem ().boundsVector ()[constraintId][functionId]);
+	std::size_t index = 0;
+	for (std::size_t j = 0; j < constraintId; ++j)
+	  index += problem ().boundsVector ()[constraintId].size ();
+	index += functionId;
 
-	    ++index;
-	  }
+	if (is_lower)
+	  // g(x) >= b, -g(x) + b <= 0
+	  constraints[index] =
+	    Function::getLowerBound
+	    (problem ().boundsVector ()[constraintId][functionId]) - g[i];
+	else
+	  // g(x) <= b, g(x) - b <= 0
+	  constraints[index] =
+	    g[i] + Function::getUpperBound
+	    (problem ().boundsVector ()[constraintId][functionId]);
 
+	++functionId;
       }
   }
 

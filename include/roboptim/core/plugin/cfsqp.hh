@@ -111,9 +111,8 @@ namespace roboptim
     /// - pair of integers: constraint index in the original vector
     ///                     and function id in the case the constraint
     ///                     is non-scalar (outputSize > 1)
-    /// - bool: is it the first constraint of a duplicated constraint?
-    ///  If the constraint is an equality or has only one bound, the
-    ///  boolean has no meaning.
+    /// - bool: is it a lower constraint?
+    ///  If the constraint is an equality, the boolean has no meaning.
     const std::vector<std::pair<std::pair<int, int>, bool> >& cfsqpConstraints ()
       const throw ();
 

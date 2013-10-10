@@ -106,6 +106,17 @@ namespace roboptim
     {}
 #endif //!ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
 
+
+    struct ComputeConstraintsSizeVisitor
+      : public boost::static_visitor<Function::size_type>
+    {
+      template <typename U>
+      Function::size_type operator () (const U& constraint)
+      {
+	return constraint->outputSize ();
+      }
+    };
+
     /// \internal
     ////
     /// Compute the total size of the constraints.
@@ -113,34 +124,10 @@ namespace roboptim
     Function::size_type
     computeConstraintsOutputSize (const T& pb)
     {
-      BOOST_MPL_ASSERT_RELATION
-	( (boost::mpl::size<typename T::constraintsList_t>::value), ==, 2);
-
-      // Non-linear function type is supposed to be the second
-      // constraint type and the linear function type is the
-      // first.
-      typedef typename
-	boost::mpl::at<typename T::constraintsList_t,
-		       boost::mpl::int_<1> >::type
-	nonLinearFunction_t;
-
-      typedef typename
-	boost::mpl::at<typename T::constraintsList_t,
-		       boost::mpl::int_<0> >::type
-	linearFunction_t;
-
       Function::size_type result = 0;
-      typedef typename T::constraints_t::const_iterator citer_t;
-      for (citer_t it = pb.constraints ().begin ();
-	   it != pb.constraints ().end (); ++it)
-	{
-	  shared_ptr<DifferentiableFunction> g;
-	  if (it->which () == CFSQPSolver::LINEAR)
-	    g = get<shared_ptr<linearFunction_t> > (*it);
-	  else
-	    g = get<shared_ptr<nonLinearFunction_t> > (*it);
-	  result += g->outputSize ();
-	}
+      ComputeConstraintsSizeVisitor visitor;
+      for (std::size_t i = 0; i < pb.constraints ().size (); ++i)
+	result += boost::apply_visitor (visitor, pb.constraints ()[i]);
       return result;
     }
 
@@ -505,6 +492,8 @@ namespace roboptim
     constraints.resize (detail::computeConstraintsOutputSize (problem ()));
     constraints.setZero ();
 
+    detail::ComputeConstraintsSizeVisitor visitor;
+
     // Copy constraints final values from the CFSQP representation
     // to the generic representation.
     for (std::size_t i = 0; i < cfsqpConstraints ().size (); ++i)
@@ -517,7 +506,7 @@ namespace roboptim
 
 	std::size_t index = 0;
 	for (std::size_t j = 0; j < constraintId; ++j)
-	  index += problem ().boundsVector ()[constraintId].size ();
+	  index += boost::apply_visitor (visitor, problem ().constraints ()[j]);
 	index += functionId;
 
 	if (is_lower)

@@ -353,7 +353,8 @@ namespace roboptim
       neqn_ (0),
       cfsqpConstraints_ (),
       invalidGradient_ (false),
-      callback_ ()
+      callback_ (),
+      solverState_ (this->problem ())
   {
     // Initialize parameters.
     initializeParameters ();
@@ -430,7 +431,8 @@ namespace roboptim
       neqn_ (solver.neqn_),
       cfsqpConstraints_ (solver.cfsqpConstraints_),
       invalidGradient_ (solver.invalidGradient_),
-      callback_ (solver.callback_)
+      callback_ (solver.callback_),
+      solverState_ (solver.solverState_)
   {}
 
 
@@ -500,8 +502,7 @@ namespace roboptim
       {
 	std::size_t constraintId = cfsqpConstraints ()[i].first.first;
 	std::size_t functionId = cfsqpConstraints ()[i].first.second;
-	assert (constraintId >= 0
-		&& problem ().constraints ().size () - constraintId > 0);
+	assert (problem ().constraints ().size () - constraintId > 0);
 	bool is_lower = cfsqpConstraints ()[i].second;
 
 	std::size_t index = 0;
@@ -731,7 +732,8 @@ namespace roboptim
       return;
     vector_t x_ = Eigen::Map<const Eigen::VectorXd>
       (x, this->problem ().function ().inputSize ());
-    this->callback_ (x_, this->problem ());
+    this->solverState_.x () = x_;
+    this->callback_ (this->problem (), this->solverState_);
   }
 
 

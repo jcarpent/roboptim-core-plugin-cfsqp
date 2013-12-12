@@ -180,7 +180,11 @@ namespace roboptim
     /// Always false if gradient checks are not enabled.
     bool invalidGradient_;
 
+    /// \brief Callback object, should be called at each iteration.
     callback_t callback_;
+
+    /// \brief Current state of the solver (used by the callback function).
+    solverState_t solverState_;
   };
 
   /// @}

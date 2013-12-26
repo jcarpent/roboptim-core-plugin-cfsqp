@@ -423,19 +423,6 @@ namespace roboptim
   {
   }
 
-  CFSQPSolver::CFSQPSolver (const CFSQPSolver& solver) throw ()
-    : parent_t (solver.problem_),
-      nineq_ (solver.nineq_),
-      nineqn_ (solver.nineqn_),
-      neq_ (solver.neq_),
-      neqn_ (solver.neqn_),
-      cfsqpConstraints_ (solver.cfsqpConstraints_),
-      invalidGradient_ (solver.invalidGradient_),
-      callback_ (solver.callback_),
-      solverState_ (solver.solverState_)
-  {}
-
-
 
 #define DEFINE_PARAMETER(KEY, DESCRIPTION, VALUE)	\
   do {							\

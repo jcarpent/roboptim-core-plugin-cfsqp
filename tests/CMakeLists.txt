@@ -13,8 +13,9 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with roboptim-core.  If not, see <http://www.gnu.org/licenses/>.
 
-# Include shared test suite.
+# Prepare test suite
 SET(PLUGIN_PATH "${CMAKE_BINARY_DIR}/src")
+INCLUDE(shared-tests/tests.cmake)
 
 SET(SOLVER_NAME "cfsqp")
 SET(FUNCTION_TYPE ::roboptim::EigenMatrixDense)
@@ -22,4 +23,6 @@ SET(PROGRAM_SUFFIX "")
 SET(COST_FUNCTION_TYPE ::roboptim::GenericDifferentiableFunction)
 SET(CONSTRAINT_TYPE_1 ::roboptim::GenericLinearFunction)
 SET(CONSTRAINT_TYPE_2 ::roboptim::GenericDifferentiableFunction)
-INCLUDE(shared-tests/CMakeLists.txt)
+
+BUILD_SCHITTKOWSKI_PROBLEMS()
+BUILD_ROBOPTIM_PROBLEMS()

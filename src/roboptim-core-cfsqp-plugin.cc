@@ -526,14 +526,14 @@ namespace roboptim
   result_ = SolverError (ERROR);		\
   break
 
-#define SWITCH_WARNING(NAME, ERROR)			\
-  case NAME:						\
-  {							\
-    ResultWithWarnings res (nparam, 1);			\
-    SolverWarning warning (ERROR);			\
-    res.warnings.push_back (warning);			\
-    FILL_RESULT ();					\
-  }							\
+#define SWITCH_WARNING(NAME, ERROR)             \
+  case NAME:                                    \
+  {                                             \
+    ResultWithWarnings res (nparam, 1);         \
+    SolverWarning warning (ERROR);              \
+    res.warnings.push_back (warning);           \
+    FILL_RESULT ();                             \
+  }                                             \
   break
 
 #define MAP_CFSQP_ERRORS(MACRO)						\
@@ -717,8 +717,10 @@ namespace roboptim
   {
     if (!callback_)
       return;
+    // WARNING: optimization parameters start at x[1], FORTRAN-style
+    // FIXME: to be removed as soon as CFSQP is fixed...
     vector_t x_ = Eigen::Map<const Eigen::VectorXd>
-      (x, this->problem ().function ().inputSize ());
+      (x + 1, this->problem ().function ().inputSize ());
     this->solverState_.x () = x_;
     this->callback_ (this->problem (), this->solverState_);
   }

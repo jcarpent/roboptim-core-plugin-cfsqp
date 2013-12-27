@@ -423,19 +423,6 @@ namespace roboptim
   {
   }
 
-  CFSQPSolver::CFSQPSolver (const CFSQPSolver& solver) throw ()
-    : parent_t (solver.problem_),
-      nineq_ (solver.nineq_),
-      nineqn_ (solver.nineqn_),
-      neq_ (solver.neq_),
-      neqn_ (solver.neqn_),
-      cfsqpConstraints_ (solver.cfsqpConstraints_),
-      invalidGradient_ (solver.invalidGradient_),
-      callback_ (solver.callback_),
-      solverState_ (solver.solverState_)
-  {}
-
-
 
 #define DEFINE_PARAMETER(KEY, DESCRIPTION, VALUE)	\
   do {							\
@@ -539,14 +526,14 @@ namespace roboptim
   result_ = SolverError (ERROR);		\
   break
 
-#define SWITCH_WARNING(NAME, ERROR)			\
-  case NAME:						\
-  {							\
-    ResultWithWarnings res (nparam, 1);			\
-    SolverWarning warning (ERROR);			\
-    res.warnings.push_back (warning);			\
-    FILL_RESULT ();					\
-  }							\
+#define SWITCH_WARNING(NAME, ERROR)             \
+  case NAME:                                    \
+  {                                             \
+    ResultWithWarnings res (nparam, 1);         \
+    SolverWarning warning (ERROR);              \
+    res.warnings.push_back (warning);           \
+    FILL_RESULT ();                             \
+  }                                             \
   break
 
 #define MAP_CFSQP_ERRORS(MACRO)						\
@@ -730,8 +717,10 @@ namespace roboptim
   {
     if (!callback_)
       return;
+    // WARNING: optimization parameters start at x[1], FORTRAN-style
+    // FIXME: to be removed as soon as CFSQP is fixed...
     vector_t x_ = Eigen::Map<const Eigen::VectorXd>
-      (x, this->problem ().function ().inputSize ());
+      (x + 1, this->problem ().function ().inputSize ());
     this->solverState_.x () = x_;
     this->callback_ (this->problem (), this->solverState_);
   }

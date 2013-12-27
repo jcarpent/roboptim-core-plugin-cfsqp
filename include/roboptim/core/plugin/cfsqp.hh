@@ -76,8 +76,6 @@ namespace roboptim
     /// \param print verbosity level
     explicit CFSQPSolver (const problem_t& problem, int print = 0) throw ();
 
-    explicit CFSQPSolver (const CFSQPSolver&) throw ();
-
     virtual ~CFSQPSolver () throw ();
 
     /// \brief Solve the problem.

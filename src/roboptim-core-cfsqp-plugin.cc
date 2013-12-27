@@ -717,10 +717,8 @@ namespace roboptim
   {
     if (!callback_)
       return;
-    // WARNING: optimization parameters start at x[1], FORTRAN-style
-    // FIXME: to be removed as soon as CFSQP is fixed...
     vector_t x_ = Eigen::Map<const Eigen::VectorXd>
-      (x + 1, this->problem ().function ().inputSize ());
+      (x, this->problem ().function ().inputSize ());
     this->solverState_.x () = x_;
     this->callback_ (this->problem (), this->solverState_);
   }

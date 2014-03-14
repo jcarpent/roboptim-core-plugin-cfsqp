@@ -82,11 +82,11 @@ namespace roboptim
 	{
 	  checkGradientAndThrow (function, functionId, x, 1.);
 	}
-      catch (BadGradient& bg)
+      catch (BadGradient<EigenMatrixDense>& bg)
 	{
 	  solver.invalidateGradient ();
 	  std::cerr
-	    << ((functionId < 0)
+	    << ((constraintId < 0)
 		? "Invalid cost function gradient:"
 		: (format ("Invalid constraint function gradient (id = %1%):")
 		   % constraintId).str ())

@@ -67,7 +67,7 @@ namespace roboptim
      unsigned functionId,
      Function::vector_t& x,
      int constraintId,
-     CFSQPSolver& solver) throw ();
+     CFSQPSolver& solver);
 
     /// \internal
 #ifdef ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
@@ -75,7 +75,7 @@ namespace roboptim
 			     unsigned functionId,
 			     Function::vector_t& x,
 			     int constraintId,
-			     CFSQPSolver& solver) throw ()
+			     CFSQPSolver& solver)
     {
       using boost::format;
       try
@@ -102,7 +102,7 @@ namespace roboptim
 			     unsigned,
 			     Function::vector_t&,
 			     int,
-			     CFSQPSolver&) throw ()
+			     CFSQPSolver&)
     {}
 #endif //!ROBOPTIM_CORE_CFSQP_PLUGIN_CHECK_GRADIENT
 
@@ -345,7 +345,7 @@ namespace roboptim
 
   }
 
-  CFSQPSolver::CFSQPSolver (const problem_t& pb, int) throw ()
+  CFSQPSolver::CFSQPSolver (const problem_t& pb, int)
     : parent_t (pb),
       nineq_ (0),
       nineqn_ (0),
@@ -419,7 +419,7 @@ namespace roboptim
     assert (neq_ >= neqn_);
   }
 
-  CFSQPSolver::~CFSQPSolver () throw ()
+  CFSQPSolver::~CFSQPSolver ()
   {
   }
 
@@ -431,7 +431,7 @@ namespace roboptim
   } while (0)
 
   void
-  CFSQPSolver::initializeParameters () throw ()
+  CFSQPSolver::initializeParameters ()
   {
     parameters_.clear ();
 
@@ -461,7 +461,7 @@ namespace roboptim
 
 
   void
-  CFSQPSolver::initializeBounds (double* bl, double* bu) const throw ()
+  CFSQPSolver::initializeBounds (double* bl, double* bu) const
   {
     typedef problem_t::intervals_t::const_iterator citer_t;
 
@@ -476,7 +476,7 @@ namespace roboptim
 
 
   void
-  CFSQPSolver::fillConstraints (vector_t& constraints, double* g) const throw ()
+  CFSQPSolver::fillConstraints (vector_t& constraints, double* g) const
   {
     constraints.resize (detail::computeConstraintsOutputSize (problem ()));
     constraints.setZero ();
@@ -552,7 +552,7 @@ namespace roboptim
 
 
   void
-  CFSQPSolver::solve () throw ()
+  CFSQPSolver::solve ()
   {
     using namespace detail;
 
@@ -655,44 +655,44 @@ namespace roboptim
 
 
   const std::vector<std::pair<std::pair<int, int>, bool> >&
-  CFSQPSolver::cfsqpConstraints () const throw ()
+  CFSQPSolver::cfsqpConstraints () const
   {
     return cfsqpConstraints_;
   }
 
   const int&
-  CFSQPSolver::nineqn () const throw ()
+  CFSQPSolver::nineqn () const
   {
     return nineqn_;
   }
 
   const int&
-  CFSQPSolver::nineq () const throw ()
+  CFSQPSolver::nineq () const
   {
     return nineq_;
   }
 
   const int&
-  CFSQPSolver::neqn () const throw ()
+  CFSQPSolver::neqn () const
   {
     return neqn_;
   }
 
   const int&
-  CFSQPSolver::neq () const throw ()
+  CFSQPSolver::neq () const
   {
     return neq_;
   }
 
   void
-  CFSQPSolver::invalidateGradient () throw ()
+  CFSQPSolver::invalidateGradient ()
   {
     invalidGradient_ = true;
   }
 
 
   std::ostream&
-  CFSQPSolver::print (std::ostream& o) const throw ()
+  CFSQPSolver::print (std::ostream& o) const
   {
     parent_t::print (o);
 
@@ -707,7 +707,7 @@ namespace roboptim
   }
 
   void
-  CFSQPSolver::setIterationCallback (callback_t callback) throw (std::runtime_error)
+  CFSQPSolver::setIterationCallback (callback_t callback)
   {
     callback_ = callback;
   }

@@ -74,12 +74,12 @@ namespace roboptim
     ///
     /// \param problem problem that will be solved
     /// \param print verbosity level
-    explicit CFSQPSolver (const problem_t& problem, int print = 0) throw ();
+    explicit CFSQPSolver (const problem_t& problem, int print = 0);
 
-    virtual ~CFSQPSolver () throw ();
+    virtual ~CFSQPSolver ();
 
     /// \brief Solve the problem.
-    virtual void solve () throw ();
+    virtual void solve ();
 
     /// \brief Retrieve interval constraint representation.
     ///
@@ -112,42 +112,46 @@ namespace roboptim
     /// - bool: is it a lower constraint?
     ///  If the constraint is an equality, the boolean has no meaning.
     const std::vector<std::pair<std::pair<int, int>, bool> >& cfsqpConstraints ()
-      const throw ();
+      const;
 
     /// \brief Number of linear inequalities constraints.
-    const int& nineq () const throw ();
+    const int& nineq () const;
     /// \brief Number of non-linear inequalities constraints.
-    const int& nineqn () const throw ();
+    const int& nineqn () const;
     /// \brief Number of linear equalities constraints.
-    const int& neq () const throw ();
+    const int& neq () const;
     /// \brief Number of non-linear equalities constraints.
-    const int& neqn () const throw ();
+    const int& neqn () const;
 
     /// \brief Tag gradient computation as invalid.
     ///
     /// If gradients are tagged as invalid, the #solve () method
     /// will fail (i.e. result will be a SolverError object).
-    void invalidateGradient () throw ();
+    void invalidateGradient ();
 
     /// \brief Display the solver on the specified output stream.
     ///
     /// \param o output stream used for display
     /// \return output stream
-    virtual std::ostream& print (std::ostream& o) const throw ();
+    virtual std::ostream& print (std::ostream& o) const;
 
-    void setIterationCallback (callback_t callback) throw (std::runtime_error);
+    /// \brief Set an iteration callback.
+    /// \param callback callback function.
+    /// \throw std::runtime_error
+    void setIterationCallback (callback_t callback);
+
   private:
     /// \brief Initialize parameters.
     ///
     /// Add solver parameters. Called during construction.
-    void initializeParameters () throw ();
+    void initializeParameters ();
 
     /// \brief Initialize bounds.
     ///
     /// Fill the two bounds array as required by CFSQP.
     /// \param bl lower bounds array
     /// \param bu upper bounds array
-    void initializeBounds (double* bl, double* bu) const throw ();
+    void initializeBounds (double* bl, double* bu) const;
 
     /// \brief Copy CFSQP final constraints values into a vector.
     ///
@@ -158,7 +162,7 @@ namespace roboptim
     ///
     /// \param constraints generic representation
     /// \param g CFSQP representation
-    void fillConstraints (vector_t& constraints, double* g) const throw ();
+    void fillConstraints (vector_t& constraints, double* g) const;
 
     void perIterationCallback (const double* x);
 

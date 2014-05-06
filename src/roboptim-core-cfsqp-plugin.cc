@@ -696,12 +696,19 @@ namespace roboptim
   {
     parent_t::print (o);
 
-    o << iendl << "CFSQP specific variables: " << incindent << iendl
-      << "Nineq: " << nineq () << iendl
-      << "Nineqn: " << nineqn () << iendl
-      << "Neq: " << neq () << iendl
-      << "Neqn: " << neqn () << iendl
-      << "CFSQP constraints: " << cfsqpConstraints ();
+    // Increase indent level to make it look like this is
+    // part of the solver's parameters.
+    o << incindent;
+
+    o << iendl << "CFSQP specific variables:" << incindent;
+
+    o << iendl << "Nineq: " << nineq ()
+      << iendl << "Nineqn: " << nineqn ()
+      << iendl << "Neq: " << neq ()
+      << iendl << "Neqn: " << neqn ()
+      << iendl << "CFSQP constraints: " << cfsqpConstraints ();
+
+    o << decindent << decindent;
 
     return o;
   }

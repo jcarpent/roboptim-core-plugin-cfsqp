@@ -23,6 +23,7 @@ INCLUDE(cmake/cpack.cmake)
 SET(PROJECT_NAME roboptim-core-plugin-cfsqp)
 SET(PROJECT_DESCRIPTION "RobOptim core CFSQP plug-in")
 SET(PROJECT_URL "http://github.com/laas/roboptim-core")
+SET(CXX_DISABLE_WERROR TRUE)
 
 SET(HEADERS
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/plugin/cfsqp.hh
@@ -55,8 +56,8 @@ SEARCH_FOR_BOOST()
 INCLUDE(CheckIncludeFileCXX)
 CHECK_INCLUDE_FILE_CXX(ltdl.h LTDL_H_FOUND)
 IF (NOT LTDL_H_FOUND)
-  MESSAGE(FATAL_ERROR
-    "Failed to find ltdl.h, check that Libtool ltdl is installed.")
+#  MESSAGE(FATAL_ERROR
+#    "Failed to find ltdl.h, check that Libtool ltdl is installed.")
 ENDIF()
 #FIXME: check that libltdl.so is available instead of adding it blindly.
 PKG_CONFIG_APPEND_LIBS(ltdl)
